@@ -93,6 +93,7 @@ create_subset <- function(size.subset, n, size.data) {
 #' @param i List of indices
 #' @param pheno Data.frame with the samples
 #' @return A Matrix with the sd value for each column
+#' @importFrom stats sd
 #' @export
 evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i))== nrow(pheno))
