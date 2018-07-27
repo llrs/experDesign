@@ -4,5 +4,5 @@
 }
 
 .Last <- function() {
-    print(sessionInfo())
+    print(devtools::session_info())
 }
