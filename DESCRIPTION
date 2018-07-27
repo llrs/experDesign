@@ -1,16 +1,23 @@
 Package: experDesign
-Title: Design experiments in batches by distributing samples in each batch
+Title: Design experiments in batches by distributing samples in
+    each batch
 Version: 0.0.0.9000
-Authors@R: person("Lluís", "Revilla Sancho", email = "lluis.revilla@gmail.com", role = c("aut", "cre"))
+Authors@R: 
+    person(given = "Lluís",
+           family = "Revilla Sancho",
+           role = c("aut", "cre"),
+           email = "lluis.revilla@gmail.com")
 Description: What the package does (one paragraph).
-Depends: R (>= 3.5.1)
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
+Depends: 
+    R (>= 3.5.0)
 Suggests: 
     knitr,
     rmarkdown,
     testthat,
     covr
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 6.0.1
