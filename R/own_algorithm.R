@@ -134,10 +134,11 @@ batch_names <- function(i) {
   isubNam[isub]
 }
 
+# Function that takes the result of indexes and substracts the intended goal
 evaluate_helper <- function(x, original_x){
   out <- sweep(x, 2, original_x, "-")
   out <- colMeans(out, na.rm = TRUE)
-  sum(out, na.rm = TRUE)
+  sum(abs(out), na.rm = TRUE)
 }
 
 # A internal version where the precalculated data is provided

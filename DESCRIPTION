@@ -1,13 +1,15 @@
 Package: experDesign
-Title: Design experiments in batches by distributing samples in
-    each batch
+Title: Design experiments in batches
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
            role = c("aut", "cre"),
-           email = "lluis.revilla@gmail.com")
-Description: What the package does (one paragraph).
+           email = "lluis.revilla@gmail.com",
+           comment = c(ORCID = "0000-0001-9747-2570"))
+Description: Design experiments in batches taking into account
+    randomizing as much as possible the known variables to reduce the
+    batch effect.
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.5.0)
