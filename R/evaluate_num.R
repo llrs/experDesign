@@ -38,8 +38,8 @@ evaluate_mean <- function(i, pheno) {
 evaluate_helper <- function(x, original_x){
   stopifnot(ncol(x) == length(original_x))
   out <- sweep(x, 2, original_x, "-")
-  out <- colMeans(out, na.rm = TRUE)
-  sum(abs(out), na.rm = TRUE)
+  out <- colMeans(abs(out), na.rm = TRUE)
+  sum(out, na.rm = TRUE)
 }
 
 # A internal version where the precalculated data is provided
@@ -55,7 +55,6 @@ evaluate_helper <- function(x, original_x){
 
   sum(opt_m, opt_s)
 }
-
 
 #' Evaluate numbers
 #'

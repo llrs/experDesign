@@ -21,3 +21,14 @@ entropy <- function(x){
   prob <- table(x)/length(x)
   -sum(prob*log(prob, n))
 }
+
+#' Evaluate how many values are empty
+#'
+#' @param i list of numeric indices of the data.frame
+#' @param pheno Data.frame
+#' @export
+evaluate_na <- function(i, pheno) {
+  stopifnot(sum(lengths(i))== nrow(pheno))
+  out <- sapply(i, function(x){colSums(is.na(pheno[x, ]))})
+  t(out)
+}
