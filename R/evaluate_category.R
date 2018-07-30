@@ -52,6 +52,6 @@ evaluate_independence <- function(i, pheno) {
 
 .evaluate_ind <- function(batch, pheno) {
   vapply(pheno, function(x) {
-    suppressWarnings(chisq.test(table(batch, x))$p.value)
+    suppressWarnings(stats::chisq.test(table(batch, x))$p.value)
   }, numeric(1L))
 }

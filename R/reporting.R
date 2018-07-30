@@ -24,7 +24,7 @@ inspect <- function(i, pheno, omit = NULL) {
 #'
 #' Checks if all the values are maximally distributed in the several batches
 #' @param report A data.frame which must contain a batch column. Which can be
-#' obtained with \code{\link{insepct}}
+#' obtained with \code{\link{inspect}}
 #' @param column The name of the column one wants to inspect
 #' @return \code{TRUE} if the values are maximal distributed, otherwise
 #' \code{FALSE}

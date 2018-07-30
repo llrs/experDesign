@@ -8,7 +8,7 @@ distribution(report, column)
 }
 \arguments{
 \item{report}{A data.frame which must contain a batch column. Which can be
-obtained with \code{\link{insepct}}}
+obtained with \code{\link{inspect}}}
 
 \item{column}{The name of the column one wants to inspect}
 }
