@@ -23,9 +23,13 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   }
   # Find the numeric values
   num <- vapply(pheno_o, is.numeric, logical(1L))
-
+  dates <- vapply(pheno_o, function(x){is(x, "Date")}, logical(1L))
+  if (any(dates)) {
+    warning("The dates will be treat as categories")
+  }
   thereis_numbers <- sum(num) >= 1
   thereis_category <- sum(!num) >= 0
+
   if (thereis_numbers) {
     # Compare with the optimum (the original distribution)
     original_n <- vapply(pheno_o[, num, drop = FALSE], mean, numeric(1L), na.rm = TRUE)
@@ -39,6 +43,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
 
   for (x in seq_len(iterations)) {
     i <- create_subset(size.batch, batches, nrow(pheno_o))
+
     if (thereis_category) {
       opt_e <- .evaluate_cat(i, pheno_o[, !num, drop = FALSE], remove_e)
       opt_i <- evaluate_independence(i, pheno_o[, !num, drop = FALSE])
@@ -61,7 +66,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
       val <- i
     }
   }
-  message("Minimum value reached of ", round(opt))
+  message("Minimum value reached: ", round(opt))
   val
 }
 
