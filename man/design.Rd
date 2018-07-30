@@ -4,7 +4,7 @@
 \alias{design}
 \title{Design a batch experiment}
 \usage{
-design(pheno, size.batch, omit, iterations = 500)
+design(pheno, size.batch, omit = NULL, iterations = 500)
 }
 \arguments{
 \item{pheno}{Data.frame with the sample information.}

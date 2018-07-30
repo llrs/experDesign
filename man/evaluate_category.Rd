@@ -16,8 +16,10 @@ Value to minimize
 }
 \description{
 Looks if the nominal or character columns are equally distributed according
-to the entropy and taking into account the independence between batches
+to the entropy and taking into account the independence between batches.
+If any column is different in each row it is assumed to be the sample names
+and thus omitted.
 }
 \seealso{
-\code{\link{evaluate_number}}, \code{\link{evaluate_independence}}
+\code{\link{evaluate_numbers}}, \code{\link{evaluate_independence}}
 }
