@@ -1,5 +1,6 @@
 #' Create index of subsets of a data
 #'
+#' Index of the samples grouped by batches.
 #' @param size.subset A numeric value with the amount of samples per batch
 #' @param n A numeric value with the number of batchs
 #' @param size.data A numeric value of the amount of samples to distribute
