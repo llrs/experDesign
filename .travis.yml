@@ -4,9 +4,9 @@ language: R
 sudo: false
 cache: packages
 r_packages:
-    - knitr,
-    - rmarkdown,
-    - testthat,
+    - knitr
+    - rmarkdown
+    - testthat
     - covr
     - devtools
     - usethis
