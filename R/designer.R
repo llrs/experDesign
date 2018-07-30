@@ -8,6 +8,7 @@
 #' @param omit Name of the columns of the pheno that will be omitted
 #' @param iterations Numeric value of iterations that will be performed
 #' @return The indices of which samples go with which batch
+#' @importFrom methods is
 #' @export
 design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   opt <- Inf
@@ -23,7 +24,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   }
   # Find the numeric values
   num <- vapply(pheno_o, is.numeric, logical(1L))
-  dates <- vapply(pheno_o, function(x){is(x, "Date")}, logical(1L))
+  dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
   if (any(dates)) {
     warning("The dates will be treat as categories")
   }
@@ -68,5 +69,22 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   }
   message("Minimum value reached: ", round(opt))
   val
+}
+
+#' Design a batch experiment with experimental controls
+#'
+#' To ensure that the batches are comparable some samples are processed in each
+#' batch. This function allows to take into account that effect
+#' @inheritParams design
+#' @param controls The numeric values of technical controls per batch
+#' @return The distribution without the controls
+#' @seealso \code{\link{design}}
+#' @export
+replicates <- function(pheno, size.batch, controls, omit = NULL,
+                       iterations = 500){
+  stopifnot(is.numeric(size.batch))
+  stopifnot(is.numeric(controls))
+  size.batch <- size.batch-controls
+  design(pheno, size.batch, omit = NULL, iterations = 500)
 }
 
