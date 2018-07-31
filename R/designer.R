@@ -22,12 +22,16 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   } else {
     pheno_o <- pheno
   }
+
+  mean_nas <- vapply(pheno_o, function(x){mean(is.na(x))}, numeric(1L))
+
   # Find the numeric values
   num <- vapply(pheno_o, is.numeric, logical(1L))
   dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
   if (any(dates)) {
     warning("The dates will be treat as categories")
   }
+
   thereis_numbers <- sum(num) >= 1
   thereis_category <- sum(!num) >= 0
 
@@ -52,13 +56,15 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
       opt_n <- .evaluate_num(i, pheno_o[, num, drop = FALSE], original_n, original_n_sd)
     }
 
+    opt_nas <- evaluate_na(i, pheno_o)
+
     # Minimize the value
     if (thereis_numbers & thereis_category){
-      opt_o <- abs(sum(opt_n, opt_e, opt_i, na.rm = TRUE))
+      opt_o <- sum(opt_nas, opt_n, opt_e, opt_i, na.rm = TRUE)
     } else if (thereis_category) {
-      opt_o <- abs(sum(opt_e, opt_i, na.rm = TRUE))
+      opt_o <- sum(opt_nas, opt_e, opt_i, na.rm = TRUE)
     } else if (thereis_numbers) {
-      opt_o <- opt_n
+      opt_o <- sum(opt_nas, opt_n)
     }
 
     # store index if "better"
