@@ -11,6 +11,9 @@ r_packages:
     - devtools
     - usethis
     - stats
+    - MASS
+bioc_r_packages:
+    - BiocStyle
 after_success:
     - Rscript -e 'covr::codecov()'
 os:
