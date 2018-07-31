@@ -23,44 +23,80 @@ BiocStyle::markdown()
 library("BiocStyle")
 ```
 
-# Vignette Info
+# Introduction
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+This package was developed to help prepare some samples to be send to a 
+facility. It assumes that you have collected the samples and the information 
+but you still need to do the experiment in several batches due to technical or 
+practical limitations. 
 
-## Styles
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+# Previous work
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+Before building this package I would like to give credit to those that made 
+also efforts in this direction:
 
-## Figures
+The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
+variables but not numeric data.
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
+numeric and categorical data, but it can only optimize for two nominal criteria.
+
+
+# Approach
+
+Of all the space of possible combinations of samples, it looks for the
+combination which minimizes the differences between each subgroup
+
+ - If the variable is categorical it looks so that the entropy is closer to random.
+ - If the variable is numeric it looks so that the distribution is closer to the original.
+ - If there are `NA` (not available values) it looks to distribute them randomly.
+
+
+# Preparation
+
+We can use the survey dataset for the examples:
+```{r}
+library("MASS")
+data(survey) 
+head(survey)
+```
+
+The dataset has numeric, categorical values and some `NA`'s value.
+
+# Workflow
+
+Imagine that we can only work in groups of 70, and we want to randomize by Sex, 
+Smoke, Age, and by writing hand.
 
 ```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+library("experDesign")
+omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
+index <- design(pheno = survey, size.batch = 70, omit = omit)
+```
+To convert to a value to append to the data.frame we can use:
+```{r batch, eval=FALSE}
+batch <- batch_names(index)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+Or if we want to do so automatically we can do:
+```{r}
+df <- inspect(index, survey, omit = omit)
+head(df)
 ```
 
-Also a quote using `>`:
+If a data.frame has a column with name "batch" we can use the function distribution to see if it is randomlly distriubted.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r}
+evaluate_category(index, survey[, c("Sex", "Smoke", "W.Hnd")])
+evaluate_numbers(index, survey)
+```
+
+The numbers provided are just an indicator of how far are they from a perfect distance.
+
+# SessionInfo
+
+```{r}
+sessionInfo()
+```
+
