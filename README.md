@@ -16,11 +16,15 @@ It requires two types of information:
    This might be age, sex, localization, RIN, personal, ...  
  - Samples per batch: The maximum amount of samples per batch.  
   This might be decided by barcode, or machine if doing NGS.
+  
+That can be achived with the `design` function.
 
 Optional input:
 
  - Allow technical duplicates?  
    If some samples could be duplicated to fully occupy all batches and check if the same samples sequenced in several runs returns the same output.
+
+To account for technical duplicates use `replicates`.
 
 # Output
 
