@@ -16,11 +16,9 @@ create_subset <- function(size.subset, n, size.data) {
     stop("Please provide a lower number of batch")
   }
   # Create the subsets
+
   i <- vector("list", length = n)
   vec <- seq_len(size.data)
-  # TODO: length of number of batches and sample with repetition as
-  # length of samples, easier and faster!
-  # Then split according to each
   for(j in seq_len(n)){
     s <- min(opt_s, size, length(vec))
     out <- sample(vec, size = s)
