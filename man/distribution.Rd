@@ -2,7 +2,7 @@
 % Please edit documentation in R/reporting.R
 \name{distribution}
 \alias{distribution}
-\title{Checks if all the values are maximally distributed in the several batches}
+\title{Distribution by batch}
 \usage{
 distribution(report, column)
 }

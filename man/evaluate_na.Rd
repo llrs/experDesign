@@ -2,7 +2,7 @@
 % Please edit documentation in R/entropy.R
 \name{evaluate_na}
 \alias{evaluate_na}
-\title{Evaluate how many values are empty}
+\title{Evaluate the dispersion of NAs}
 \usage{
 evaluate_na(i, pheno)
 }
@@ -11,6 +11,9 @@ evaluate_na(i, pheno)
 
 \item{pheno}{Data.frame}
 }
+\value{
+The optimum value to reduce
+}
 \description{
-Evaluate how many values are empty
+Looks how are \code{NA} distributed in each subset
 }
