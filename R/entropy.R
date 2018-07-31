@@ -44,3 +44,13 @@ evaluate_na <- function(i, pheno) {
 }
 
 
+
+simplify2matrix <- function(l) {
+  stopifnot(length(unique(lengths(l))) == 1)
+  u <- unlist(l)
+
+  m <- matrix(u, ncol = length(l))
+  colnames(m) <- names(l)
+  rownames(m) <- names(l[[1]])
+  m
+}
