@@ -20,7 +20,7 @@ inspect <- function(i, pheno, omit = NULL) {
 }
 
 
-#'
+#' Distribution by batch
 #'
 #' Checks if all the values are maximally distributed in the several batches
 #' @param report A data.frame which must contain a batch column. Which can be
@@ -31,9 +31,21 @@ inspect <- function(i, pheno, omit = NULL) {
 #' @export
 distribution <- function(report, column){
   stopifnot(length(column) == 1)
-  distr <- table(report[[column]], report$batch)
-  rep_colum <- table(report[[column]])
-  several_batches <- apply(distr, 1, function(x){sum(x != 0)})
+  nBatch <- length(unique(report$batch))
 
-  all(rep_colum/several_batches >= 1)
+  distr <- table(report[[column]], report$batch)
+
+  nCategory <- table(report[[column]])
+  batchesCategory <- apply(distr, 1, function(x){sum(x != 0)})
+
+  # Samples which are not on all batches and in less than the number of samples
+  # per category
+  interesting <- batchesCategory != nBatch & batchesCategory < nCategory
+
+  if (any(interesting)) {
+    warning(column, ": ", sum(interesting),
+            " categories not totally distributed in all batches")
+    return(FALSE)
+  }
+  TRUE
 }
