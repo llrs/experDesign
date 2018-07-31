@@ -22,13 +22,25 @@ entropy <- function(x){
   -sum(prob*log(prob, n))
 }
 
-#' Evaluate how many values are empty
+#' Evaluate the dispersion of NAs
 #'
+#' Looks how are \code{NA} distributed in each subset
 #' @param i list of numeric indices of the data.frame
 #' @param pheno Data.frame
+#' @return The optimum value to reduce
 #' @export
 evaluate_na <- function(i, pheno) {
-  stopifnot(sum(lengths(i))== nrow(pheno))
-  out <- sapply(i, function(x){colSums(is.na(pheno[x, ]))})
-  t(out)
+  mean_nas <- vapply(pheno, function(x){mean(is.na(x))}, numeric(1L))
+  nas <- .evaluate_na(i, pheno, mean_nas)
+  evaluate_helper(nas, mean_nas)
 }
+
+
+.evaluate_na <- function(i, pheno, mean_nas) {
+  stopifnot(sum(lengths(i)) == nrow(pheno))
+  out <- sapply(i, function(x){colSums(is.na(pheno[x, , drop = FALSE]))})
+  t(out)
+
+}
+
+
