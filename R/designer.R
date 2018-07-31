@@ -56,7 +56,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
       opt_n <- .evaluate_num(i, pheno_o[, num, drop = FALSE], original_n, original_n_sd)
     }
 
-    opt_nas <- evaluate_na(i, pheno_o)
+    opt_nas <- .evaluate_na(i, pheno_o, mean_nas)
 
     # Minimize the value
     if (thereis_numbers & thereis_category){
