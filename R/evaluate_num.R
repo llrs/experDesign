@@ -10,10 +10,10 @@
 evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Distribution of sd
-  out_n_sd <- sapply(i, function(x){
+  out_n_sd <- lapply(i, function(x){
     vapply(droplevels(pheno[x, , drop = FALSE]), sd, numeric(1L), na.rm = TRUE)
   })
-  t(out_n_sd)
+  t(simplify2matrix(out_n_sd))
 }
 
 #' Evaluates the mean of the numeric values
@@ -26,10 +26,10 @@ evaluate_sd <- function(i, pheno){
 evaluate_mean <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Calculates the distribution
-  out_n <- sapply(i, function(x){
+  out_n <- lapply(i, function(x){
     vapply(droplevels(pheno[x, , drop = FALSE]), mean, numeric(1L), na.rm = TRUE)
   })
-  t(out_n)
+  t(simplify2matrix(out_n))
 }
 
 
@@ -38,8 +38,7 @@ evaluate_mean <- function(i, pheno) {
 evaluate_helper <- function(x, original_x){
   stopifnot(ncol(x) == length(original_x))
   out <- sweep(x, 2, original_x, "-")
-  out <- colMeans(abs(out), na.rm = TRUE)
-  sum(out, na.rm = TRUE)
+  colMeans(abs(out), na.rm = TRUE)
 }
 
 # A internal version where the precalculated data is provided
@@ -56,18 +55,40 @@ evaluate_helper <- function(x, original_x){
   sum(opt_m, opt_s)
 }
 
-#' Evaluate numbers
+.evaluate_num_mean <- function(i, pheno)
+
+#' Evaluate mean
 #'
-#' Evaluate how far are each subset of the desired goal.
+#' Evaluate how far are each subset of the desired mean.
 #' @param i list of numeric indices of the data.frame
 #' @param pheno Data.frame
 #' @return Value to minimize, summarizing the difference with the desired output
 #' @export
-evaluate_numbers <- function(i, pheno) {
+evaluate_mean <- function(i, pheno) {
 
+  num <- vapply(pheno, is.numeric, logical(1L))
+  pheno_o <- pheno[, num, drop = FALSE]
   # Compare with the optimum (the original distribution)
-  original_n <- vapply(pheno, mean, numeric(1L), na.rm = TRUE)
-  original_n_sd <- vapply(pheno, sd, numeric(1L), na.rm = TRUE)
+  original_n <- vapply(pheno_o, mean, numeric(1L), na.rm = TRUE)
+  original_n_sd <- vapply(pheno_o, sd, numeric(1L), na.rm = TRUE)
 
-  .evaluate_num(i, pheno, original_n, original_n_sd)
+  # Evaluate mean
+  m <- evaluate_mean(i, pheno)
+  opt_m <- evaluate_helper(m, original_n)
+
+  # Evaluate sd
+  s <- evaluate_sd(i, pheno)
+  opt_s <- evaluate_helper(s, original_n_sd)
+
+  # sum(opt_m, opt_s)
 }
+
+#' Evaluate mean
+#'
+#' Evaluate how far are each subset of the desired mean.
+#' @param i list of numeric indices of the data.frame
+#' @param pheno Data.frame
+#' @return Value to minimize, summarizing the difference with the desired output
+#' @export
+num <- vapply(pheno, is.numeric, logical(1L))
+pheno_o <- pheno[, num, drop = FALSE]

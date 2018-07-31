@@ -1,4 +1,4 @@
-#' Evaluate category
+#' Evaluate entropy
 #'
 #' Looks if the nominal or character columns are equally distributed according
 #' to the entropy and taking into account the independence between batches.
@@ -7,14 +7,15 @@
 #' @param i list of numeric indices of the data.frame
 #' @param pheno Data.frame with information about the samples
 #' @return Value to minimize
-#' @seealso \code{\link{evaluate_numbers}}, \code{\link{evaluate_independence}}
+#' @seealso \code{\link{evaluate_mean}}, \code{\link{evaluate_independence}},
+#' \code{\link{evaluate_sd}}, \code{\link{evaluate_na}},
 #' @export
-evaluate_category <- function(i, pheno) {
+evaluate_entropy <- function(i, pheno) {
   num <- vapply(pheno, is.numeric, logical(1L))
   stopifnot(sum(!num) >= 1)
   pheno_o <- droplevels(pheno[, !num, drop = FALSE])
   # Calculate the entropy for the categorical values
-  original_e <- vapply(pheno_o, entropy, numeric(1L))
+  original_e <- vapply(pheno_o, function(x){length(unique(x))/length(x)}, numeric(1L))
   # Remove those that are different in each sample (Hopefully just the name of the sample)
   remove_e <- original_e == 1
   .evaluate_cat(i, pheno_o, remove_e)
@@ -22,10 +23,10 @@ evaluate_category <- function(i, pheno) {
 
 .evaluate_cat <- function(i, pheno, remove_e) {
   # Calculate the entropy for the subsets
-  out_e <- sapply(i, function(x){
+  out_e <- lapply(i, function(x){
     vapply(pheno[x, , drop = FALSE], entropy, numeric(1L))
   })
-  out_e <- t(out_e)
+  out_e <- t(simplify2matrix(out_e))
 
   # Compare with the optimum 1 == random; 0 == all the same
   out <- 1-colMeans(out_e[, !remove_e, drop = FALSE], na.rm = TRUE)
