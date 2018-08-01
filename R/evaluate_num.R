@@ -10,10 +10,13 @@
 evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Distribution of sd
-  out_n_sd <- lapply(i, function(x){
-    vapply(droplevels(pheno[x, , drop = FALSE]), sd, numeric(1L), na.rm = TRUE)
+  num <- vapply(pheno, is.numeric, logical(1L))
+  original_sd <- vapply(pheno[, num, drop = FALSE], sd, numeric(1L), na.rm = TRUE)
+  out_sd <- lapply(i, function(x){
+    vapply(droplevels(pheno[x, num, drop = FALSE]), sd, numeric(1L), na.rm = TRUE)
   })
-  t(simplify2matrix(out_n_sd))
+  sd_group <- t(simplify2matrix(out_sd))
+  evaluate_helper(sd_group, original_sd)
 }
 
 #' Evaluates the mean of the numeric values
@@ -26,69 +29,36 @@ evaluate_sd <- function(i, pheno){
 evaluate_mean <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Calculates the distribution
-  out_n <- lapply(i, function(x){
-    vapply(droplevels(pheno[x, , drop = FALSE]), mean, numeric(1L), na.rm = TRUE)
-  })
-  t(simplify2matrix(out_n))
-}
-
-
-# A function to calculate the difference between a matrix and the original
-# dataset
-evaluate_helper <- function(x, original_x){
-  stopifnot(ncol(x) == length(original_x))
-  out <- sweep(x, 2, original_x, "-")
-  colMeans(abs(out), na.rm = TRUE)
-}
-
-# A internal version where the precalculated data is provided
-.evaluate_num <- function(i, pheno, original_n, original_n_sd) {
-
-  # Evaluate mean
-  m <- evaluate_mean(i, pheno)
-  opt_m <- evaluate_helper(m, original_n)
-
-  # Evaluate sd
-  s <- evaluate_sd(i, pheno)
-  opt_s <- evaluate_helper(s, original_n_sd)
-
-  sum(opt_m, opt_s)
-}
-
-.evaluate_num_mean <- function(i, pheno)
-
-#' Evaluate mean
-#'
-#' Evaluate how far are each subset of the desired mean.
-#' @param i list of numeric indices of the data.frame
-#' @param pheno Data.frame
-#' @return Value to minimize, summarizing the difference with the desired output
-#' @export
-evaluate_mean <- function(i, pheno) {
-
   num <- vapply(pheno, is.numeric, logical(1L))
-  pheno_o <- pheno[, num, drop = FALSE]
-  # Compare with the optimum (the original distribution)
-  original_n <- vapply(pheno_o, mean, numeric(1L), na.rm = TRUE)
-  original_n_sd <- vapply(pheno_o, sd, numeric(1L), na.rm = TRUE)
-
-  # Evaluate mean
-  m <- evaluate_mean(i, pheno)
-  opt_m <- evaluate_helper(m, original_n)
-
-  # Evaluate sd
-  s <- evaluate_sd(i, pheno)
-  opt_s <- evaluate_helper(s, original_n_sd)
-
-  # sum(opt_m, opt_s)
+  original_mean <- colMeans(pheno[, num, drop = FALSE], na.rm = TRUE)
+  # Calculates for each subset
+  out_n <- lapply(i, function(x){
+    vapply(droplevels(pheno[x, num, drop = FALSE]), mean, numeric(1L), na.rm = TRUE)
+  })
+  # Compres it
+  mean_group <- t(simplify2matrix(out_n))
+  evaluate_helper(mean_group, original_mean)
 }
 
-#' Evaluate mean
+#' Evaluate median absolute deviation
 #'
-#' Evaluate how far are each subset of the desired mean.
-#' @param i list of numeric indices of the data.frame
-#' @param pheno Data.frame
-#' @return Value to minimize, summarizing the difference with the desired output
+#' Looks for the median absolute deviation values in each subgroup
+#' @inheritParams evaluate_mean
+#' @return A vector with the mean difference between the median absolute deviation
+#' of each group and the original mad
+#' @importFrom stats mad
 #' @export
-num <- vapply(pheno, is.numeric, logical(1L))
-pheno_o <- pheno[, num, drop = FALSE]
+evaluate_mad <- function(i, pheno) {
+  stopifnot(sum(lengths(i))== nrow(pheno))
+  # Calculates the distribution
+  num <- vapply(pheno, is.numeric, logical(1L))
+  original_mad <- vapply(pheno[, num, drop = FALSE], mad, numeric(1L), na.rm = TRUE)
+  # Calculates for each subset
+  out_n <- lapply(i, function(x){
+    vapply(droplevels(pheno[x, num, drop = FALSE]), mad, numeric(1L), na.rm = TRUE)
+  })
+  # Compres it
+  mad_group <- t(simplify2matrix(out_n))
+  evaluate_helper(mad_group, original_mad)
+}
+
