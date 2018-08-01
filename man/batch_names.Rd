@@ -15,3 +15,11 @@ A character vector with the names of the batch for each sample
 \description{
 Given an index return the name of the batches the samples are in
 }
+\examples{
+index <- create_subset(50, 2, 100)
+batch <- batch_names(index)
+head(batch)
+}
+\seealso{
+\code{\link{create_subset}}
+}

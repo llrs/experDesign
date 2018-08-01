@@ -8,7 +8,7 @@
 #' @seealso \code{\link{batch_names}}
 #' @export
 #' @examples
-#' create_subset(50, 2, 100)
+#' index <- create_subset(50, 2, 100)
 create_subset <- function(size.subset, n, size.data) {
   size <- size.subset
   opt_s <- ceiling(size.data/n)
@@ -37,7 +37,12 @@ create_subset <- function(size.subset, n, size.data) {
 #' Given an index return the name of the batches the samples are in
 #' @param i A list of numeric indices.
 #' @return A character vector with the names of the batch for each sample
+#' @seealso \code{\link{create_subset}}
 #' @export
+#' @examples
+#' index <- create_subset(50, 2, 100)
+#' batch <- batch_names(index)
+#' head(batch)
 batch_names <- function(i) {
   xy <- seq_along(i)
   isub <- lapply(xy, function(x) {

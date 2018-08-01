@@ -34,7 +34,8 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   }
 
   num <- vapply(pheno, is.numeric, logical(1L))
-  # Numbers are evaluated 4 times, and categories only 2
+  # Numbers are evaluated 4 times, and categories only 3
+  # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
 
   for (x in seq_len(iterations)) {

@@ -32,12 +32,22 @@ entropy <- function(x){
 #' @family functions to evaluate categories
 #' @family functions to evaluate numbers
 #' @export
+#' @examples
+#' samples <- 10
+#' m <- matrix(rnorm(samples), nrow = samples)
+#' m[sample(seq_len(samples), size = 5), ] <- NA # Some NA
+#' i <- create_subset(3, 4, samples) # random subsets
+#' evaluate_na(i, m)
 evaluate_na <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
-  orig_nas <- vapply(pheno, function(x){sum(is.na(x))}, numeric(1L))
+  if (ncol(pheno) == 1) {
+    orig_nas <- sum(is.na(pheno))
+  } else {
+    orig_nas <- vapply(pheno, function(x){sum(is.na(x))}, numeric(1L))
+  }
   orig_nas <- orig_nas/length(i)
-  out <- sapply(i, function(x){colSums(is.na(pheno[x, , drop = FALSE]))})
-  nas <- t(out)
+  out <- lapply(i, function(x){colSums(is.na(pheno[x, , drop = FALSE]))})
+  nas <- t(simplify2matrix(out))
   evaluate_helper(nas, orig_nas)
 }
 
