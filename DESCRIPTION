@@ -1,7 +1,6 @@
 Package: experDesign
-Title: Design experiments in batches by distributing samples in
-    each batch
-Version: 0.0.0.9000
+Title: Expert experiment design in batches: distributing samples per batch
+Version: 0.0.99
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
