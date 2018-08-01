@@ -6,6 +6,8 @@
 #' @return A matrix with the standard deviation value for each column for each
 #' subset
 #' @importFrom stats sd
+#' @family functions to evaluate samples
+#' @family functions to evaluate numbers
 #' @export
 evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i))== nrow(pheno))
@@ -25,6 +27,8 @@ evaluate_sd <- function(i, pheno){
 #' @param i List of indices
 #' @param pheno Data.frame with information about the samples
 #' @return A matrix with the mean value for each column for each subset
+#' @family functions to evaluate samples
+#' @family functions to evaluate numbers
 #' @export
 evaluate_mean <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
@@ -47,6 +51,8 @@ evaluate_mean <- function(i, pheno) {
 #' @return A vector with the mean difference between the median absolute deviation
 #' of each group and the original mad
 #' @importFrom stats mad
+#' @family functions to evaluate samples
+#' @family functions to evaluate numbers
 #' @export
 evaluate_mad <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))

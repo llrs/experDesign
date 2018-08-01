@@ -7,8 +7,8 @@
 #' @param i list of numeric indices of the data.frame
 #' @param pheno Data.frame with information about the samples
 #' @return Value to minimize
-#' @seealso \code{\link{evaluate_mean}}, \code{\link{evaluate_independence}},
-#' \code{\link{evaluate_sd}}, \code{\link{evaluate_na}},
+#' @family functions to evaluate samples
+#' @family functions to evaluate categories
 #' @export
 evaluate_entropy <- function(i, pheno) {
   num <- vapply(pheno, is.numeric, logical(1L))
@@ -40,8 +40,9 @@ evaluate_entropy <- function(i, pheno) {
 #' @param pheno A data.frame with the information about the samples
 #' @return Returns a vector with the p-values of the chisq.test between the
 #' category and the subset
-#' @seealso \code{\link{evaluate_category}}
 #' @importFrom stats chisq.test
+#' @family functions to evaluate samples
+#' @family functions to evaluate categories
 #' @export
 evaluate_independence <- function(i, pheno) {
   num <- vapply(pheno, is.numeric, logical(1L))

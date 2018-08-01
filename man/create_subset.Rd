@@ -22,3 +22,6 @@ Index of the samples grouped by batches.
 \examples{
 create_subset(50, 2, 100)
 }
+\seealso{
+\code{\link{batch_names}}
+}

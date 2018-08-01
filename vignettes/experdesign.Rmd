@@ -21,6 +21,7 @@ knitr::opts_knit$set(root.dir = ".")
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
 BiocStyle::markdown()
 library("BiocStyle")
+library("experDesign")
 ```
 
 # Introduction
@@ -70,7 +71,6 @@ Imagine that we can only work in groups of 70, and we want to randomize by Sex,
 Smoke, Age, and by writing hand.
 
 ```{r, fig.show='hold'}
-# library("experDesign")
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
 index <- design(pheno = survey, size.batch = 70, omit = omit)
 ```

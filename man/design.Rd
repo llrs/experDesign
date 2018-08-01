@@ -23,3 +23,6 @@ Given some samples it distribute them in several batches, trying to have
 equal number of samples per batch. It can handle both numeric and
 categorical data.
 }
+\seealso{
+The \code{evaluate_*} functions and \code{\link{create_subset}}
+}

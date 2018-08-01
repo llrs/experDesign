@@ -9,8 +9,21 @@ evaluate_index(i, pheno)
 \arguments{
 \item{i}{Index}
 
-\item{pheno}{Data}
+\item{pheno}{Data.frame with information about the samples}
+}
+\value{
+An array of three dimensions with the mean, sd, and mad of the
+numeric variables, the entropy of the categorical and the number of
+\code{NA} by each subgroup.
 }
 \description{
-Evaluates a data.frame
+Measures several indicators per group
 }
+\seealso{
+Other functions to evaluate samples: \code{\link{evaluate_entropy}},
+  \code{\link{evaluate_independence}},
+  \code{\link{evaluate_mad}}, \code{\link{evaluate_mean}},
+  \code{\link{evaluate_na}}, \code{\link{evaluate_orig}},
+  \code{\link{evaluate_sd}}
+}
+\concept{functions to evaluate samples}

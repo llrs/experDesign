@@ -6,6 +6,7 @@ evaluate_helper <- function(x, original_x){
   colMeans(abs(out), na.rm = TRUE)
 }
 
+# To insert a vector or a matrix inside another matrix
 insert <- function(matrix, vector, name) {
   if (is.matrix(vector)){
     nam <- colnames(vector)
@@ -18,8 +19,12 @@ insert <- function(matrix, vector, name) {
 
 #' Evaluate each variable provided
 #'
-#' @param pheno Data
-#' @return A matrix with the values
+#' Measure some summary statistics of the whole cohort of samples
+#' @param pheno Data.frame with information about the samples
+#' @return A matrix with the mean, standard deviation, MAD values of the
+#' numeric variables, the entropy of the categorical, and the amount of
+#' \code{NA} per variable.
+#' @family functions to evaluate samples
 #' @export
 evaluate_orig <- function(pheno) {
 
@@ -55,8 +60,13 @@ evaluate_orig <- function(pheno) {
 
 #' Evaluates a data.frame
 #'
+#' Measures several indicators per group
 #' @param i Index
 #' @inheritParams evaluate_orig
+#' @return An array of three dimensions with the mean, sd, and mad of the
+#' numeric variables, the entropy of the categorical and the number of
+#' \code{NA} by each subgroup.
+#' @family functions to evaluate samples
 #' @export
 evaluate_index <- function(i, pheno) {
 

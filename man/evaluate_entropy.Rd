@@ -21,6 +21,13 @@ If any column is different in each row it is assumed to be the sample names
 and thus omitted.
 }
 \seealso{
-\code{\link{evaluate_mean}}, \code{\link{evaluate_independence}},
-\code{\link{evaluate_sd}}, \code{\link{evaluate_na}},
+Other functions to evaluate samples: \code{\link{evaluate_independence}},
+  \code{\link{evaluate_index}}, \code{\link{evaluate_mad}},
+  \code{\link{evaluate_mean}}, \code{\link{evaluate_na}},
+  \code{\link{evaluate_orig}}, \code{\link{evaluate_sd}}
+
+Other functions to evaluate categories: \code{\link{evaluate_independence}},
+  \code{\link{evaluate_na}}
 }
+\concept{functions to evaluate categories}
+\concept{functions to evaluate samples}

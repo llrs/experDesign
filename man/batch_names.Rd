@@ -7,7 +7,7 @@
 batch_names(i)
 }
 \arguments{
-\item{i}{A list of numeric indices of the data}
+\item{i}{A list of numeric indices.}
 }
 \value{
 A character vector with the names of the batch for each sample

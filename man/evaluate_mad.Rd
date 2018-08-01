@@ -18,3 +18,15 @@ of each group and the original mad
 \description{
 Looks for the median absolute deviation values in each subgroup
 }
+\seealso{
+Other functions to evaluate samples: \code{\link{evaluate_entropy}},
+  \code{\link{evaluate_independence}},
+  \code{\link{evaluate_index}},
+  \code{\link{evaluate_mean}}, \code{\link{evaluate_na}},
+  \code{\link{evaluate_orig}}, \code{\link{evaluate_sd}}
+
+Other functions to evaluate numbers: \code{\link{evaluate_mean}},
+  \code{\link{evaluate_na}}, \code{\link{evaluate_sd}}
+}
+\concept{functions to evaluate numbers}
+\concept{functions to evaluate samples}

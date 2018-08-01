@@ -28,6 +28,9 @@ entropy <- function(x){
 #' @param i list of numeric indices of the data.frame
 #' @param pheno Data.frame
 #' @return The optimum value to reduce
+#' @family functions to evaluate samples
+#' @family functions to evaluate categories
+#' @family functions to evaluate numbers
 #' @export
 evaluate_na <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))

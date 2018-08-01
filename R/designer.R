@@ -8,6 +8,7 @@
 #' @param omit Name of the columns of the pheno that will be omitted
 #' @param iterations Numeric value of iterations that will be performed
 #' @return The indices of which samples go with which batch
+#' @seealso The \code{evaluate_*} functions and \code{\link{create_subset}}
 #' @importFrom methods is
 #' @export
 design <- function(pheno, size.batch, omit = NULL, iterations = 500) {

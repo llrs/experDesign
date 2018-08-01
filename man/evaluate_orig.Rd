@@ -7,11 +7,21 @@
 evaluate_orig(pheno)
 }
 \arguments{
-\item{pheno}{Data}
+\item{pheno}{Data.frame with information about the samples}
 }
 \value{
-A matrix with the values
+A matrix with the mean, standard deviation, MAD values of the
+numeric variables, the entropy of the categorical, and the amount of
+\code{NA} per variable.
 }
 \description{
-Evaluate each variable provided
+Measure some summary statistics of the whole cohort of samples
 }
+\seealso{
+Other functions to evaluate samples: \code{\link{evaluate_entropy}},
+  \code{\link{evaluate_independence}},
+  \code{\link{evaluate_index}}, \code{\link{evaluate_mad}},
+  \code{\link{evaluate_mean}}, \code{\link{evaluate_na}},
+  \code{\link{evaluate_sd}}
+}
+\concept{functions to evaluate samples}
