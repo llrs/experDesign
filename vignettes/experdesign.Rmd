@@ -21,6 +21,7 @@ knitr::opts_knit$set(root.dir = ".")
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
 BiocStyle::markdown()
 library("BiocStyle")
+set.seed(445)
 library("experDesign")
 ```
 
@@ -68,10 +69,14 @@ The dataset has numeric, categorical values and some `NA`'s value.
 # Workflow
 
 Imagine that we can only work in groups of 70, and we want to randomize by Sex, 
-Smoke, Age, and by writing hand.
+Smoke, Age, and by writing hand.  
+There are `r choose(237, 70)` combinations some of them would be have in a 
+single experiment all the right handed, we can't measure all these combinations
+but we can find an optimum value.
 
 ```{r, fig.show='hold'}
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
+(keep <- colnames(survey)[!colnames(survey) %in% omit])
 index <- design(pheno = survey, size.batch = 70, omit = omit)
 ```
 To convert to a value to append to the data.frame we can use:
@@ -103,6 +108,23 @@ evaluate_mad(index, survey)
 The numbers provided are just an indicator of how far are they from a perfect 
 distance. The farthest and index is, the worst it is to account for batch effect.
 
+If we want the original numbers we can use `evaluate_index`, and look for specific values:
+```{r}
+ev <- evaluate_index(index, survey)
+ev["entropy", "Sex",]
+ev[, "Age",]
+```
+
+We can see that the sex is fairly distributed and that the mean age ratio is 
+almost perfectly distributed. But we can compare with the original distribution 
+using `evaluate_orig`:
+
+```{r}
+orig <- evaluate_orig(survey)
+orig[, "Age"]
+```
+We can see that the `sd` is slightly out, but the mean and mad for each sub set 
+is fairly similar to the original points.
 
 # SessionInfo
 
