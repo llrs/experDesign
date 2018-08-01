@@ -30,21 +30,16 @@ entropy <- function(x){
 #' @return The optimum value to reduce
 #' @export
 evaluate_na <- function(i, pheno) {
-  mean_nas <- vapply(pheno, function(x){mean(is.na(x))}, numeric(1L))
-  nas <- .evaluate_na(i, pheno, mean_nas)
-  evaluate_helper(nas, mean_nas)
-}
-
-
-.evaluate_na <- function(i, pheno, mean_nas) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
+  orig_nas <- vapply(pheno, function(x){sum(is.na(x))}, numeric(1L))
+  orig_nas <- orig_nas/length(i)
   out <- sapply(i, function(x){colSums(is.na(pheno[x, , drop = FALSE]))})
-  t(out)
-
+  nas <- t(out)
+  evaluate_helper(nas, orig_nas)
 }
 
 
-
+# Function like simplify2array but it always return a matrix
 simplify2matrix <- function(l) {
   stopifnot(length(unique(lengths(l))) == 1)
   u <- unlist(l)
