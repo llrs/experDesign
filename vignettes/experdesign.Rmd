@@ -70,7 +70,7 @@ Imagine that we can only work in groups of 70, and we want to randomize by Sex,
 Smoke, Age, and by writing hand.
 
 ```{r, fig.show='hold'}
-library("experDesign")
+# library("experDesign")
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
 index <- design(pheno = survey, size.batch = 70, omit = omit)
 ```
@@ -85,14 +85,24 @@ df <- inspect(index, survey, omit = omit)
 head(df)
 ```
 
-If a data.frame has a column with name "batch" we can use the function distribution to see if it is randomlly distriubted.
+If a data.frame has a column with name "batch" we can use the function 
+distribution to see if it is randomlly distriubted. Or we can see the mean 
+difference between each subgroup and the original value of the data.frame.
 
 ```{r}
-evaluate_category(index, survey[, c("Sex", "Smoke", "W.Hnd")])
-evaluate_numbers(index, survey)
+evaluate_entropy(index, survey)
+evaluate_independence(index, survey)
+
+evaluate_na(index, survey)
+
+evaluate_mean(index, survey)
+evaluate_sd(index, survey)
+evaluate_mad(index, survey)
 ```
 
-The numbers provided are just an indicator of how far are they from a perfect distance.
+The numbers provided are just an indicator of how far are they from a perfect 
+distance. The farthest and index is, the worst it is to account for batch effect.
+
 
 # SessionInfo
 
