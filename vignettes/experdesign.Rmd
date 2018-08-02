@@ -112,7 +112,8 @@ If we want the original numbers we can use `evaluate_index`, and look for specif
 ```{r}
 ev <- evaluate_index(index, survey)
 ev["entropy", "Sex",]
-ev[, "Age",]
+ev[1:4, "Age",]
+evaluate_independence(index, survey)
 ```
 
 We can see that the sex is fairly distributed and that the mean age ratio is 
@@ -125,6 +126,32 @@ orig[, "Age"]
 ```
 We can see that the `sd` is slightly out, but the mean and mad for each sub set 
 is fairly similar to the original points.
+
+# Unbalanced setting
+
+In this case the data was fairly balanced (check it out in the `orig` object) 
+but let's create an unbalanced dataset to check it.
+
+```{r unbalanced}
+n <- 99
+samples <- 100
+unbalanced <- data.frame(Classroom = rep(c("A", "B"), each = samples/2),
+                         Sex = c(rep("M", n), rep("F", samples-n)))
+table(unbalanced)
+```
+In this dataset the classroom a single classroom has all the females (`r 50 -n`).
+
+```{r}
+i <- design(unbalanced, 15)
+
+# Mean entropy en each subset
+rowMeans(evaluate_index(i, unbalanced)["entropy", , ])
+# Original entropy on the dataset
+evaluate_orig(unbalanced)["entropy", ]
+# Dispersion of the entropy
+apply(evaluate_index(i, unbalanced)["entropy", , ], 1, sd)
+```
+We can see that in this simple case where a single variable has all the the other cases we approximately reached the same entropy levels. We can avoid batch factor when the data
 
 # SessionInfo
 
