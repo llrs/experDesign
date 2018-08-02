@@ -13,9 +13,12 @@ evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Distribution of sd
   num <- is_num(pheno)
-  original_sd <- apply(pheno[, num, drop = FALSE], 2, sd, na.rm = TRUE)
-  sd_group <- tapply(pheno, batch_names(i), sd, na.rm = TRUE, default = 0L)
-  evaluate_helper(t(t(sd_group)), original_sd)
+  pheno_o <- pheno[, num, drop = FALSE]
+  original_sd <- apply(pheno_o, 2, sd, na.rm = TRUE)
+  i <- batch_names(i)
+  sd_group <- apply(pheno_o, 2, function(x) {
+    tapply(x, i, sd, na.rm = TRUE, default = 0L)})
+  evaluate_helper(sd_group, original_sd)
 }
 
 #' Evaluates the mean of the numeric values
@@ -31,10 +34,14 @@ evaluate_mean <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Calculates the distribution
   num <- is_num(pheno)
-  original_mean <- colMeans(pheno[, num, drop = FALSE], na.rm = TRUE)
+  pheno_o <- pheno[, num, drop = FALSE]
+  original_mean <- colMeans(pheno_o, na.rm = TRUE)
   # Calculates for each subset
-  mean_group <- tapply(pheno, batch_names(i), mean, na.rm = TRUE, default = 0L)
-  evaluate_helper(t(t(mean_group)), original_mean)
+  i <- batch_names(i)
+  mean_group <- apply(pheno_o, 2, function(x) {
+    tapply(x, i, mean, na.rm = TRUE, default = 0L)
+  })
+  evaluate_helper(mean_group, original_mean)
 }
 
 #' Evaluate median absolute deviation
@@ -51,9 +58,13 @@ evaluate_mad <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Calculates the distribution
   num <- is_num(pheno)
-  original_mad <- apply(pheno[, num, drop = FALSE], 2, mad, numeric(1L), na.rm = TRUE)
+  pheno_o <- pheno[, num, drop = FALSE]
+  original_mad <- apply(pheno_o, 2, mad, numeric(1L), na.rm = TRUE)
   # Calculates for each subset
-  mad_group <- tapply(pheno, batch_names(i), mad, na.rm = TRUE, default = 0L)
-  evaluate_helper(t(t(mad_group)), original_mad)
+  i <- batch_names(i)
+  mad_group <- apply(pheno_o, 2, function(x) {
+    tapply(x, i, mad, na.rm = TRUE, default = 0L)
+    })
+  evaluate_helper(mad_group, original_mad)
 }
 
