@@ -40,11 +40,8 @@ entropy <- function(x){
 #' evaluate_na(i, m)
 evaluate_na <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
-  if (ncol(pheno) == 1) {
-    orig_nas <- sum(is.na(pheno))
-  } else {
-    orig_nas <- vapply(pheno, function(x){sum(is.na(x))}, numeric(1L))
-  }
+  orig_nas <- colSums(is.na(pheno))
+
   orig_nas <- orig_nas/length(i)
   out <- lapply(i, function(x){colSums(is.na(pheno[x, , drop = FALSE]))})
   nas <- t(simplify2matrix(out))

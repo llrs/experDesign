@@ -17,6 +17,13 @@ The optimum value to reduce
 \description{
 Looks how are \code{NA} distributed in each subset
 }
+\examples{
+samples <- 10
+m <- matrix(rnorm(samples), nrow = samples)
+m[sample(seq_len(samples), size = 5), ] <- NA # Some NA
+i <- create_subset(3, 4, samples) # random subsets
+evaluate_na(i, m)
+}
 \seealso{
 Other functions to evaluate samples: \code{\link{evaluate_entropy}},
   \code{\link{evaluate_independence}},
