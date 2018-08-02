@@ -12,13 +12,10 @@
 evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Distribution of sd
-  num <- vapply(pheno, is.numeric, logical(1L))
-  original_sd <- vapply(pheno[, num, drop = FALSE], sd, numeric(1L), na.rm = TRUE)
-  out_sd <- lapply(i, function(x){
-    vapply(droplevels(pheno[x, num, drop = FALSE]), sd, numeric(1L), na.rm = TRUE)
-  })
-  sd_group <- t(simplify2matrix(out_sd))
-  evaluate_helper(sd_group, original_sd)
+  num <- is_num(pheno)
+  original_sd <- apply(pheno[, num, drop = FALSE], 2, sd, na.rm = TRUE)
+  sd_group <- tapply(pheno, batch_names(i), sd, na.rm = TRUE, default = 0L)
+  evaluate_helper(t(t(sd_group)), original_sd)
 }
 
 #' Evaluates the mean of the numeric values
@@ -33,15 +30,11 @@ evaluate_sd <- function(i, pheno){
 evaluate_mean <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Calculates the distribution
-  num <- vapply(pheno, is.numeric, logical(1L))
+  num <- is_num(pheno)
   original_mean <- colMeans(pheno[, num, drop = FALSE], na.rm = TRUE)
   # Calculates for each subset
-  out_n <- lapply(i, function(x){
-    vapply(droplevels(pheno[x, num, drop = FALSE]), mean, numeric(1L), na.rm = TRUE)
-  })
-  # Compres it
-  mean_group <- t(simplify2matrix(out_n))
-  evaluate_helper(mean_group, original_mean)
+  mean_group <- tapply(pheno, batch_names(i), mean, na.rm = TRUE, default = 0L)
+  evaluate_helper(t(t(mean_group)), original_mean)
 }
 
 #' Evaluate median absolute deviation
@@ -57,14 +50,10 @@ evaluate_mean <- function(i, pheno) {
 evaluate_mad <- function(i, pheno) {
   stopifnot(sum(lengths(i))== nrow(pheno))
   # Calculates the distribution
-  num <- vapply(pheno, is.numeric, logical(1L))
-  original_mad <- vapply(pheno[, num, drop = FALSE], mad, numeric(1L), na.rm = TRUE)
+  num <- is_num(pheno)
+  original_mad <- apply(pheno[, num, drop = FALSE], 2, mad, numeric(1L), na.rm = TRUE)
   # Calculates for each subset
-  out_n <- lapply(i, function(x){
-    vapply(droplevels(pheno[x, num, drop = FALSE]), mad, numeric(1L), na.rm = TRUE)
-  })
-  # Compres it
-  mad_group <- t(simplify2matrix(out_n))
-  evaluate_helper(mad_group, original_mad)
+  mad_group <- tapply(pheno, batch_names(i), mad, na.rm = TRUE, default = 0L)
+  evaluate_helper(t(t(mad_group)), original_mad)
 }
 
