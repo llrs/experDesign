@@ -11,7 +11,8 @@
 #' @family functions to evaluate categories
 #' @export
 evaluate_entropy <- function(i, pheno) {
-  num <- vapply(pheno, is.numeric, logical(1L))
+
+  num <- is_num(pheno)
   stopifnot(sum(!num) >= 1)
   pheno_o <- droplevels(pheno[, !num, drop = FALSE])
   # Calculate the entropy for the categorical values
@@ -45,7 +46,7 @@ evaluate_entropy <- function(i, pheno) {
 #' @family functions to evaluate categories
 #' @export
 evaluate_independence <- function(i, pheno) {
-  num <- vapply(pheno, is.numeric, logical(1L))
+  num <- is_num(pheno)
 
   stopifnot(sum(!num) >= 1)
   batches <- batch_names(i)
