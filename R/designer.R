@@ -33,7 +33,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
     warning("The dates will be treat as categories")
   }
 
-  num <- vapply(pheno, is.numeric, logical(1L))
+  num <- is_num(pheno)
   # Numbers are evaluated 4 times, and categories only 3
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
@@ -82,6 +82,6 @@ replicates <- function(pheno, size.batch, controls, omit = NULL,
   stopifnot(is.numeric(size.batch))
   stopifnot(is.numeric(controls))
   size.batch <- size.batch-controls
-  design(pheno, size.batch, omit = NULL, iterations = 500)
+  design(pheno, size.batch, omit = omit, iterations = iterations)
 }
 
