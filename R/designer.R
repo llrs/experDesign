@@ -56,7 +56,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
     })
 
     # Minimize the value
-    optimize <- sum(rowMeans(meanDiff))
+    optimize <- sum(rowMeans(abs(meanDiff)))
 
     # store index if "better"
     if (optimize <= opt){
