@@ -1,28 +1,39 @@
+#' Select the subset of extreme cases to evaluation
 #' @export
 extreme_cases <- function(pheno, size, omit = NULL, iterations= 500){
 
   opt <- 0
 
-  pheno <- omit(pheno, omit)
+  # Calculate batches
+
+  pheno_o <- omit(pheno, omit)
+
+  original_pheno <- evaluate_orig(pheno_o)
+  original_pheno["na", ] <- original_pheno["na", ]
 
   # Find the numeric values
-  dates <- vapply(pheno, function(x){methods::is(x, "Date")}, logical(1L))
+  dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
   if (any(dates)) {
     warning("The dates will be treat as categories")
   }
 
-  original_pheno <- evaluate_orig(pheno)
+  num <- is_num(pheno)
+  # Numbers are evaluated 4 times, and categories only 2 (no independence)
+  # check this on evaluate_index
+  eval_n <- ifelse(num, 4, 2)
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(size, 1, nrow(pheno))
-    subsets <- evaluate_index(i, pheno)
-    # Evaluate if it is more disperse
+    i <- create_subset(size, 1, nrow(pheno_o))
+
+    subsets <- evaluate_index(i, pheno_o)
+    # Evaluate the differences between the subsets and the originals
     differences <- abs(sweep(subsets, c(1, 2), original_pheno))
-    dimnam <- dimnames(differences)
-    dim(differences) <- dim(differences)[1:2]
-    dimnames(differences) <- dimnam[1:2]
+
     # Calculate the score for each subset by variable
-    optimize <- sum(colSums(differences[c("sd", "mad"), ]),  differences["entropy", ])
+    meanDiff <- colSums(differences, na.rm = TRUE)/eval_n
+
+    # Minimize the value
+    optimize <- colMeans(abs(meanDiff), na.rm = TRUE)
 
     # store index if "better"
     if (optimize > opt){
@@ -30,13 +41,16 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations= 500){
       val <- i
     }
   }
+  message("Maximum value reached: ", round(opt))
   val
 }
 
 #' Seek optimum size for a batch
 #'
-#' Calculates the number of samples to representative of most of the variance.
+#' Calculates the number of samples to representative of most of the variance
+#' of their categorical variables.
 #' @param pheno A \code{data.frame} with the information about the samples.
+#' @return A number for the number of samples needed.
 # For a qualitative it looks to have at least one value of each level for each category
 # For a quantitative variable it looks to have a different range
 #' @export
