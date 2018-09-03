@@ -5,3 +5,13 @@ is_num <- function(x, ...) {
     sapply(x, is.numeric)
   }
 }
+
+
+omit <- function(pheno, omit){
+  # Omit columns
+  if (!is.null(omit)){
+    pheno[, !colnames(pheno) %in% omit, drop = FALSE]
+  } else {
+    pheno
+  }
+}
