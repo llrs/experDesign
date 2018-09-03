@@ -17,12 +17,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   # Calculate batches
   batches <- ceiling(nrow(pheno)/size.batch)
 
-  # Omit columns
-  if (!is.null(omit)){
-    pheno_o <- pheno[, !colnames(pheno) %in% omit, drop = FALSE]
-  } else {
-    pheno_o <- pheno
-  }
+  pheno_o <- omit(pheno, omit)
 
   original_pheno <- evaluate_orig(pheno_o)
   original_pheno["na", ] <- original_pheno["na", ]/batches
