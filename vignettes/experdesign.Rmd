@@ -32,7 +32,6 @@ facility. It assumes that you have collected the samples and the information
 but you still need to do the experiment in several batches due to technical or 
 practical limitations. 
 
-
 # Previous work
 
 Before building this package I would like to give credit to those that made 
@@ -44,7 +43,6 @@ variables but not numeric data.
 The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
 numeric and categorical data, but it can only optimize for two nominal criteria.
 
-
 # Approach
 
 Of all the space of possible combinations of samples, it looks for the
@@ -54,13 +52,11 @@ combination which minimizes the differences between each subgroup
  - If the variable is numeric it looks so that the distribution is closer to the original.
  - If there are `NA` (not available values) it looks to distribute them randomly.
 
-
 # Preparation
 
 We can use the survey dataset for the examples:
 ```{r}
-library("MASS")
-data(survey) 
+data(survey, package = "MASS") 
 head(survey)
 ```
 
@@ -124,7 +120,7 @@ using `evaluate_orig`:
 orig <- evaluate_orig(survey)
 orig[, "Age"]
 ```
-We can see that the `sd` is slightly out, but the mean and mad for each sub set 
+We can see that the `sd` is slightly out, but the mean and mad for each subset 
 is fairly similar to the original points.
 
 # Unbalanced setting
@@ -152,6 +148,16 @@ evaluate_orig(unbalanced)["entropy", ]
 apply(evaluate_index(i, unbalanced)["entropy", , ], 1, sd)
 ```
 We can see that in this simple case where a single variable has all the the other cases we approximately reached the same entropy levels. We can avoid batch factor when the data
+
+# Quality check
+
+If you need a subset with the samples that are more diverse you can use the following functions:
+
+```{r QC}
+size <- optimum_size(survey)
+samples <- extreme_cases(survey, size = size)
+```
+
 
 # SessionInfo
 
