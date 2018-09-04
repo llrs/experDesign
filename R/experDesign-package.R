@@ -1,7 +1,7 @@
 #' experDesign: Expert experiment design in batches
 #'
 #' Enables easy distribution of samples per batch avoiding batch and
-#' counfounding effects by randomization of the variables in each batch.
+#' confounding effects by randomization of the variables in each batch.
 #'
 #' The most important function is \code{\link{design}}, which distributes
 #' samples in batches according to the information provided.

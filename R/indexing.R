@@ -29,9 +29,7 @@ create_subset <- function(size.subset, n, size.data) {
   names(i) <- paste0("SubSet", seq_len(n))
   i
 }
-
-
-
+#
 #' Name the batch
 #'
 #' Given an index return the name of the batches the samples are in
