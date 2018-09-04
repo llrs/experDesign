@@ -1,4 +1,6 @@
 #' Select the subset of extreme cases to evaluation
+#' @param size The number of samples to subset.
+#' @inheritParams design
 #' @export
 extreme_cases <- function(pheno, size, omit = NULL, iterations= 500){
 

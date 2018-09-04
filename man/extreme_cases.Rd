@@ -6,6 +6,15 @@
 \usage{
 extreme_cases(pheno, size, omit = NULL, iterations = 500)
 }
+\arguments{
+\item{pheno}{Data.frame with the sample information.}
+
+\item{size}{The number of samples to subset.}
+
+\item{omit}{Name of the columns of the pheno that will be omitted}
+
+\item{iterations}{Numeric value of iterations that will be performed}
+}
 \description{
 Select the subset of extreme cases to evaluation
 }
