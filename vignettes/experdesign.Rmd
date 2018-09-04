@@ -87,7 +87,7 @@ head(df)
 ```
 
 If a data.frame has a column with name "batch" we can use the function 
-distribution to see if it is randomlly distriubted. Or we can see the mean 
+distribution to see if it is randomly distributed. Or we can see the mean 
 difference between each subgroup and the original value of the data.frame.
 
 ```{r}
