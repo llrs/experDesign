@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Expert experiment design in batches
-Version: 0.0.99
+Version: 0.0.100
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
@@ -31,4 +31,3 @@ Encoding: UTF-8
 Language: en-US
 LazyData: false
 RoxygenNote: 6.1.0
-
