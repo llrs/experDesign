@@ -1,12 +1,13 @@
 Package: experDesign
-Title: Expert experiment design in batches: distributing samples per batch
+Title: Expert experiment design in batches
 Version: 0.0.99
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
            role = c("aut", "cre"),
-           email = "lluis.revilla@gmail.com")
-Description: What the package does (one paragraph).
+           email = "lluis.revilla@gmail.com", 
+           comments = c("ORCID" = "0000-0001-9747-2570"))
+Description: Distributes samples in batches while making batches homogeneous according to their description. Allows for an arbitrary number of varibales, both numeric and categorical. For quality control it provides functions to subset a representative sample.
 License: MIT + file LICENSE
 URL: https://github.com/llrs/experDesign
 BugReports: https://github.com/llrs/experDesign/issues
@@ -23,9 +24,11 @@ Suggests:
     BiocStyle,
     MASS,
     spelling
+BiocViews:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 6.1.0
 Language: en-US
+LazyData: false
+RoxygenNote: 6.1.0
+
