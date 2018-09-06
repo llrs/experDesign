@@ -7,7 +7,7 @@
 \title{experDesign: Expert experiment design in batches}
 \description{
 Enables easy distribution of samples per batch avoiding batch and
-counfounding effects by randomization of the variables in each batch.
+confounding effects by randomization of the variables in each batch.
 }
 \details{
 The most important function is \code{\link{design}}, which distributes
