@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Expert experiment design in batches
-Version: 0.0.100
+Version: 0.0.101
 Authors@R: person(given = "Lluís",
            family = "Revilla Sancho",
            role = c("aut", "cre"),
