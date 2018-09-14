@@ -7,7 +7,6 @@ Authors@R:
            role = c("aut", "cre"),
            email = "lluis.revilla@gmail.com",
            comment = c(ORCID = "0000-0001-9747-2570"))
-
 Description: Distributes samples in batches while making batches homogeneous according to their description. Allows for an arbitrary number of varibales, both numeric and categorical. For quality control it provides functions to subset a representative sample.
 License: MIT + file LICENSE
 URL: https://github.com/llrs/experDesign
