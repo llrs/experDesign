@@ -3,14 +3,6 @@
 language: R
 sudo: false
 cache: packages
-r_packages:
-    - knitr,
-    - rmarkdown,
-    - testthat,
-    - covr
-    - devtools
-    - usethis
-    - stats
 after_success:
     - Rscript -e 'covr::codecov()'
 os:

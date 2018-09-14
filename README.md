@@ -1,4 +1,5 @@
 [![Travis build status](https://travis-ci.org/llrs/experDesign.svg?branch=master)](https://travis-ci.org/llrs/experDesign)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/llrs/experDesign?branch=master&svg=true)](https://ci.appveyor.com/project/llrs/experDesign)
 [![Coverage status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
@@ -16,11 +17,15 @@ It requires two types of information:
    This might be age, sex, localization, RIN, personal, ...  
  - Samples per batch: The maximum amount of samples per batch.  
   This might be decided by barcode, or machine if doing NGS.
+  
+That can be achived with the `design` function.
 
 Optional input:
 
  - Allow technical duplicates?  
    If some samples could be duplicated to fully occupy all batches and check if the same samples sequenced in several runs returns the same output.
+
+To account for technical duplicates use `replicates`.
 
 # Output
 

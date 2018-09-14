@@ -1,65 +1,167 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "exprDesign"
+author: "Lluís Revilla Sancho"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  BiocStyle::html_document:
+    fig_caption: true
+    code_folding: show
+    self_contained: yes
+    toc_float:
+      collapsed: true
+      toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{exprDesign}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_knit$set(root.dir = ".")
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
+BiocStyle::markdown()
+library("BiocStyle")
+set.seed(445)
+library("experDesign")
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+# Introduction
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+This package was developed to help prepare some samples to be send to a 
+facility. It assumes that you have collected the samples and the information 
+but you still need to do the experiment in several batches due to technical or 
+practical limitations. 
 
-## Vignette Info
+# Previous work
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+Before building this package I would like to give credit to those that made 
+also efforts in this direction:
 
-## Styles
+The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
+variables but not numeric data.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
+numeric and categorical data, but it can only optimize for two nominal criteria.
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+# Approach
 
-## Figures
+Of all the space of possible combinations of samples, it looks for the
+combination which minimizes the differences between each subgroup
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+ - If the variable is categorical it looks so that the entropy is closer to random.
+ - If the variable is numeric it looks so that the distribution is closer to the original.
+ - If there are `NA` (not available values) it looks to distribute them randomly.
+
+# Preparation
+
+We can use the survey dataset for the examples:
+```{r}
+data(survey, package = "MASS") 
+head(survey)
+```
+
+The dataset has numeric, categorical values and some `NA`'s value.
+
+# Workflow
+
+Imagine that we can only work in groups of 70, and we want to randomize by Sex, 
+Smoke, Age, and by writing hand.  
+There are `r choose(237, 70)` combinations some of them would be have in a 
+single experiment all the right handed, we can't measure all these combinations
+but we can find an optimum value.
 
 ```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
+(keep <- colnames(survey)[!colnames(survey) %in% omit])
+index <- design(pheno = survey, size.batch = 70, omit = omit)
+```
+To convert to a value to append to the data.frame we can use:
+```{r batch, eval=FALSE}
+batch <- batch_names(index)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+Or if we want to do so automatically we can do:
+```{r}
+df <- inspect(index, survey, omit = omit)
+head(df)
 ```
 
-Also a quote using `>`:
+If a data.frame has a column with name "batch" we can use the function 
+distribution to see if it is randomly distributed. Or we can see the mean 
+difference between each subgroup and the original value of the data.frame.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r}
+evaluate_entropy(index, survey)
+evaluate_independence(index, survey)
+
+evaluate_na(index, survey)
+
+evaluate_mean(index, survey)
+evaluate_sd(index, survey)
+evaluate_mad(index, survey)
+```
+
+The numbers provided are just an indicator of how far are they from a perfect 
+distance. The farthest and index is, the worst it is to account for batch effect.
+
+If we want the original numbers we can use `evaluate_index`, and look for specific values:
+```{r}
+ev <- evaluate_index(index, survey)
+ev["entropy", "Sex",]
+ev[1:4, "Age",]
+evaluate_independence(index, survey)
+```
+
+We can see that the sex is fairly distributed and that the mean age ratio is 
+almost perfectly distributed. But we can compare with the original distribution 
+using `evaluate_orig`:
+
+```{r}
+orig <- evaluate_orig(survey)
+orig[, "Age"]
+```
+We can see that the `sd` is slightly out, but the mean and mad for each subset 
+is fairly similar to the original points.
+
+# Unbalanced setting
+
+In this case the data was fairly balanced (check it out in the `orig` object) 
+but let's create an unbalanced dataset to check it.
+
+```{r unbalanced}
+n <- 99
+samples <- 100
+unbalanced <- data.frame(Classroom = rep(c("A", "B"), each = samples/2),
+                         Sex = c(rep("M", n), rep("F", samples-n)))
+table(unbalanced)
+```
+In this dataset the classroom a single classroom has all the females (`r 50 -n`).
+
+```{r}
+i <- design(unbalanced, 15)
+
+# Mean entropy en each subset
+rowMeans(evaluate_index(i, unbalanced)["entropy", , ])
+# Original entropy on the dataset
+evaluate_orig(unbalanced)["entropy", ]
+# Dispersion of the entropy
+apply(evaluate_index(i, unbalanced)["entropy", , ], 1, sd)
+```
+We can see that in this simple case where a single variable has all the the other cases we approximately reached the same entropy levels. We can avoid batch factor when the data
+
+# Quality check
+
+If you need a subset with the samples that are more diverse you can use the following functions:
+
+```{r QC}
+size <- optimum_size(survey)
+samples <- extreme_cases(survey, size = size)
+```
+
+
+# SessionInfo
+
+```{r}
+sessionInfo()
+```
+
