@@ -44,3 +44,7 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+notifications:
+  - provider: Email
+       on_build_status_changed: true
