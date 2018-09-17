@@ -112,7 +112,7 @@ ev[1:4, "Age",]
 evaluate_independence(index, survey)
 ```
 
-We can see that the sex is fairly distributed and that the mean age ratio is 
+We can see that the sex is equally distributed and that the mean age ratio is 
 almost perfectly distributed. But we can compare with the original distribution 
 using `evaluate_orig`:
 
@@ -121,11 +121,11 @@ orig <- evaluate_orig(survey)
 orig[, "Age"]
 ```
 We can see that the `sd` is slightly out, but the mean and mad for each subset 
-is fairly similar to the original points.
+is mostly similar to the original points.
 
 # Unbalanced setting
 
-In this case the data was fairly balanced (check it out in the `orig` object) 
+In this case the data was mostly balanced (check it out in the `orig` object) 
 but let's create an unbalanced dataset to check it.
 
 ```{r unbalanced}
@@ -147,7 +147,7 @@ evaluate_orig(unbalanced)["entropy", ]
 # Dispersion of the entropy
 apply(evaluate_index(i, unbalanced)["entropy", , ], 1, sd)
 ```
-We can see that in this simple case where a single variable has all the the other cases we approximately reached the same entropy levels. We can avoid batch factor when the data
+We can see that in this simple case where a single variable has all the other cases we approximately reached the same entropy levels. We can avoid batch factor when the data
 
 # Quality check
 
