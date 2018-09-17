@@ -67,3 +67,14 @@ optimum_size <- function(pheno) {
   vec <- apply(pheno_cat, 2, uni)
   max(c(ceiling(prod(vec)^(1/length(vec))), max(vec)))
 }
+
+
+#' Sub sample each batch
+#'
+#' To do quality control of each batch select the most representative of each batch
+#' @param each Logical value if you want to extract the samples of each batch or not.
+#' @inheritParams extreme_cases
+#' @inheritParams design
+function(pheno, index, size, each = FALSE, iterations = 500) {
+
+}
