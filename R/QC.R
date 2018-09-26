@@ -1,8 +1,12 @@
 #' Select the subset of extreme cases to evaluation
+#'
+#' Subset some samples that are mostly different.
 #' @param size The number of samples to subset.
+#' @inheritParams qcSubset
 #' @inheritParams design
+#' @return A list with the number of the rows that are selected.
 #' @export
-extreme_cases <- function(pheno, size, omit = NULL, iterations= 500){
+extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 500){
 
   opt <- 0
 
@@ -65,16 +69,39 @@ optimum_size <- function(pheno) {
     length(y[!is.na(y)])
   }
   vec <- apply(pheno_cat, 2, uni)
+  choose(sum(vec), length(vec))
   max(c(ceiling(prod(vec)^(1/length(vec))), max(vec)))
 }
 
-
-#' Sub sample each batch
+#' Random subset
 #'
-#' To do quality control of each batch select the most representative of each batch
-#' @param each Logical value if you want to extract the samples of each batch or not.
-#' @inheritParams extreme_cases
-#' @inheritParams design
-function(pheno, index, size, each = FALSE, iterations = 500) {
+#' Select randomly some samples
+#' @param index A list of indices indicating which samples go to which subset
+#' @param size The number of samples that should be taken.
+#' @param each A logical value if the subset should be taken from all the
+#' samples or for each batch.
+#' @examples
+#' index <- create_subset(50, 2, 100)
+#' QC_samples <- qcSubset(index, 10)
+#' QC_samplesBatch <- qcSubset(index, 10, TRUE)
+qcSubset <- function(index, size, each = FALSE) {
 
+  if (!is.logical(each)){
+    stop("each should be either TRUE or FALSE")
+  }
+
+  if (!is.numeric(size)) {
+    stop("size should be a numeric value")
+  }
+
+  if (!is.list(index)){
+    stop("index should be a list with numeric values")
+  }
+
+  if (each) {
+    out <- lapply(index, sample, size = size)
+  } else {
+    out <- sample(unlist(index, recursive = FALSE), size = size)
+  }
+  out
 }
