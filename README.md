@@ -9,6 +9,10 @@
 The goal of experDesign is to help design experiments in batches by 
 distributing samples in each batch.
 
+# Examples
+
+See the vignette for some examples
+
 # Input
 
 It requires two types of information:
