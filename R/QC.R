@@ -53,24 +53,20 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
 
 #' Seek optimum size for a batch
 #'
-#' Calculates the number of samples to representative of most of the variance
-#' of their categorical variables.
+#' Calculates the number of samples that encode all the qualitative variables.
 #' @param pheno A \code{data.frame} with the information about the samples.
 #' @return A number for the number of samples needed.
 # For a qualitative it looks to have at least one value of each level for each category
 # For a quantitative variable it looks to have a different range
 #' @export
-optimum_size <- function(pheno) {
+optimum_size <- function(pheno, omit = NULL) {
+  pheno <- omit(pheno, omit)
   num <- is_num(pheno)
   # pheno_num <- pheno[, num]
   pheno_cat <- pheno[, !num, drop = FALSE]
-  uni <- function(x){
-    y <- unique(x)
-    length(y[!is.na(y)])
-  }
-  vec <- apply(pheno_cat, 2, uni)
-  choose(sum(vec), length(vec))
-  max(c(ceiling(prod(vec)^(1/length(vec))), max(vec)))
+
+  uPheno <- unique(pheno_cat)
+  nrow(uPheno)
 }
 
 #' Random subset
