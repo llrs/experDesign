@@ -4,7 +4,7 @@
 \alias{optimum_size}
 \title{Seek optimum size for a batch}
 \usage{
-optimum_size(pheno)
+optimum_size(pheno, omit = NULL)
 }
 \arguments{
 \item{pheno}{A \code{data.frame} with the information about the samples.}
@@ -13,6 +13,5 @@ optimum_size(pheno)
 A number for the number of samples needed.
 }
 \description{
-Calculates the number of samples to representative of most of the variance
-of their categorical variables.
+Calculates the number of samples that encode all the qualitative variables.
 }
