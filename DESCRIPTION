@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Design experiments in batches
-Version: 0.0.0.900
+Version: 0.0.1
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
