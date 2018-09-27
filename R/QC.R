@@ -42,7 +42,7 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
     optimize <- colMeans(abs(meanDiff), na.rm = TRUE)
 
     # store index if "better"
-    if (optimize > opt){
+    if (optimize > opt) {
       opt <- optimize
       val <- i
     }
@@ -55,18 +55,21 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
 #'
 #' Calculates the number of samples that encode all the qualitative variables.
 #' @param pheno A \code{data.frame} with the information about the samples.
-#' @return A number for the number of samples needed.
+#' @return A number for the number of samples needed. At most it can be half of
+#' the samples.
 # For a qualitative it looks to have at least one value of each level for each category
 # For a quantitative variable it looks to have a different range
 #' @export
 optimum_size <- function(pheno, omit = NULL) {
   pheno <- omit(pheno, omit)
   num <- is_num(pheno)
-  # pheno_num <- pheno[, num]
+
+  # Different subsets
   pheno_cat <- pheno[, !num, drop = FALSE]
+  pheno_num <- unique(pheno[, num, drop = FALSE])
 
   uPheno <- unique(pheno_cat)
-  nrow(uPheno)
+  max(1, ceiling(nrow(uPheno))/2, ceiling(nrow(pheno_num))/2)
 }
 
 #' Random subset
@@ -76,13 +79,14 @@ optimum_size <- function(pheno, omit = NULL) {
 #' @param size The number of samples that should be taken.
 #' @param each A logical value if the subset should be taken from all the
 #' samples or for each batch.
+#' @export
 #' @examples
 #' index <- create_subset(50, 2, 100)
 #' QC_samples <- qcSubset(index, 10)
 #' QC_samplesBatch <- qcSubset(index, 10, TRUE)
 qcSubset <- function(index, size, each = FALSE) {
 
-  if (!is.logical(each)){
+  if (!is.logical(each)) {
     stop("each should be either TRUE or FALSE")
   }
 
@@ -90,7 +94,7 @@ qcSubset <- function(index, size, each = FALSE) {
     stop("size should be a numeric value")
   }
 
-  if (!is.list(index)){
+  if (!is.list(index)) {
     stop("index should be a list with numeric values")
   }
 

@@ -10,7 +10,8 @@ optimum_size(pheno, omit = NULL)
 \item{pheno}{A \code{data.frame} with the information about the samples.}
 }
 \value{
-A number for the number of samples needed.
+A number for the number of samples needed. At most it can be half of
+the samples.
 }
 \description{
 Calculates the number of samples that encode all the qualitative variables.
