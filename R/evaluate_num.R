@@ -10,7 +10,7 @@
 #' @family functions to evaluate numbers
 #' @export
 evaluate_sd <- function(i, pheno){
-  stopifnot(sum(lengths(i))== nrow(pheno))
+  stopifnot(sum(lengths(i)) == nrow(pheno))
   # Distribution of sd
   num <- is_num(pheno)
   pheno_o <- pheno[, num, drop = FALSE]
@@ -31,7 +31,7 @@ evaluate_sd <- function(i, pheno){
 #' @family functions to evaluate numbers
 #' @export
 evaluate_mean <- function(i, pheno) {
-  stopifnot(sum(lengths(i))== nrow(pheno))
+  stopifnot(sum(lengths(i)) == nrow(pheno))
   # Calculates the distribution
   num <- is_num(pheno)
   pheno_o <- pheno[, num, drop = FALSE]
@@ -55,7 +55,7 @@ evaluate_mean <- function(i, pheno) {
 #' @family functions to evaluate numbers
 #' @export
 evaluate_mad <- function(i, pheno) {
-  stopifnot(sum(lengths(i))== nrow(pheno))
+  stopifnot(sum(lengths(i)) == nrow(pheno))
   # Calculates the distribution
   num <- is_num(pheno)
   pheno_o <- pheno[, num, drop = FALSE]

@@ -30,7 +30,7 @@ evaluate_entropy <- function(i, pheno) {
   out_e <- t(simplify2matrix(out_e))
 
   # Compare with the optimum 1 == random; 0 == all the same
-  out <- 1-colMeans(out_e[, !remove_e, drop = FALSE], na.rm = TRUE)
+  out <- 1 - colMeans(out_e[, !remove_e, drop = FALSE], na.rm = TRUE)
   abs(out)
 }
 

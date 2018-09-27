@@ -8,7 +8,7 @@ evaluate_helper <- function(x, original_x){
 
 # To insert a vector or a matrix inside another matrix
 insert <- function(matrix, vector, name) {
-  if (is.matrix(vector)){
+  if (is.matrix(vector)) {
     nam <- colnames(vector)
   } else {
     nam <- names(vector)
@@ -50,7 +50,7 @@ evaluate_orig <- function(pheno) {
     original <- insert(original, subset_num, c("sd", "mean", "mad"))
   }
   # Categorical data
-  if (sum(!num) >= 1){
+  if (sum(!num) >= 1) {
     pheno_cat <- pheno[, !num, drop = FALSE]
     entropy_orig <- apply(pheno_cat, 2, entropy)
     original <- insert(original, entropy_orig, "entropy")
@@ -92,7 +92,7 @@ evaluate_index <- function(i, pheno) {
       diff1 <- insert(diff1, subset_num, c("sd", "mean", "mad"))
     }
 
-    if (sum(!num) >= 1){
+    if (sum(!num) >= 1) {
       pheno_cat <- droplevels(pheno[x, !num, drop = FALSE])
       subset_entropy <- apply(pheno_cat, 2, entropy)
       diff1 <- insert(diff1, subset_entropy, "entropy")

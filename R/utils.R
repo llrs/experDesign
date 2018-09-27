@@ -9,7 +9,7 @@ is_num <- function(x, ...) {
 
 omit <- function(pheno, omit){
   # Omit columns
-  if (!is.null(omit)){
+  if (!is.null(omit)) {
     pheno[, !colnames(pheno) %in% omit, drop = FALSE]
   } else {
     pheno

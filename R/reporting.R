@@ -10,7 +10,7 @@ inspect <- function(i, pheno, omit = NULL) {
   batch <- batch_names(i)
 
   # Omit columns
-  if (!is.null(omit)){
+  if (!is.null(omit)) {
     pheno_o <- pheno[, !colnames(pheno) %in% omit, drop = FALSE]
   } else {
     pheno_o <- pheno

@@ -19,7 +19,7 @@ entropy <- function(x){
     return(0L)
   }
   prob <- table(x)/length(x)
-  -sum(prob*log(prob, n))
+  - sum(prob*log(prob, n))
 }
 
 #' Evaluate the dispersion of NAs

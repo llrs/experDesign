@@ -13,13 +13,13 @@ create_subset <- function(size.subset, n, size.data) {
   size <- size.subset
   opt_s <- ceiling(size.data/n)
   # stopifnot(size.subset*n >= size.data)
-  if (size.subset*n-size.data >= size.subset) {
+  if (size.subset*n - size.data >= size.subset) {
     stop("Please provide a lower number of batch")
   }
   # Create the subsets
   i <- vector("list", length = n)
   vec <- seq_len(size.data)
-  for(j in seq_len(n)){
+  for (j in seq_len(n)) {
     s <- min(opt_s, size, length(vec))
     out <- sample(vec, size = s)
     vec <- vec[!vec %in% out]

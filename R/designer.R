@@ -54,7 +54,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
     optimize <- sum(rowMeans(abs(meanDiff)))
 
     # store index if "better"
-    if (optimize <= opt){
+    if (optimize <= opt) {
       opt <- optimize
       val <- i
     }
@@ -76,7 +76,7 @@ replicates <- function(pheno, size.batch, controls, omit = NULL,
                        iterations = 500){
   stopifnot(is.numeric(size.batch))
   stopifnot(is.numeric(controls))
-  size.batch <- size.batch-controls
+  size.batch <- size.batch - controls
   design(pheno, size.batch, omit = omit, iterations = iterations)
 }
 
