@@ -55,6 +55,7 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
 #'
 #' Calculates the number of samples that encode all the qualitative variables.
 #' @param pheno A \code{data.frame} with the information about the samples.
+#' @param omit The name of the columns to omit from the data.frame.
 #' @return A number for the number of samples needed. At most it can be half of
 #' the samples.
 # For a qualitative it looks to have at least one value of each level for each category

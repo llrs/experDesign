@@ -2,7 +2,7 @@
 #'
 #' Index of the samples grouped by batches.
 #' @param size.subset A numeric value with the amount of samples per batch
-#' @param n A numeric value with the number of batchs
+#' @param n A numeric value with the number of batches
 #' @param size.data A numeric value of the amount of samples to distribute
 #' @return A random list of indices of the samples
 #' @seealso \code{\link{batch_names}}

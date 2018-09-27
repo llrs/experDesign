@@ -8,6 +8,8 @@ optimum_size(pheno, omit = NULL)
 }
 \arguments{
 \item{pheno}{A \code{data.frame} with the information about the samples.}
+
+\item{omit}{The name of the columns to omit from the data.frame.}
 }
 \value{
 A number for the number of samples needed. At most it can be half of

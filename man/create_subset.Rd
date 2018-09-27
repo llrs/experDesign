@@ -9,7 +9,7 @@ create_subset(size.subset, n, size.data)
 \arguments{
 \item{size.subset}{A numeric value with the amount of samples per batch}
 
-\item{n}{A numeric value with the number of batchs}
+\item{n}{A numeric value with the number of batches}
 
 \item{size.data}{A numeric value of the amount of samples to distribute}
 }
