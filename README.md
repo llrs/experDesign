@@ -19,6 +19,7 @@ It requires two types of information:
 
  - Metadata: The information about the samples  
    This might be age, sex, localization, RIN, personal, ...  
+   If you want to omit a sample remove the corresponding row
  - Samples per batch: The maximum amount of samples per batch.  
   This might be decided by barcode, or machine if doing NGS.
   
