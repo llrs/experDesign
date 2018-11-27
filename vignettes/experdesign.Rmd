@@ -156,6 +156,7 @@ If you need a subset with the samples that are more diverse you can use the foll
 ```{r QC}
 size <- optimum_size(survey)
 samples <- extreme_cases(survey, size = size)
+head(samples)
 ```
 
 
