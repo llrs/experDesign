@@ -23,5 +23,6 @@ Index of the samples grouped by batches.
 index <- create_subset(50, 2, 100)
 }
 \seealso{
-\code{\link{batch_names}}
+\code{\link{batch_names}}, \code{\link{use_index}} if you already
+have a factor to be used as index.
 }

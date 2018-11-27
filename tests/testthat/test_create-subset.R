@@ -5,3 +5,10 @@ test_that("works",{
   expect_length(i, 2)
   expect_equal(sum(lengths(i)), 100)
 })
+
+test_that("use_index", {
+  plates <- c("P1", "P2", "P1", "P2", "P2", "P3", "P1", "P3", "P1", "P1")
+  out <- use_index(plates)
+  expect_length(out, 3L)
+  expect_equal(lengths(out), c("P1" = 5, "P2" = 3, "P3" = 2))
+})

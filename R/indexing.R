@@ -5,7 +5,8 @@
 #' @param n A numeric value with the number of batches
 #' @param size.data A numeric value of the amount of samples to distribute
 #' @return A random list of indices of the samples
-#' @seealso \code{\link{batch_names}}
+#' @seealso \code{\link{batch_names}}, \code{\link{use_index}} if you already
+#' have a factor to be used as index.
 #' @export
 #' @examples
 #' index <- create_subset(50, 2, 100)
@@ -29,6 +30,19 @@ create_subset <- function(size.subset, n, size.data) {
   names(i) <- paste0("SubSet", seq_len(n))
   i
 }
+
+#' Convert a factor to index
+#'
+#' Convert a given factor to an accepted index
+#' @param x A character or a factor to be used as index
+#' @export
+#' @examples
+#' plates <- c("P1", "P2", "P1", "P2", "P2", "P3", "P1", "P3", "P1", "P1")
+#' use_index(plates)
+use_index <- function(x){
+  split(seq_along(x), x)
+}
+
 #
 #' Name the batch
 #'
