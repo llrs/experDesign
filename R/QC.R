@@ -8,14 +8,12 @@
 #' @export
 extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 500){
 
-  opt <- 0
 
   # Calculate batches
 
   pheno_o <- omit(pheno, omit)
 
   original_pheno <- evaluate_orig(pheno_o)
-  original_pheno["na", ] <- original_pheno["na", ]
 
   # Find the numeric values
   dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
@@ -28,17 +26,20 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 2)
 
+  nSamples <- nrow(pheno)
+  opt <- 0
+
   for (x in seq_len(iterations)) {
-    i <- create_subset(size, 1, nrow(pheno_o))
+    i <- create_subset(size, 1, nSamples)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
-    differences <- abs(sweep(subsets, c(1, 2), original_pheno))
-
+    differences <- drop(abs(sweep(subsets, c(1, 2), original_pheno)))
+    differences <- differences[-c(1, 4), ]
     # Calculate the score for each subset by variable
-    meanDiff <- colSums(differences, na.rm = TRUE)/eval_n
+    meanDiff <- colSums(differences, na.rm = TRUE)/(eval_n - 1)
 
-    # Minimize the value
+    #TODO: Minimize the entropy, and maximize the dispersion
     optimize <- colMeans(abs(meanDiff), na.rm = TRUE)
 
     # store index if "better"
@@ -46,8 +47,11 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
       opt <- optimize
       val <- i
     }
+    if (x == iterations) {
+      warning("Maximum number of iterations reached\n")
+    }
   }
-  message("Maximum value reached: ", round(opt))
+  message("Maximum value reached: ", round(sum(abs(opt))), "\n")
   val
 }
 
