@@ -67,9 +67,12 @@ optimum_size <- function(pheno, omit = NULL) {
   # Different subsets
   pheno_cat <- pheno[, !num, drop = FALSE]
   pheno_num <- unique(pheno[, num, drop = FALSE])
-
+  nSamples <- nrow(pheno)
   uPheno <- unique(pheno_cat)
-  max(1, ceiling(nrow(uPheno))/2, ceiling(nrow(pheno_num))/2)
+  nUniqSamples <- nrow(uPheno)
+  r <- range(2, ceiling(nUniqSamples/2), ceiling(nSamples/2))
+  stopifnot(max(r) <= ceiling(nSamples/2))
+  max(r)
 }
 
 #' Random subset
