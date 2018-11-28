@@ -9,14 +9,30 @@
 #' have a factor to be used as index.
 #' @export
 #' @examples
-#' index <- create_subset(50, 2, 100)
-create_subset <- function(size.subset, n, size.data) {
+#' index <- create_subset(100, 50, 2)
+create_subset <- function(size.data, size.subset = NULL, n = NULL) {
+
+  if (is.null(size.subset) && is.null(n)) {
+    stop("Either size.subset or n should numeric")
+  }
+
+  if (is.null(n)) {
+    n <- ceiling(size.data/size.subset)
+  } else if (is.null(size.subset)) {
+    size.subset <- ceiling(size.data/n)
+  }
+
+
+  if (size.subset*n - size.data < 0) {
+    stop("Please provide a higher number of batches or more samples per batch")
+  }
+  .create_index(size.subset, n, size.data)
+}
+
+.create_index <- function(size.subset, n, size.data) {
   size <- size.subset
   opt_s <- ceiling(size.data/n)
-  # stopifnot(size.subset*n >= size.data)
-  if (size.subset*n - size.data >= size.subset) {
-    stop("Please provide a lower number of batch")
-  }
+
   # Create the subsets
   i <- vector("list", length = n)
   vec <- seq_len(size.data)

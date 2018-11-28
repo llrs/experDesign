@@ -26,7 +26,7 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
   opt <- 0
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(size, 1, nSamples)
+    i <- .create_index(size, 1, nSamples)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
@@ -107,4 +107,37 @@ qcSubset <- function(index, size, each = FALSE) {
     out <- sample(unlist(index, recursive = FALSE), size = size)
   }
   out
+}
+
+#' Check index
+#'
+#' Given an index
+#' @inheritDotParams design
+#' @return A matrix with the differences with the original data
+check_index <- function(pheno, omit, i) {
+  batches <- length(i)
+
+  pheno_o <- omit(pheno, omit)
+  num <- is_num(pheno_o)
+  # Numbers are evaluated 4 times, and categories only 3
+  # check this on evaluate_index
+  eval_n <- ifelse(num, 4, 3)
+
+  original_pheno <- evaluate_orig(pheno_o)
+  original_pheno["na", ] <- original_pheno["na", ]/batches
+
+  subsets <- evaluate_index(i, pheno_o)
+  # Evaluate the differences between the subsets and the originals
+  differences <- abs(sweep(subsets, c(1, 2), original_pheno))
+  # Add the independence of the categorical values
+  subset_ind <- evaluate_independence(i, pheno_o)
+
+  # Calculate the score for each subset by variable
+  meanDiff <- apply(differences, 3, function(x) {
+
+    x <- rbind(x, "ind" = 0)
+    x <- insert(x, subset_ind, name = "ind")
+    colSums(x, na.rm = TRUE)/eval_n
+  })
+  meanDiff
 }

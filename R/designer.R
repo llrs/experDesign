@@ -28,13 +28,13 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
     warning("The dates will be treat as categories")
   }
 
-  num <- is_num(pheno)
+  num <- is_num(pheno_o)
   # Numbers are evaluated 4 times, and categories only 3
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(size.batch, batches, nrow(pheno_o))
+    i <- create_subset(nrow(pheno_o), size.batch, batches)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
