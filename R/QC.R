@@ -112,10 +112,12 @@ qcSubset <- function(index, size, each = FALSE) {
 #' Check index
 #'
 #' Given an index
-#' @inheritDotParams design
+#' @inheritParams design
+#' @inheritParams qcSubset
 #' @return A matrix with the differences with the original data
-check_index <- function(pheno, omit, i) {
-  batches <- length(i)
+#' @export
+check_index <- function(pheno, index, omit = NULL) {
+  batches <- length(index)
 
   pheno_o <- omit(pheno, omit)
   num <- is_num(pheno_o)
@@ -126,11 +128,11 @@ check_index <- function(pheno, omit, i) {
   original_pheno <- evaluate_orig(pheno_o)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
-  subsets <- evaluate_index(i, pheno_o)
+  subsets <- evaluate_index(index, pheno_o)
   # Evaluate the differences between the subsets and the originals
   differences <- abs(sweep(subsets, c(1, 2), original_pheno))
   # Add the independence of the categorical values
-  subset_ind <- evaluate_independence(i, pheno_o)
+  subset_ind <- evaluate_independence(index, pheno_o)
 
   # Calculate the score for each subset by variable
   meanDiff <- apply(differences, 3, function(x) {
