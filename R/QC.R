@@ -84,7 +84,7 @@ optimum_size <- function(pheno, omit = NULL) {
 #' samples or for each batch.
 #' @export
 #' @examples
-#' index <- create_subset(50, 2, 100)
+#' index <- create_subset(100, 50, 2)
 #' QC_samples <- qcSubset(index, 10)
 #' QC_samplesBatch <- qcSubset(index, 10, TRUE)
 qcSubset <- function(index, size, each = FALSE) {

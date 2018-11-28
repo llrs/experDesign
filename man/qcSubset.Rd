@@ -18,7 +18,7 @@ samples or for each batch.}
 Select randomly some samples
 }
 \examples{
-index <- create_subset(50, 2, 100)
+index <- create_subset(100, 50, 2)
 QC_samples <- qcSubset(index, 10)
 QC_samplesBatch <- qcSubset(index, 10, TRUE)
 }

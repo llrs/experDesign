@@ -21,7 +21,7 @@ Looks how are \code{NA} distributed in each subset
 samples <- 10
 m <- matrix(rnorm(samples), nrow = samples)
 m[sample(seq_len(samples), size = 5), ] <- NA # Some NA
-i <- create_subset(3, 4, samples) # random subsets
+i <- create_subset(samples, 3, 4) # random subsets
 evaluate_na(i, m)
 }
 \seealso{
