@@ -4,7 +4,8 @@
 #' @param size The number of samples to subset.
 #' @inheritParams qcSubset
 #' @inheritParams design
-#' @return A list with the number of the rows that are selected.
+#' @return A vector with the number of the rows that are selected.
+#' @seealso \code{\link{optimum_size}}
 #' @export
 extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 500){
 
@@ -21,11 +22,6 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
     warning("The dates will be treat as categories")
   }
 
-  num <- is_num(pheno)
-  # Numbers are evaluated 4 times, and categories only 2 (no independence)
-  # check this on evaluate_index
-  eval_n <- ifelse(num, 4, 2)
-
   nSamples <- nrow(pheno)
   opt <- 0
 
@@ -36,11 +32,10 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
     # Evaluate the differences between the subsets and the originals
     differences <- drop(abs(sweep(subsets, c(1, 2), original_pheno)))
     differences <- differences[-c(1, 4), ]
-    # Calculate the score for each subset by variable
-    meanDiff <- colSums(differences, na.rm = TRUE)/(eval_n - 1)
+    differences["entropy", ] <- differences["entropy", ]/0.5
 
-    #TODO: Minimize the entropy, and maximize the dispersion
-    optimize <- colMeans(abs(meanDiff), na.rm = TRUE)
+    # Maximize the entropy and the dispersion
+    optimize <- sum(colSums(differences))
 
     # store index if "better"
     if (optimize > opt) {
@@ -52,7 +47,7 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
     }
   }
   message("Maximum value reached: ", round(sum(abs(opt))), "\n")
-  val
+  unlist(val, use.names = FALSE)
 }
 
 #' Seek optimum size for a batch

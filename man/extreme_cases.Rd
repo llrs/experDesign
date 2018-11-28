@@ -20,8 +20,11 @@ samples or for each batch.}
 \item{iterations}{Numeric value of iterations that will be performed}
 }
 \value{
-A list with the number of the rows that are selected.
+A vector with the number of the rows that are selected.
 }
 \description{
 Subset some samples that are mostly different.
+}
+\seealso{
+\code{\link{optimum_size}}
 }

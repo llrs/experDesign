@@ -8,5 +8,5 @@ test_that("extreme_cases works", {
     expect_warning(samples <- extreme_cases(surv, size = size),
                  "Maximum number of iterations reached"),
     "Maximum value reached:")
-  expect_length(samples, 1L)
+  expect_length(samples, 118L)
 })
