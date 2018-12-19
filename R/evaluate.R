@@ -68,6 +68,7 @@ evaluate_orig <- function(pheno) {
 #' numeric variables, the entropy of the categorical and the number of
 #' \code{NA} by each subgroup.
 #' @family functions to evaluate samples
+#' @seealso If you have already an index you can use \code{\link{use_index}}
 #' @export
 evaluate_index <- function(i, pheno) {
 

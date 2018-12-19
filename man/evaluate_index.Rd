@@ -20,6 +20,8 @@ numeric variables, the entropy of the categorical and the number of
 Measures several indicators per group
 }
 \seealso{
+If you have already an index you can use \code{\link{use_index}}
+
 Other functions to evaluate samples: \code{\link{evaluate_entropy}},
   \code{\link{evaluate_independence}},
   \code{\link{evaluate_mad}}, \code{\link{evaluate_mean}},

@@ -16,3 +16,7 @@ Convert a given factor to an accepted index
 plates <- c("P1", "P2", "P1", "P2", "P2", "P3", "P1", "P3", "P1", "P1")
 use_index(plates)
 }
+\seealso{
+You can use \code{\link{evaluate_index}} to evaluate how good an
+index is
+}
