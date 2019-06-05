@@ -17,5 +17,5 @@ check_index(pheno, index, omit = NULL)
 A matrix with the differences with the original data
 }
 \description{
-Given an index
+Report the statistics for each subset and variable compared to the original
 }

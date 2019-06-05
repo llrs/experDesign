@@ -7,7 +7,7 @@
 # experDesign
 
 The goal of experDesign is to help design experiments in batches by 
-distributing samples in each batch.
+distributing samples in each batch so that it maximizes the entropy, thus reducing the potencial bias when analyzing.
 
 # Examples
 
@@ -45,6 +45,8 @@ The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
 The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
 numeric and categorical data. But it can only optimize for two nominal criteria.
 It doesn't work for our data.
+
+The [DeclareDesign](https://github.com/DeclareDesign/DeclareDesign) or [OSAT](http://bioconductor.org/packages/OSAT) packages are also relevant
 
 Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48)
 

@@ -4,12 +4,12 @@
 \alias{replicates}
 \title{Design a batch experiment with experimental controls}
 \usage{
-replicates(pheno, size.batch, controls, omit = NULL, iterations = 500)
+replicates(pheno, size_subset, controls, omit = NULL, iterations = 500)
 }
 \arguments{
 \item{pheno}{Data.frame with the sample information.}
 
-\item{size.batch}{Numeric value of the number of sample per batch}
+\item{size_subset}{Numeric value of the number of sample per batch}
 
 \item{controls}{The numeric values of technical controls per batch}
 

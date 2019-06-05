@@ -10,7 +10,7 @@ batch_names(i)
 \item{i}{A list of numeric indices.}
 }
 \value{
-A character vector with the names of the batch for each sample
+A character vector with the names of the batch for each the index.
 }
 \description{
 Given an index return the name of the batches the samples are in

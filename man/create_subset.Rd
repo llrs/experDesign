@@ -4,12 +4,12 @@
 \alias{create_subset}
 \title{Create index of subsets of a data}
 \usage{
-create_subset(size.data, size.subset = NULL, n = NULL)
+create_subset(size_data, size_subset = NULL, n = NULL)
 }
 \arguments{
-\item{size.data}{A numeric value of the amount of samples to distribute}
+\item{size_data}{A numeric value of the amount of samples to distribute}
 
-\item{size.subset}{A numeric value with the amount of samples per batch}
+\item{size_subset}{A numeric value with the amount of samples per batch}
 
 \item{n}{A numeric value with the number of batches}
 }
