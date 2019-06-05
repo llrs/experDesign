@@ -9,9 +9,7 @@
 #' @export
 extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 500){
 
-
   # Calculate batches
-
   pheno_o <- omit(pheno, omit)
 
   original_pheno <- evaluate_orig(pheno_o)
@@ -23,10 +21,10 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
   }
 
   nSamples <- nrow(pheno)
-  opt <- 0
+  opt <- -Inf
 
   for (x in seq_len(iterations)) {
-    i <- .create_index(size, 1, nSamples)
+    i <- .create_index(nSamples, size, 1)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
@@ -42,11 +40,13 @@ extreme_cases <- function(pheno, size, omit = NULL, each = FALSE, iterations= 50
       opt <- optimize
       val <- i
     }
+
+
     if (x == iterations) {
       warning("Maximum number of iterations reached\n")
     }
   }
-  message("Maximum value reached: ", round(sum(abs(opt))), "\n")
+  message("Maximum value reached: ", round(sum(abs(opt))))
   unlist(val, use.names = FALSE)
 }
 
@@ -111,7 +111,7 @@ qcSubset <- function(index, size, each = FALSE) {
 
 #' Check index
 #'
-#' Given an index
+#' Report the statistics for each subset and variable compared to the original
 #' @inheritParams design
 #' @inheritParams qcSubset
 #' @return A matrix with the differences with the original data
