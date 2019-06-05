@@ -1,49 +1,50 @@
 #' Create index of subsets of a data
 #'
 #' Index of the samples grouped by batches.
-#' @param size.subset A numeric value with the amount of samples per batch
+#' @param size_subset A numeric value with the amount of samples per batch
 #' @param n A numeric value with the number of batches
-#' @param size.data A numeric value of the amount of samples to distribute
+#' @param size_data A numeric value of the amount of samples to distribute
 #' @return A random list of indices of the samples
 #' @seealso \code{\link{batch_names}}, \code{\link{use_index}} if you already
 #' have a factor to be used as index.
 #' @export
 #' @examples
 #' index <- create_subset(100, 50, 2)
-create_subset <- function(size.data, size.subset = NULL, n = NULL) {
+create_subset <- function(size_data, size_subset = NULL, n = NULL) {
 
-  if (is.null(size.subset) && is.null(n)) {
+  if (is.null(size_subset) && is.null(n)) {
     stop("Either size.subset or n should numeric")
   }
 
   if (is.null(n)) {
-    n <- ceiling(size.data/size.subset)
-  } else if (is.null(size.subset)) {
-    size.subset <- ceiling(size.data/n)
+    n <- ceiling(size_data/size_subset)
+  } else if (is.null(size_subset)) {
+    size_subset <- ceiling(size_data/n)
   }
 
 
-  if (size.subset*n - size.data < 0) {
-    stop("Please provide a higher number of batches or more samples per batch")
+  if (!check_sizes(size_data, size_subset, n)) {
+    stop("Please provide a higher number of batches or more samples per batch.")
   }
-  .create_index(size.subset, n, size.data)
+  .create_index(size_data, size_subset, n)
 }
 
-.create_index <- function(size.subset, n, size.data) {
-  size <- size.subset
-  opt_s <- ceiling(size.data/n)
+.create_index <- function(size_data, size_subset, n) {
+
+  names_batches <- paste0("SubSet", seq_len(n))
+  min_subset <- floor(size_data/n)
 
   # Create the subsets
   i <- vector("list", length = n)
-  vec <- seq_len(size.data)
+  vec <- seq_len(size_data)
   for (j in seq_len(n)) {
-    s <- min(opt_s, size, length(vec))
+    lv <- length(vec)
+    s <- ifelse(size_subset*j <= lv, size_subset, min(min_subset, lv))
     out <- sample(vec, size = s)
     vec <- vec[!vec %in% out]
     i[[j]] <- out
   }
-  # stopifnot(sum(lengths(i)) == size.data)
-  names(i) <- paste0("SubSet", seq_len(n))
+  names(i) <- names_batches
   i
 }
 
@@ -66,7 +67,7 @@ use_index <- function(x){
 #'
 #' Given an index return the name of the batches the samples are in
 #' @param i A list of numeric indices.
-#' @return A character vector with the names of the batch for each sample
+#' @return A character vector with the names of the batch for each the index.
 #' @seealso \code{\link{create_subset}}
 #' @export
 #' @examples
@@ -74,11 +75,5 @@ use_index <- function(x){
 #' batch <- batch_names(index)
 #' head(batch)
 batch_names <- function(i) {
-  xy <- seq_along(i)
-  isub <- lapply(xy, function(x) {
-    rep_len(names(i)[x], length(i[[x]]))
-  })
-  isubNam <- unlist(isub, use.names = FALSE)
-  isub <- unlist(i, use.names = FALSE)
-  isubNam[isub]
+  rep(names(i), lengths(i))
 }
