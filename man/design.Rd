@@ -4,12 +4,12 @@
 \alias{design}
 \title{Design a batch experiment}
 \usage{
-design(pheno, size.batch, omit = NULL, iterations = 500)
+design(pheno, size_subset, omit = NULL, iterations = 500)
 }
 \arguments{
 \item{pheno}{Data.frame with the sample information.}
 
-\item{size.batch}{Numeric value of the number of sample per batch}
+\item{size_subset}{Numeric value of the number of sample per batch}
 
 \item{omit}{Name of the columns of the pheno that will be omitted}
 

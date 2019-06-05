@@ -4,18 +4,18 @@
 #' equal number of samples per batch. It can handle both numeric and
 #' categorical data.
 #' @param pheno Data.frame with the sample information.
-#' @param size.batch Numeric value of the number of sample per batch
+#' @param size_subset Numeric value of the number of sample per batch
 #' @param omit Name of the columns of the pheno that will be omitted
 #' @param iterations Numeric value of iterations that will be performed
 #' @return The indices of which samples go with which batch
 #' @seealso The \code{evaluate_*} functions and \code{\link{create_subset}}
 #' @importFrom methods is
 #' @export
-design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
+design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
   opt <- Inf
 
   # Calculate batches
-  batches <- ceiling(nrow(pheno)/size.batch)
+  batches <- ceiling(nrow(pheno)/size_subset)
 
   pheno_o <- omit(pheno, omit)
 
@@ -34,7 +34,7 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
   eval_n <- ifelse(num, 4, 3)
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(nrow(pheno_o), size.batch, batches)
+    i <- create_subset(nrow(pheno_o), size_subset, batches)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
@@ -72,11 +72,11 @@ design <- function(pheno, size.batch, omit = NULL, iterations = 500) {
 #' @return The distribution without the controls
 #' @seealso \code{\link{design}}
 #' @export
-replicates <- function(pheno, size.batch, controls, omit = NULL,
+replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
-  stopifnot(is.numeric(size.batch))
+  stopifnot(is.numeric(size_subset))
   stopifnot(is.numeric(controls))
-  size.batch <- size.batch - controls
-  design(pheno, size.batch, omit = omit, iterations = iterations)
+  size_subset <- size_subset - controls
+  design(pheno, size_subset, omit = omit, iterations = iterations)
 }
 
