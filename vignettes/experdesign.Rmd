@@ -12,8 +12,10 @@ output:
       toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{exprDesign}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
@@ -73,7 +75,7 @@ but we can find an optimum value.
 ```{r, fig.show='hold'}
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
 (keep <- colnames(survey)[!colnames(survey) %in% omit])
-index <- design(pheno = survey, size.batch = 70, omit = omit)
+index <- design(pheno = survey, size_subset = 70, omit = omit)
 ```
 To convert to a value to append to the data.frame we can use:
 ```{r batch, eval=FALSE}
