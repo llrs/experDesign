@@ -24,3 +24,12 @@ summary_num <- function(pheno) {
   colnames(diff) <- colnames(pheno)
   diff
 }
+
+check_sizes <- function(size_data, n_batch, size_batch){
+  size_batch_min <- ceiling(size_data/n_batch)
+  n_batch_max <- ceiling(size_data/size_batch)
+  if (size_batch >= size_batch_min && n_batch >= n_batch_max) {
+    return(TRUE)
+  }
+  FALSE
+}
