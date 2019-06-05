@@ -13,8 +13,7 @@ after_success:
     - Rscript -e 'covr::codecov()'
 os:
     - linux
-r:
-    - bioc-devel
+r: bioc-devel
 
 
 notifications:
