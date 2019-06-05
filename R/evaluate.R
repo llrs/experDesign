@@ -29,9 +29,7 @@ insert <- function(matrix, vector, name) {
 evaluate_orig <- function(pheno) {
 
   stopifnot(!is.null(colnames(pheno)))
-  original <- matrix(0, ncol = ncol(pheno), nrow = 5)
-  rownames(original) <- c("mean", "sd", "mad", "na", "entropy")
-  colnames(original) <- colnames(pheno)
+  original <- summary_num(pheno)
 
   na_orig <- colSums(is.na(pheno))
   original <- insert(original, na_orig, "na")
@@ -74,9 +72,7 @@ evaluate_index <- function(i, pheno) {
 
   num <- is_num(pheno)
 
-  diff <- matrix(0, ncol = ncol(pheno), nrow = 5)
-  rownames(diff) <- c("mean", "sd", "mad", "na", "entropy")
-  colnames(diff) <- colnames(pheno)
+  diff <- summary_num(pheno)
   ev_subset <- function(x){
 
     subset_na <- na_orig <- colSums(is.na(pheno[x, , drop = FALSE]))

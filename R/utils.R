@@ -15,3 +15,12 @@ omit <- function(pheno, omit){
     pheno
   }
 }
+
+
+
+summary_num <- function(pheno) {
+  diff <- matrix(0, ncol = ncol(pheno), nrow = 5)
+  rownames(diff) <- c("mean", "sd", "mad", "na", "entropy")
+  colnames(diff) <- colnames(pheno)
+  diff
+}
