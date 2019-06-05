@@ -50,7 +50,7 @@ evaluate_independence <- function(i, pheno) {
 
   stopifnot(sum(!num) >= 1)
   batches <- batch_names(i)
-  .evaluate_ind(batches, pheno[, !num, drop = FALSE])
+  .evaluate_ind(batches, pheno[unlist(i), !num, drop = FALSE])
 }
 
 .evaluate_ind <- function(batch, pheno) {
