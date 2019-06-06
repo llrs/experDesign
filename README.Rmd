@@ -1,0 +1,82 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# experDesign
+
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.org/llrs/experDesign.svg?branch=master)](https://travis-ci.org/llrs/experDesign)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/llrs/experDesign?branch=master&svg=true)](https://ci.appveyor.com/project/llrs/experDesign)
+[![Coverage status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+<!-- badges: end -->
+
+The goal of experDesign is to help you decide which samples go in which batch, 
+reducing the potential batch bias when analyzing.
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+```r
+# install.packages("devtools")
+devtools::install_github("llrs/experDesign")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r design}
+library("experDesign")
+metadata <- expand.grid(height = seq(60, 80, 5), 
+                        weight = seq(100, 300, 50),
+                        sex = c("Male","Female"))
+head(metadata, 15)
+d <- design(metadata, 24)
+# It is a list but we can convert it to a vector with:
+batch_names(d)
+
+```
+
+Naively one would either fill some batches fully or distribute them not evenly 
+(the  first 17 packages toghether, the next 17 and so on). This solution ensures 
+that the data is randomized.
+
+If you need space for replicates to control for batch effect you can use:
+
+```{r replicates}
+r <- replicates(metadata, 24, 5)
+r
+```
+
+Which seeks as controls the most diverse values and adds them to the samples 
+distribution.
+
+# Previous work
+
+The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
+variables but not numeric data. It doesn't work with our data.
+
+The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
+numeric and categorical data. But it can only optimize for two nominal criteria.
+It doesn't work for our data.
+
+The [DeclareDesign](https://github.com/DeclareDesign/DeclareDesign) or [OSAT](http://bioconductor.org/packages/OSAT) packages are also relevant
+
+Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48)
+
+# Other
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
