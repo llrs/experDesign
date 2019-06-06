@@ -35,9 +35,10 @@ and add replicates.
 }
 \examples{
 size_data <- 50
-(batches <- optimum_batches(size_data, 24))
-# So now the best number of samples for each batch is different
+size_batch <- 24
+(batches <- optimum_batches(size_data, size_batch))
+# So now the best number of samples for each batch is less than the available
 (size <- optimum_subset(size_data, batches))
-# The remaining size can be used for controls
+# The distribution of samples per batch
 sizes_batches(size_data, size, batches)
 }
