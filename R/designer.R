@@ -16,9 +16,9 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
 
   # Calculate batches
   size_data <- nrow(pheno)
-  batches <- ceiling(size_data/size_subset)
-  # calculate optimum size per batch
-  size_subset_optimum <- ceiling(size_data/batches)
+
+  batches <- optimum_batches(size_data, size_subset)
+  size_subset_optimum <- optimum_subset(size_data, batches)
 
   if (!check_sizes(size_data, size_subset_optimum, batches)) {
     stop("Please provide a higher number of batches or more samples per batch.")
@@ -66,7 +66,6 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
       val <- i
     }
   }
-  message("Minimum value reached: ", round(opt))
   val
 }
 
@@ -75,15 +74,29 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
 #' To ensure that the batches are comparable some samples are processed in each
 #' batch. This function allows to take into account that effect
 #' @inheritParams design
-#' @param controls The numeric values of technical controls per batch
-#' @return The distribution without the controls
+#' @param controls The numeric value of the amount of technical controls per
+#' batch.
+#' @return A index with some samples duplicated in the batches
 #' @seealso \code{\link{design}}
 #' @export
+#' @examples
+#' samples <- data.frame(L = letters[1:25], Age = rnorm(25))
+#' index <- replicates(samples, 5, controls = 2, iterations = 10)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
   stopifnot(is.numeric(size_subset))
   stopifnot(is.numeric(controls))
-  size_subset <- size_subset - controls
-  design(pheno, size_subset, omit = omit, iterations = iterations)
-}
 
+  if (size_subset < controls) {
+    stop("The controls are technical controls for the batches.\n\t",
+         "They cannot be above the number of samples per batch.", call. = FALSE)
+  }
+  size_subset <- size_subset - controls
+  values <- extreme_cases(pheno = pheno, size = controls, omit = omit)
+  batches <- design(pheno, size_subset, omit = omit, iterations = iterations)
+
+  for (b in seq_along(batches)) {
+    batches[[b]] <- c(batches[[b]], values[!values %in% batches[[b]]])
+  }
+  batches
+}
