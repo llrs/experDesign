@@ -17,11 +17,9 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL) {
   }
 
   if (is.null(n)) {
-    n <- ceiling(size_data/size_subset)
-  } else if (is.null(size_subset)) {
-    size_subset <- ceiling(size_data/n)
+    n <- optimum_batches(size_data, size_subset)
   }
-
+  size_subset <- optimum_batches(size_data, n)
 
   if (!check_sizes(size_data, size_subset, n)) {
     stop("Please provide a higher number of batches or more samples per batch.")
@@ -29,6 +27,7 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL) {
   .create_index(size_data, size_subset, n)
 }
 
+# The workhorse function without any check
 .create_index <- function(size_data, size_subset, n) {
 
   names_batches <- paste0("SubSet", seq_len(n))
@@ -77,21 +76,4 @@ use_index <- function(x){
 batch_names <- function(i) {
   names <- rep(names(i), lengths(i))
   names[order(unlist(i, use.names = FALSE))]
-}
-
-# Return the size of each batch so that there is less problems
-sizes_batches <- function(size_data, size_subset, batches) {
-  # Look for all combination of sizes for that number of batches
-  pos <- seq(from = 0, to = batches)
-  factors <- t(expand.grid(pos, pos))
-  factors <- factors[, colSums(factors) == batches, drop = FALSE]
-
-  # Look for those that get equal to size_data
-  out <- t(factors) %*% c(size_subset, size_subset-1)
-  pos <- which(out[, 1] == size_data)[1] # To get the first one
-  # If the size cannot be equal to the data return the original size_subset
-  if (is.na(pos)) {
-    return(size_subset)
-  }
-  rep(c(size_subset, size_subset-1), factors[, pos])
 }
