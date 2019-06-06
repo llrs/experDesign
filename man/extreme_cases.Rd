@@ -4,8 +4,7 @@
 \alias{extreme_cases}
 \title{Select the subset of extreme cases to evaluation}
 \usage{
-extreme_cases(pheno, size, omit = NULL, each = FALSE,
-  iterations = 500)
+extreme_cases(pheno, size, omit = NULL, iterations = 500)
 }
 \arguments{
 \item{pheno}{Data.frame with the sample information.}
@@ -14,9 +13,6 @@ extreme_cases(pheno, size, omit = NULL, each = FALSE,
 
 \item{omit}{Name of the columns of the pheno that will be omitted}
 
-\item{each}{A logical value if the subset should be taken from all the
-samples or for each batch.}
-
 \item{iterations}{Numeric value of iterations that will be performed}
 }
 \value{
@@ -24,6 +20,14 @@ A vector with the number of the rows that are selected.
 }
 \description{
 Subset some samples that are mostly different.
+}
+\examples{
+metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
+ sex = c("Male","Female"))
+sel <- extreme_cases(metadata, 10)
+# We can see that it selected both Female and Males and wide range of height
+# and weight:
+metadata[sel, ]
 }
 \seealso{
 \code{\link{optimum_size}}
