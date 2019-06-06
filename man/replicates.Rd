@@ -11,14 +11,16 @@ replicates(pheno, size_subset, controls, omit = NULL, iterations = 500)
 
 \item{size_subset}{Numeric value of the number of sample per batch}
 
-\item{controls}{The numeric values of technical controls per batch}
+\item{controls}{The numeric value of the amount of technical controls per
+batch.}
 
 \item{omit}{Name of the columns of the pheno that will be omitted}
 
 \item{iterations}{Numeric value of iterations that will be performed}
 }
 \value{
-The distribution without the controls
+A list with to elements the distribution without the controls and
+the controls to be replicated.
 }
 \description{
 To ensure that the batches are comparable some samples are processed in each

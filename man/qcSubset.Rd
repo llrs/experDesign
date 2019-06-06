@@ -7,7 +7,7 @@
 qcSubset(index, size, each = FALSE)
 }
 \arguments{
-\item{index}{A list of indices indicating which samples go to which subset}
+\item{index}{A list of indices indicating which samples go to which subset.}
 
 \item{size}{The number of samples that should be taken.}
 

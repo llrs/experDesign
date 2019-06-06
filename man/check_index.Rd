@@ -9,7 +9,7 @@ check_index(pheno, index, omit = NULL)
 \arguments{
 \item{pheno}{Data.frame with the sample information.}
 
-\item{index}{A list of indices indicating which samples go to which subset}
+\item{index}{A list of indices indicating which samples go to which subset.}
 
 \item{omit}{Name of the columns of the pheno that will be omitted}
 }
