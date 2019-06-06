@@ -47,50 +47,20 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
       opt <- optimize
       val <- i
     }
-
-
-    if (x == iterations) {
-      warning("Maximum number of iterations reached\n")
-    }
   }
-  message("Maximum value reached: ", round(sum(abs(opt))))
   unlist(val, use.names = FALSE)
-}
-
-#' Seek optimum size for a batch
-#'
-#' Calculates the number of samples that encode all the qualitative variables.
-#' @param pheno A \code{data.frame} with the information about the samples.
-#' @param omit The name of the columns to omit from the data.frame.
-#' @return A number for the number of samples needed. At most it can be half of
-#' the samples.
-# For a qualitative it looks to have at least one value of each level for each category
-# For a quantitative variable it looks to have a different range
-#' @export
-optimum_size <- function(pheno, omit = NULL) {
-  pheno <- omit(pheno, omit)
-  num <- is_num(pheno)
-
-  # Different subsets
-  pheno_cat <- pheno[, !num, drop = FALSE]
-  pheno_num <- unique(pheno[, num, drop = FALSE])
-  nSamples <- nrow(pheno)
-  uPheno <- unique(pheno_cat)
-  nUniqSamples <- nrow(uPheno)
-  r <- range(2, ceiling(nUniqSamples/2), ceiling(nSamples/2))
-  stopifnot(max(r) <= ceiling(nSamples/2))
-  max(r)
 }
 
 #' Random subset
 #'
 #' Select randomly some samples
-#' @param index A list of indices indicating which samples go to which subset
+#' @param index A list of indices indicating which samples go to which subset.
 #' @param size The number of samples that should be taken.
 #' @param each A logical value if the subset should be taken from all the
 #' samples or for each batch.
 #' @export
 #' @examples
+#' set.seed(50)
 #' index <- create_subset(100, 50, 2)
 #' QC_samples <- qcSubset(index, 10)
 #' QC_samplesBatch <- qcSubset(index, 10, TRUE)
@@ -111,7 +81,7 @@ qcSubset <- function(index, size, each = FALSE) {
   if (each) {
     out <- lapply(index, sample, size = size)
   } else {
-    out <- sample(unlist(index, recursive = FALSE), size = size)
+    out <- sample(unlist(index, recursive = FALSE, use.names = FALSE), size = size)
   }
   out
 }
@@ -123,6 +93,11 @@ qcSubset <- function(index, size, each = FALSE) {
 #' @inheritParams qcSubset
 #' @return A matrix with the differences with the original data
 #' @export
+#' @examples
+#' index <- create_subset(50, 24)
+#' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
+#'  sex = c("Male","Female"))
+#' sel <- extreme_cases(metadata, 7)
 check_index <- function(pheno, index, omit = NULL) {
   batches <- length(index)
 
