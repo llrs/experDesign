@@ -96,7 +96,8 @@ replicates <- function(pheno, size_subset, controls, omit = NULL,
   batches <- design(pheno, size_subset, omit = omit, iterations = iterations)
 
   for (b in seq_along(batches)) {
-    batches[[b]] <- c(batches[[b]], values[!values %in% batches[[b]]])
+    val <- c(batches[[b]], values[!values %in% batches[[b]]])
+    batches[[b]] <- sort(val)
   }
   batches
 }

@@ -39,7 +39,7 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL) {
   names(i) <- names_batches
   vec <- seq_len(size_data)
   for (j in seq_len(n)) {
-    out <- sample(vec, size = size_batches[j])
+    out <- sort(sample(vec, size = size_batches[j]))
     vec <- vec[!vec %in% out]
     i[[j]] <- out
   }
