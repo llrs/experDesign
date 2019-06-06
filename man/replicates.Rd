@@ -19,12 +19,15 @@ batch.}
 \item{iterations}{Numeric value of iterations that will be performed}
 }
 \value{
-A list with to elements the distribution without the controls and
-the controls to be replicated.
+A index with some samples duplicated in the batches
 }
 \description{
 To ensure that the batches are comparable some samples are processed in each
 batch. This function allows to take into account that effect
+}
+\examples{
+samples <- data.frame(L = letters[1:25], Age = rnorm(25))
+index <- replicates(samples, 5, controls = 2, iterations = 10)
 }
 \seealso{
 \code{\link{design}}

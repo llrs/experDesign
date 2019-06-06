@@ -19,3 +19,9 @@ A matrix with the differences with the original data
 \description{
 Report the statistics for each subset and variable compared to the original
 }
+\examples{
+index <- create_subset(50, 24)
+metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
+ sex = c("Male","Female"))
+sel <- extreme_cases(metadata, 7)
+}
