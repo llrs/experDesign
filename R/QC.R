@@ -53,7 +53,7 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
 
 #' Random subset
 #'
-#' Select randomly some samples
+#' Select randomly some samples from an index
 #' @param index A list of indices indicating which samples go to which subset.
 #' @param size The number of samples that should be taken.
 #' @param each A logical value if the subset should be taken from all the

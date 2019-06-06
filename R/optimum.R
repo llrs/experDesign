@@ -1,7 +1,7 @@
 #' Optimum values for batches
 #'
 #' Calculates the optimum values for number of batches or size of the batches.
-#' If you need to do several batches it can be better to distribute it evently
+#' If you need to do several batches it can be better to distribute it evenly
 #' and add replicates.
 #' @return
 #' \describe{

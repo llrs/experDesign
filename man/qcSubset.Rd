@@ -15,7 +15,7 @@ qcSubset(index, size, each = FALSE)
 samples or for each batch.}
 }
 \description{
-Select randomly some samples
+Select randomly some samples from an index
 }
 \examples{
 set.seed(50)
