@@ -15,7 +15,14 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
   opt <- Inf
 
   # Calculate batches
-  batches <- ceiling(nrow(pheno)/size_subset)
+  size_data <- nrow(pheno)
+  batches <- ceiling(size_data/size_subset)
+  # calculate optimum size per batch
+  size_subset_optimum <- ceiling(size_data/batches)
+
+  if (!check_sizes(size_data, size_subset_optimum, batches)) {
+    stop("Please provide a higher number of batches or more samples per batch.")
+  }
 
   pheno_o <- omit(pheno, omit)
 
@@ -34,7 +41,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
   eval_n <- ifelse(num, 4, 3)
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(nrow(pheno_o), size_subset, batches)
+    i <- create_subset(size_data, size_subset_optimum, batches)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
