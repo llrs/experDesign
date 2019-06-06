@@ -18,5 +18,5 @@ use_index(plates)
 }
 \seealso{
 You can use \code{\link{evaluate_index}} to evaluate how good an
-index is
+index is. For the inverse look at  \code{\link{batch_names}}
 }
