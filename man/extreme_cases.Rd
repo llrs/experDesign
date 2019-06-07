@@ -30,5 +30,5 @@ sel <- extreme_cases(metadata, 10)
 metadata[sel, ]
 }
 \seealso{
-\code{\link{optimum_size}}
+\code{\link{optimum}}
 }

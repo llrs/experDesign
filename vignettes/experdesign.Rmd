@@ -152,14 +152,15 @@ It is recommended to add replicates on the several batches to estimate the diffe
 
 ```{r replicates}
 # Looking for groups at most of 70 samples.
-index <- replicates(pheno = survey, size_subset = 70, controls = 10, omit = omit)
-index
+index_replicates <- replicates(pheno = survey, size_subset = 70, 
+                               controls = 10, omit = omit)
+index_replicates
 ```
 
 The controls will be those on all the batches:
 
 ```{r}
-survey[Reduce(intersect, index), ]
+survey[Reduce(intersect, index_replicates), ]
 ```
 
 If you have biological replicates use the information you have about them, 

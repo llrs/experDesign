@@ -5,7 +5,7 @@
 #' @inheritParams qcSubset
 #' @inheritParams design
 #' @return A vector with the number of the rows that are selected.
-#' @seealso \code{\link{optimum_size}}
+#' @seealso \code{\link{optimum}}
 #' @export
 #' @examples
 #' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
