@@ -48,15 +48,8 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
     differences <- abs(sweep(subsets, c(1, 2), original_pheno))
     # Add the independence of the categorical values
     subset_ind <- evaluate_independence(i, pheno_o)
-
     # Calculate the score for each subset by variable
-    meanDiff <- apply(differences, 3, function(x) {
-
-      x <- rbind(x, "ind" = 0)
-      x <- insert(x, subset_ind, name = "ind")
-      colSums(x, na.rm = TRUE)/eval_n
-    })
-
+    meanDiff <- mean_difference(differences, subset_ind, eval_n)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
 

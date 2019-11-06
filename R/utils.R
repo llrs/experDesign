@@ -33,3 +33,14 @@ check_sizes <- function(size_data, n_batch, size_batch){
   }
   FALSE
 }
+
+
+
+mean_difference <- function(differences, subset_ind, eval_n) {
+  # Calculate the score for each subset by variable
+  apply(differences, 3, function(x) {
+    x <- rbind(x, "ind" = 0)
+    x <- insert(x, subset_ind, name = "ind")
+    colSums(x, na.rm = TRUE)/eval_n
+  })
+}
