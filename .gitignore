@@ -5,3 +5,4 @@
 *.Rprofile
 *.RDS
 inst/doc
+docs/
