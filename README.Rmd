@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 [![Coverage status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![R build status](https://github.com/llrs/experDesign/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/experDesign/actions?workflow=R-CMD-check)
 <!-- badges: end -->
 
 The goal of experDesign is to help you decide which samples go in which batch, 
@@ -35,22 +36,26 @@ devtools::install_github("llrs/experDesign")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r design}
+Imagine you have some samples already collected and you want to distributed them in batches:
+```{r experDesign_setup}
 library("experDesign")
 metadata <- expand.grid(height = seq(60, 80, 5), 
                         weight = seq(100, 300, 50),
                         sex = c("Male","Female"))
 head(metadata, 15)
+```
+
+If you block incorrectly and end up with a group in a single batch we will end up with batch effect.
+In order to avoid this `design` helps you assign each sample to a batch (in this case each batch has 24 samples at most.):
+
+```{r design}
 d <- design(metadata, 24)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-
 ```
 
 Naively one would either fill some batches fully or distribute them not evenly 
-(the  first 17 packages toghether, the next 17 and so on). This solution ensures 
+(the  first 17 packages together, the next 17 and so on). This solution ensures 
 that the data is randomized.
 
 If you need space for replicates to control for batch effect you can use:

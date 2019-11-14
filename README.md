@@ -15,6 +15,8 @@ status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](h
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![R build
+status](https://github.com/llrs/experDesign/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/experDesign/actions?workflow=R-CMD-check)
 <!-- badges: end -->
 
 The goal of experDesign is to help you decide which samples go in which
@@ -32,7 +34,8 @@ devtools::install_github("llrs/experDesign")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Imagine you have some samples already collected and you want to
+distributed them in batches:
 
 ``` r
 library("experDesign")
@@ -56,21 +59,29 @@ head(metadata, 15)
 #> 13     70    200 Male
 #> 14     75    200 Male
 #> 15     80    200 Male
+```
+
+If you block incorrectly and end up with a group in a single batch we
+will end up with batch effect. In order to avoid this `design` helps you
+assign each sample to a batch (in this case each batch has 24 samples at
+most.):
+
+``` r
 d <- design(metadata, 24)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet3" "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1"
-#>  [8] "SubSet3" "SubSet2" "SubSet2" "SubSet3" "SubSet2" "SubSet2" "SubSet3"
-#> [15] "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
-#> [22] "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet1" "SubSet3"
-#> [29] "SubSet1" "SubSet3" "SubSet2" "SubSet2" "SubSet3" "SubSet3" "SubSet3"
-#> [36] "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet2"
-#> [43] "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet3" "SubSet2"
-#> [50] "SubSet3"
+#>  [1] "SubSet1" "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2"
+#>  [8] "SubSet1" "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet2" "SubSet2"
+#> [15] "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet3" "SubSet1" "SubSet2"
+#> [22] "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet2"
+#> [29] "SubSet3" "SubSet1" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2"
+#> [36] "SubSet3" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet1" "SubSet3"
+#> [43] "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet3" "SubSet1"
+#> [50] "SubSet2"
 ```
 
 Naively one would either fill some batches fully or distribute them not
-evenly (the first 17 packages toghether, the next 17 and so on). This
+evenly (the first 17 packages together, the next 17 and so on). This
 solution ensures that the data is randomized.
 
 If you need space for replicates to control for batch effect you can
@@ -80,13 +91,13 @@ use:
 r <- replicates(metadata, 24, 5)
 r
 #> $SubSet1
-#>  [1]  1  2  3  6  8  9 13 14 16 17 22 27 28 29 32 33 36 40 45 46 47 48
+#>  [1]  2  8 10 15 19 20 21 24 26 27 31 33 37 40 42 43 45 46 48
 #> 
 #> $SubSet2
-#>  [1]  3  4  5  7  8  9 15 18 19 23 24 26 27 31 33 34 37 41 42 49
+#>  [1]  1  3  5  7  9 11 16 18 20 23 29 34 36 38 41 42 43 45 46 49 50
 #> 
 #> $SubSet3
-#>  [1]  3  8  9 10 11 12 20 21 25 27 30 33 35 38 39 43 44 50
+#>  [1]  4  6 12 13 14 17 20 22 25 28 30 32 35 39 42 43 44 45 46 47
 ```
 
 Which seeks as controls the most diverse values and adds them to the
