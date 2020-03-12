@@ -19,13 +19,18 @@ category and the subset
 Looks the independence between the categories and the batches
 }
 \seealso{
-Other functions to evaluate samples: \code{\link{evaluate_entropy}},
-  \code{\link{evaluate_index}}, \code{\link{evaluate_mad}},
-  \code{\link{evaluate_mean}}, \code{\link{evaluate_na}},
-  \code{\link{evaluate_orig}}, \code{\link{evaluate_sd}}
+Other functions to evaluate samples: 
+\code{\link{evaluate_entropy}()},
+\code{\link{evaluate_index}()},
+\code{\link{evaluate_mad}()},
+\code{\link{evaluate_mean}()},
+\code{\link{evaluate_na}()},
+\code{\link{evaluate_orig}()},
+\code{\link{evaluate_sd}()}
 
-Other functions to evaluate categories: \code{\link{evaluate_entropy}},
-  \code{\link{evaluate_na}}
+Other functions to evaluate categories: 
+\code{\link{evaluate_entropy}()},
+\code{\link{evaluate_na}()}
 }
 \concept{functions to evaluate categories}
 \concept{functions to evaluate samples}

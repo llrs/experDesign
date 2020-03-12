@@ -19,14 +19,19 @@ subset
 Looks for the standard deviation of the numeric values
 }
 \seealso{
-Other functions to evaluate samples: \code{\link{evaluate_entropy}},
-  \code{\link{evaluate_independence}},
-  \code{\link{evaluate_index}}, \code{\link{evaluate_mad}},
-  \code{\link{evaluate_mean}}, \code{\link{evaluate_na}},
-  \code{\link{evaluate_orig}}
+Other functions to evaluate samples: 
+\code{\link{evaluate_entropy}()},
+\code{\link{evaluate_independence}()},
+\code{\link{evaluate_index}()},
+\code{\link{evaluate_mad}()},
+\code{\link{evaluate_mean}()},
+\code{\link{evaluate_na}()},
+\code{\link{evaluate_orig}()}
 
-Other functions to evaluate numbers: \code{\link{evaluate_mad}},
-  \code{\link{evaluate_mean}}, \code{\link{evaluate_na}}
+Other functions to evaluate numbers: 
+\code{\link{evaluate_mad}()},
+\code{\link{evaluate_mean}()},
+\code{\link{evaluate_na}()}
 }
 \concept{functions to evaluate numbers}
 \concept{functions to evaluate samples}

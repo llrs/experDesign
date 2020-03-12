@@ -25,17 +25,23 @@ i <- create_subset(samples, 3, 4) # random subsets
 evaluate_na(i, m)
 }
 \seealso{
-Other functions to evaluate samples: \code{\link{evaluate_entropy}},
-  \code{\link{evaluate_independence}},
-  \code{\link{evaluate_index}}, \code{\link{evaluate_mad}},
-  \code{\link{evaluate_mean}}, \code{\link{evaluate_orig}},
-  \code{\link{evaluate_sd}}
+Other functions to evaluate samples: 
+\code{\link{evaluate_entropy}()},
+\code{\link{evaluate_independence}()},
+\code{\link{evaluate_index}()},
+\code{\link{evaluate_mad}()},
+\code{\link{evaluate_mean}()},
+\code{\link{evaluate_orig}()},
+\code{\link{evaluate_sd}()}
 
-Other functions to evaluate categories: \code{\link{evaluate_entropy}},
-  \code{\link{evaluate_independence}}
+Other functions to evaluate categories: 
+\code{\link{evaluate_entropy}()},
+\code{\link{evaluate_independence}()}
 
-Other functions to evaluate numbers: \code{\link{evaluate_mad}},
-  \code{\link{evaluate_mean}}, \code{\link{evaluate_sd}}
+Other functions to evaluate numbers: 
+\code{\link{evaluate_mad}()},
+\code{\link{evaluate_mean}()},
+\code{\link{evaluate_sd}()}
 }
 \concept{functions to evaluate categories}
 \concept{functions to evaluate numbers}
