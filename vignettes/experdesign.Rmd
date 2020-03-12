@@ -121,7 +121,7 @@ samples <- 100
 unbalanced <- data.frame(Classroom = rep(c("A", "B"), each = samples/2),
                          Sex = c(rep("M", n), rep("F", samples-n)),
                          Age = rnorm(samples, mean = 25, sd = 3))
-head(table(unbalanced))
+table(unbalanced)[, , 1:5]
 ```
 
 In this dataset the classroom a single classroom has all the females (`r 50 -n`).
