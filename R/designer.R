@@ -65,12 +65,13 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
 #' Design a batch experiment with experimental controls
 #'
 #' To ensure that the batches are comparable some samples are processed in each
-#' batch. This function allows to take into account that effect
+#' batch. This function allows to take into account that effect.
+#' It uses the most different samples as controls as defined with `extreme_cases`.
 #' @inheritParams design
 #' @param controls The numeric value of the amount of technical controls per
 #' batch.
 #' @return A index with some samples duplicated in the batches
-#' @seealso \code{\link{design}}
+#' @seealso \code{\link{design}}, \code{\link{extreme_cases}}
 #' @export
 #' @examples
 #' samples <- data.frame(L = letters[1:25], Age = rnorm(25))

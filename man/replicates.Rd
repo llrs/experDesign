@@ -23,12 +23,13 @@ A index with some samples duplicated in the batches
 }
 \description{
 To ensure that the batches are comparable some samples are processed in each
-batch. This function allows to take into account that effect
+batch. This function allows to take into account that effect.
+It uses the most different samples as controls as defined with `extreme_cases`.
 }
 \examples{
 samples <- data.frame(L = letters[1:25], Age = rnorm(25))
 index <- replicates(samples, 5, controls = 2, iterations = 10)
 }
 \seealso{
-\code{\link{design}}
+\code{\link{design}}, \code{\link{extreme_cases}}
 }
