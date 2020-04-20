@@ -64,61 +64,97 @@ head(metadata, 15)
 If you block incorrectly and end up with a group in a single batch we
 will end up with batch effect. In order to avoid this `design` helps you
 assign each sample to a batch (in this case each batch has 24 samples at
-most.):
+most). First we can explore the number of samples and the number of
+batches:
 
 ``` r
-d <- design(metadata, 24)
+size_data <- nrow(metadata)
+size_batch <- 24
+(batches <- optimum_batches(size_data, size_batch))
+#> [1] 3
+# So now the best number of samples for each batch is less than the available
+(size <- optimum_subset(size_data, batches))
+#> [1] 17
+# The distribution of samples per batch
+sizes_batches(size_data, size, batches)
+#> [1] 17 17 16
+```
+
+Note that instead of using a whole batch and then leave a single sample
+on the third distributes all the samples in the three batches that will
+be needed. We cann directly look for the distribution of the samples
+given our max number of samples per batch:
+
+``` r
+d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet1" "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2"
-#>  [8] "SubSet1" "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet2" "SubSet2"
-#> [15] "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet3" "SubSet1" "SubSet2"
-#> [22] "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet2"
-#> [29] "SubSet3" "SubSet1" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2"
-#> [36] "SubSet3" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet1" "SubSet3"
-#> [43] "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet3" "SubSet1"
-#> [50] "SubSet2"
+#>  [1] "SubSet2" "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
+#>  [8] "SubSet1" "SubSet1" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
+#> [15] "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
+#> [22] "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet1" "SubSet2"
+#> [29] "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet2"
+#> [36] "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet2" "SubSet2" "SubSet3"
+#> [43] "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet2"
+#> [50] "SubSet3"
 ```
 
 Naively one would either fill some batches fully or distribute them not
 evenly (the first 17 packages together, the next 17 and so on). This
-solution ensures that the data is randomized.
+solution ensures that the data is randomized. For more random
+distribution you can increase the number of iterations performed to
+calculate this distribution.
 
 If you need space for replicates to control for batch effect you can
 use:
 
 ``` r
-r <- replicates(metadata, 24, 5)
+r <- replicates(metadata, size_batch, 5)
+lengths(r)
+#> SubSet1 SubSet2 SubSet3 
+#>      20      21      19
 r
 #> $SubSet1
-#>  [1]  2  8 10 15 19 20 21 24 26 27 31 33 37 40 42 43 45 46 48
+#>  [1]  4  7 10 14 16 20 21 23 24 26 27 30 37 38 40 41 42 43 46 48
 #> 
 #> $SubSet2
-#>  [1]  1  3  5  7  9 11 16 18 20 23 29 34 36 38 41 42 43 45 46 49 50
+#>  [1]  1  3  5  6  8  9 13 16 19 20 25 32 36 39 41 43 44 45 46 47 49
 #> 
 #> $SubSet3
-#>  [1]  4  6 12 13 14 17 20 22 25 28 30 32 35 39 42 43 44 45 46 47
+#>  [1]  2 11 12 15 16 17 18 20 22 28 29 31 33 34 35 41 43 46 50
 ```
 
 Which seeks as controls the most diverse values and adds them to the
-samples distribution.
+samples distribution. Note that if the sample is already present on that
+batch is not added again, that’s why the number of samples per batch is
+different from the design without replicates.
 
 # Previous work
 
-The [OSAT](https://bioconductor.org/packages/OSAT/) package handles
-categorical variables but not numeric data. It doesn’t work with our
-data.
+The CRAN task View of [Experimental
+Design](https://cran.r-project.org/web/views/ExperimentalDesign.html)
+includes many packages rellevant for designing an experiment before
+collecting data, but none of them provides how to manage them once the
+samples are already collected.
 
-The [minDiff](https://github.com/m-Py/minDiff) package reported in
-[Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles
-both numeric and categorical data. But it can only optimize for two
-nominal criteria. It doesn’t work for our data.
+Two packages allow to distribute the samples on batches:
 
-The [DeclareDesign](https://github.com/DeclareDesign/DeclareDesign) or
-[OSAT](http://bioconductor.org/packages/OSAT) packages are also relevant
+  - The [OSAT](https://bioconductor.org/packages/OSAT/) package handles
+    categorical variables but not numeric data. It doesn’t work with our
+    data.
+
+  - The [minDiff](https://github.com/m-Py/minDiff) package reported in
+    [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles
+    both numeric and categorical data. But it can only optimize for two
+    nominal criteria. It doesn’t work for our data.
+
+If you are still designing the experiment and do not have collected any
+data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign)
+might be relevant for you.
 
 Question in
 [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48)
+I made before developing the package.
 
 # Other
 

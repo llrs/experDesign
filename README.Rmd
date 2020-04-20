@@ -46,40 +46,58 @@ head(metadata, 15)
 ```
 
 If you block incorrectly and end up with a group in a single batch we will end up with batch effect.
-In order to avoid this `design` helps you assign each sample to a batch (in this case each batch has 24 samples at most.):
+In order to avoid this `design` helps you assign each sample to a batch (in this case each batch has 24 samples at most). First we can explore the number of samples and the number of batches:
+
+```{r size}
+size_data <- nrow(metadata)
+size_batch <- 24
+(batches <- optimum_batches(size_data, size_batch))
+# So now the best number of samples for each batch is less than the available
+(size <- optimum_subset(size_data, batches))
+# The distribution of samples per batch
+sizes_batches(size_data, size, batches)
+```
+
+Note that instead of using a whole batch and then leave a single sample on the third distributes all the samples in the three batches that will be needed.
+We cann directly look for the distribution of the samples given our max number of samples per batch:
 
 ```{r design}
-d <- design(metadata, 24)
+d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
 ```
 
 Naively one would either fill some batches fully or distribute them not evenly 
 (the  first 17 packages together, the next 17 and so on). This solution ensures 
-that the data is randomized.
+that the data is randomized. For more random distribution you can increase the number of iterations performed to calculate this distribution.
 
 If you need space for replicates to control for batch effect you can use:
 
 ```{r replicates}
-r <- replicates(metadata, 24, 5)
+r <- replicates(metadata, size_batch, 5)
+lengths(r)
 r
 ```
 
 Which seeks as controls the most diverse values and adds them to the samples 
-distribution.
+distribution. Note that if the sample is already present on that batch is not added again, that's why the number of samples per batch is different from the design without replicates.
 
 # Previous work
 
-The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
+The CRAN task View of [Experimental Design](https://cran.r-project.org/web/views/ExperimentalDesign.html) includes many packages rellevant for designing an experiment before collecting data, but none of them provides how to manage them once the samples are already collected.
+
+Two packages allow to distribute the samples on batches:
+
+- The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
 variables but not numeric data. It doesn't work with our data.
 
-The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
+ - The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
 numeric and categorical data. But it can only optimize for two nominal criteria.
 It doesn't work for our data.
 
-The [DeclareDesign](https://github.com/DeclareDesign/DeclareDesign) or [OSAT](http://bioconductor.org/packages/OSAT) packages are also relevant
+If you are still designing the experiment and do not have collected any data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign) might be relevant for you.
 
-Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48)
+Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48) I made before developing the package.
 
 # Other
 
