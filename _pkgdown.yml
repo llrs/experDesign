@@ -1,1 +1,26 @@
 destination: docs
+reference:
+  - title: "Main functions"
+  - contents:
+    - design
+    - replicates
+    - batch_names
+    - use_index
+    - check_index
+    - distribution
+    - inspect
+  - title: "Numbers related to batch"
+    desc: "Number of batches needed, number of samples per batch..."
+  - contents:
+    - optimum
+  - title: "Evaluating a batch"
+    desc: "Evaluate metrics to distribute the samples"
+  - contents:
+    - starts_with("evaluate_")
+  - title: "Other"
+  - contents:
+    - create_subset
+    - entropy
+    - qcSubset
+    - extreme_cases
+    - experDesign-package
