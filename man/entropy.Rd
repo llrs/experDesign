@@ -10,7 +10,7 @@ entropy(x)
 \item{x}{A character or vector with two or more categories}
 }
 \value{
-The numeric value of the shannon entropy scaled between 0 and 1.
+The numeric value of the Shannon entropy scaled between 0 and 1.
 }
 \description{
 Calculates the entropy of a category. It uses the amount of categories to

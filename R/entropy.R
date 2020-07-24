@@ -3,7 +3,7 @@
 #' Calculates the entropy of a category. It uses the amount of categories to
 #' scale between 0 and 1.
 #' @param x A character or vector with two or more categories
-#' @return The numeric value of the shannon entropy scaled between 0 and 1.
+#' @return The numeric value of the Shannon entropy scaled between 0 and 1.
 #' @note It omits the \code{NA} if present.
 #' @export
 #' @examples

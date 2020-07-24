@@ -82,21 +82,21 @@ sizes_batches(size_data, size, batches)
 
 Note that instead of using a whole batch and then leave a single sample
 on the third distributes all the samples in the three batches that will
-be needed. We cann directly look for the distribution of the samples
+be needed. We can directly look for the distribution of the samples
 given our max number of samples per batch:
 
 ``` r
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet3"
-#>  [8] "SubSet2" "SubSet3" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet3"
-#> [15] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1"
-#> [22] "SubSet3" "SubSet2" "SubSet1" "SubSet3" "SubSet2" "SubSet2" "SubSet3"
-#> [29] "SubSet1" "SubSet1" "SubSet1" "SubSet3" "SubSet1" "SubSet1" "SubSet2"
-#> [36] "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet3" "SubSet1" "SubSet3"
-#> [43] "SubSet3" "SubSet2" "SubSet2" "SubSet2" "SubSet1" "SubSet3" "SubSet2"
-#> [50] "SubSet1"
+#>  [1] "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet1" "SubSet1" "SubSet3"
+#>  [8] "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet1" "SubSet2"
+#> [15] "SubSet1" "SubSet1" "SubSet2" "SubSet2" "SubSet2" "SubSet3" "SubSet3"
+#> [22] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet2" "SubSet2" "SubSet3"
+#> [29] "SubSet1" "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet2"
+#> [36] "SubSet3" "SubSet3" "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet1"
+#> [43] "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet1"
+#> [50] "SubSet3"
 ```
 
 Naively one would either fill some batches fully or distribute them not
@@ -115,13 +115,13 @@ lengths(r)
 #>      19      22      19
 r
 #> $SubSet1
-#>  [1]  3  5  6  7 12 13 16 18 20 23 28 34 38 39 41 44 45 48 50
+#>  [1]  1  2  6  8 13 14 15 18 22 25 30 31 32 33 35 39 42 46 49
 #> 
 #> $SubSet2
-#>  [1]  2  4  8  9 10 14 16 20 24 25 29 31 35 36 37 40 41 44 46 47 48 49
+#>  [1]  4  5  6  9 10 11 12 15 17 19 23 26 28 32 33 35 36 41 43 44 45 50
 #> 
 #> $SubSet3
-#>  [1]  1 11 15 16 17 19 20 21 22 26 27 30 32 33 41 42 43 44 48
+#>  [1]  3  6  7 15 16 20 21 24 27 29 32 33 34 35 37 38 40 47 48
 ```
 
 Which seeks as controls the most diverse values and adds them to the
@@ -133,7 +133,7 @@ different from the design without replicates.
 
 The CRAN task View of [Experimental
 Design](https://CRAN.R-project.org/view=ExperimentalDesign) includes
-many packages rellevant for designing an experiment before collecting
+many packages relevant for designing an experiment before collecting
 data, but none of them provides how to manage them once the samples are
 already collected.
 
