@@ -84,7 +84,7 @@ distribution. Note that if the sample is already present on that batch is not ad
 
 # Previous work
 
-The CRAN task View of [Experimental Design](https://cran.r-project.org/web/views/ExperimentalDesign.html) includes many packages rellevant for designing an experiment before collecting data, but none of them provides how to manage them once the samples are already collected.
+The CRAN task View of [Experimental Design](https://CRAN.R-project.org/view=ExperimentalDesign) includes many packages rellevant for designing an experiment before collecting data, but none of them provides how to manage them once the samples are already collected.
 
 Two packages allow to distribute the samples on batches:
 
