@@ -1,5 +1,5 @@
 Package: experDesign
-Title: Design experiments for batches
+Title: Design Experiments for Batches
 Version: 0.0.2
 Authors@R: 
     person(given = "Lluís",
