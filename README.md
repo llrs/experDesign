@@ -89,13 +89,13 @@ given our max number of samples per batch:
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet1" "SubSet1" "SubSet3"
-#>  [8] "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet1" "SubSet2"
-#> [15] "SubSet1" "SubSet1" "SubSet2" "SubSet2" "SubSet2" "SubSet3" "SubSet3"
-#> [22] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet2" "SubSet2" "SubSet3"
-#> [29] "SubSet1" "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet2"
-#> [36] "SubSet3" "SubSet3" "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet1"
-#> [43] "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet1"
+#>  [1] "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet1"
+#>  [8] "SubSet2" "SubSet2" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet1"
+#> [15] "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet2" "SubSet3"
+#> [22] "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet2" "SubSet1"
+#> [29] "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2"
+#> [36] "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet3"
+#> [43] "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet2"
 #> [50] "SubSet3"
 ```
 
@@ -112,16 +112,16 @@ use:
 r <- replicates(metadata, size_batch, 5)
 lengths(r)
 #> SubSet1 SubSet2 SubSet3 
-#>      19      22      19
+#>      20      20      20
 r
 #> $SubSet1
-#>  [1]  1  2  6  8 13 14 15 18 22 25 30 31 32 33 35 39 42 46 49
+#>  [1]  2  3  4  8 16 19 20 21 26 29 30 32 33 35 37 39 40 41 47 48
 #> 
 #> $SubSet2
-#>  [1]  4  5  6  9 10 11 12 15 17 19 23 26 28 32 33 35 36 41 43 44 45 50
+#>  [1]  1  2  3  4  9 10 12 15 17 23 24 25 27 29 30 31 38 42 45 50
 #> 
 #> $SubSet3
-#>  [1]  3  6  7 15 16 20 21 24 27 29 32 33 34 35 37 38 40 47 48
+#>  [1]  2  3  4  5  6  7 11 13 14 18 22 28 29 30 34 36 43 44 46 49
 ```
 
 Which seeks as controls the most diverse values and adds them to the
@@ -159,5 +159,5 @@ I made before developing the package.
 # Other
 
 Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
-to abide by its terms.
+Conduct](https://llrs.github.io/experDesign/CODE_OF_CONDUCT.html). By
+participating in this project you agree to abide by its terms.
