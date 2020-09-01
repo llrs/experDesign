@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Fixed the link on the README to CODE_OF_CONDUCT.md
+* Fixed the link on the README to repostatus.org
   
 ## Test environments
 * local R installation, R 4.0.1

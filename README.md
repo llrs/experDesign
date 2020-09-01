@@ -14,7 +14,7 @@ status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](h
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R build
 status](https://github.com/llrs/experDesign/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/experDesign/actions?workflow=R-CMD-check)
 <!-- badges: end -->
@@ -89,13 +89,13 @@ given our max number of samples per batch:
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet1"
-#>  [8] "SubSet2" "SubSet2" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet1"
-#> [15] "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet2" "SubSet3"
-#> [22] "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet2" "SubSet1"
-#> [29] "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2"
-#> [36] "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet3"
-#> [43] "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet2"
+#>  [1] "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet1" "SubSet2"
+#>  [8] "SubSet2" "SubSet1" "SubSet3" "SubSet2" "SubSet2" "SubSet3" "SubSet2"
+#> [15] "SubSet3" "SubSet1" "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet2"
+#> [22] "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet1" "SubSet3" "SubSet2"
+#> [29] "SubSet2" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet1"
+#> [36] "SubSet1" "SubSet2" "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet1"
+#> [43] "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet2" "SubSet1"
 #> [50] "SubSet3"
 ```
 
@@ -112,16 +112,16 @@ use:
 r <- replicates(metadata, size_batch, 5)
 lengths(r)
 #> SubSet1 SubSet2 SubSet3 
-#>      20      20      20
+#>      22      21      17
 r
 #> $SubSet1
-#>  [1]  2  3  4  8 16 19 20 21 26 29 30 32 33 35 37 39 40 41 47 48
+#>  [1]  1  3  6 14 16 17 19 21 23 25 26 27 31 34 40 41 42 43 45 48 49 50
 #> 
 #> $SubSet2
-#>  [1]  1  2  3  4  9 10 12 15 17 23 24 25 27 29 30 31 38 42 45 50
+#>  [1]  4  5 10 11 13 15 18 21 23 24 28 32 35 37 38 41 44 45 46 47 50
 #> 
 #> $SubSet3
-#>  [1]  2  3  4  5  6  7 11 13 14 18 22 28 29 30 34 36 43 44 46 49
+#>  [1]  2  7  8  9 12 20 21 22 23 29 30 33 36 39 41 45 50
 ```
 
 Which seeks as controls the most diverse values and adds them to the
