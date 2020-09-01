@@ -12,3 +12,4 @@
 ^pkgdown$
 ^\.github/workflows/R-CMD-check\.yaml$
 ^cran-comments\.md$
+^CRAN-RELEASE$
