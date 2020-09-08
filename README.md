@@ -11,7 +11,8 @@ status](https://travis-ci.org/llrs/experDesign.svg?branch=master)](https://travi
 status](https://ci.appveyor.com/api/projects/status/github/llrs/experDesign?branch=master&svg=true)](https://ci.appveyor.com/project/llrs/experDesign)
 [![Coverage
 status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
@@ -23,6 +24,13 @@ The goal of experDesign is to help you decide which samples go in which
 batch, reducing the potential batch bias when analyzing.
 
 ## Installation
+
+To install the latest version on
+[CRAN](https://CRAN.R-project.org/package=experDesign) use:
+
+``` r
+install.packages("experDesign")
+```
 
 You can install the development version from
 [GitHub](https://github.com/) with:
@@ -89,13 +97,13 @@ given our max number of samples per batch:
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet1"
-#>  [8] "SubSet2" "SubSet2" "SubSet3" "SubSet3" "SubSet3" "SubSet1" "SubSet1"
-#> [15] "SubSet3" "SubSet1" "SubSet2" "SubSet2" "SubSet3" "SubSet2" "SubSet3"
-#> [22] "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet2" "SubSet1"
-#> [29] "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet2"
-#> [36] "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet3"
-#> [43] "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet2"
+#>  [1] "SubSet3" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet1"
+#>  [8] "SubSet3" "SubSet2" "SubSet2" "SubSet2" "SubSet2" "SubSet3" "SubSet1"
+#> [15] "SubSet3" "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet1" "SubSet1"
+#> [22] "SubSet1" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet3" "SubSet2"
+#> [29] "SubSet2" "SubSet1" "SubSet2" "SubSet2" "SubSet1" "SubSet3" "SubSet2"
+#> [36] "SubSet1" "SubSet3" "SubSet3" "SubSet1" "SubSet1" "SubSet1" "SubSet1"
+#> [43] "SubSet2" "SubSet2" "SubSet3" "SubSet2" "SubSet3" "SubSet2" "SubSet1"
 #> [50] "SubSet3"
 ```
 
@@ -112,16 +120,16 @@ use:
 r <- replicates(metadata, size_batch, 5)
 lengths(r)
 #> SubSet1 SubSet2 SubSet3 
-#>      20      20      20
+#>      21      20      19
 r
 #> $SubSet1
-#>  [1]  2  3  4  8 16 19 20 21 26 29 30 32 33 35 37 39 40 41 47 48
+#>  [1]  4  5  9 11 12 14 15 17 20 23 26 29 32 33 34 37 38 45 46 48 49
 #> 
 #> $SubSet2
-#>  [1]  1  2  3  4  9 10 12 15 17 23 24 25 27 29 30 31 38 42 45 50
+#>  [1]  2  6  8  9 13 14 15 19 22 24 25 27 30 34 35 36 37 41 42 44
 #> 
 #> $SubSet3
-#>  [1]  2  3  4  5  6  7 11 13 14 18 22 28 29 30 34 36 43 44 46 49
+#>  [1]  1  3  7  9 10 14 15 16 18 21 28 31 34 37 39 40 43 47 50
 ```
 
 Which seeks as controls the most diverse values and adds them to the
