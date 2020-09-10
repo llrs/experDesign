@@ -24,7 +24,6 @@ Suggests:
     rmarkdown,
     testthat (>= 2.1.0),
     covr,
-    BiocStyle,
     MASS,
     spelling
 biocViews:

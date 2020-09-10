@@ -3,7 +3,7 @@ title: "exprDesign"
 author: "Lluís Revilla Sancho"
 date: "`r Sys.Date()`"
 output:
-  BiocStyle::html_document:
+  html_document:
     fig_caption: true
     code_folding: show
     self_contained: yes
@@ -21,8 +21,6 @@ editor_options:
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
-BiocStyle::markdown()
-library("BiocStyle")
 set.seed(445)
 library("experDesign")
 ```

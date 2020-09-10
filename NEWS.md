@@ -1,5 +1,7 @@
 # experDesign (development version)
 
+* Remove BiocStyle dependency
+
 # experDesign 0.0.2
 
 * CRAN release
