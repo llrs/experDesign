@@ -1,16 +1,18 @@
 #' Create index of subsets of a data
 #'
 #' Index of the samples grouped by batches.
-#' @param size_subset A numeric value with the amount of samples per batch
-#' @param n A numeric value with the number of batches
-#' @param size_data A numeric value of the amount of samples to distribute
-#' @return A random list of indices of the samples
+#' @param size_subset A numeric value with the amount of samples per batch.
+#' @param n A numeric value with the number of batches.
+#' @param size_data A numeric value of the amount of samples to distribute.
+#' @param name A character used to name the subsets, either a single one or a
+#' vector the same size as `n`.
+#' @return A random list of indices of the samples.
 #' @seealso \code{\link{batch_names}}, \code{\link{use_index}} if you already
 #' have a factor to be used as index.
 #' @export
 #' @examples
 #' index <- create_subset(100, 50, 2)
-create_subset <- function(size_data, size_subset = NULL, n = NULL) {
+create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSet") {
 
   if (is.null(size_subset) && is.null(n)) {
     stop("Either size.subset or n should numeric")
@@ -24,13 +26,20 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL) {
   if (!check_sizes(size_data, size_subset, n)) {
     stop("Please provide a higher number of batches or more samples per batch.")
   }
-  .create_index(size_data, size_subset, n)
+  .create_index(size_data, size_subset, n, name)
 }
 
 # The workhorse function without any check
-.create_index <- function(size_data, size_subset, n) {
+.create_index <- function(size_data, size_subset, n, name = "SubSet") {
 
-  names_batches <- paste0("SubSet", seq_len(n))
+  if (length(name) != 1 & length(name) != n) {
+    stop("Provide a single character or a vector the same size of the batches.",
+         call. = FALSE)
+  } else if (length(names) == 1) {
+    names_batches <- paste0(name, seq_len(n))
+  } else {
+    names_batches <- name
+  }
   # The size of each batch
   size_batches <- sizes_batches(size_data, size_subset, n)
 

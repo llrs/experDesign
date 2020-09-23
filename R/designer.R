@@ -4,14 +4,17 @@
 #' equal number of samples per batch. It can handle both numeric and
 #' categorical data.
 #' @param pheno Data.frame with the sample information.
-#' @param size_subset Numeric value of the number of sample per batch
-#' @param omit Name of the columns of the pheno that will be omitted
-#' @param iterations Numeric value of iterations that will be performed
-#' @return The indices of which samples go with which batch
+#' @param size_subset Numeric value of the number of sample per batch.
+#' @param omit Name of the columns of the `pheno` that will be omitted.
+#' @param iterations Numeric value of iterations that will be performed.
+#' @param name A character used to name the subsets, either a single one or a
+#' vector the same size as `n`.
+#' @return The indices of which samples go with which batch.
 #' @seealso The \code{evaluate_*} functions and \code{\link{create_subset}}
 #' @importFrom methods is
 #' @export
-design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
+design <- function(pheno, size_subset, omit = NULL, iterations = 500,
+                   name = "SubSet") {
   opt <- Inf
 
   # Calculate batches
@@ -41,7 +44,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
   eval_n <- ifelse(num, 4, 3)
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(size_data, size_subset_optimum, batches)
+    i <- create_subset(size_data, size_subset_optimum, batches, name = name)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals

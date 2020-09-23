@@ -1,6 +1,7 @@
 # experDesign (development version)
 
-* Remove BiocStyle dependency
+* Remove BiocStyle dependency.
+* Gain the hability to name the subsets.
 
 # experDesign 0.0.2
 
