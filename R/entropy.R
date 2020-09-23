@@ -4,7 +4,7 @@
 #' scale between 0 and 1.
 #' @param x A character or vector with two or more categories
 #' @return The numeric value of the Shannon entropy scaled between 0 and 1.
-#' @note It omits the \code{NA} if present.
+#' @note It omits the `NA` if present.
 #' @export
 #' @examples
 #' entropy(c("H", "T", "H", "T"))
@@ -24,7 +24,7 @@ entropy <- function(x){
 
 #' Evaluate the dispersion of NAs
 #'
-#' Looks how are \code{NA} distributed in each subset
+#' Looks how are `NA` distributed in each subset
 #' @param i list of numeric indices of the data.frame
 #' @param pheno Data.frame
 #' @return The optimum value to reduce

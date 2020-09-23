@@ -9,6 +9,12 @@
 #' @family functions to evaluate samples
 #' @family functions to evaluate numbers
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' # Note that categorical columns will be omitted:
+#' evaluate_sd(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_sd <- function(i, pheno){
   stopifnot(sum(lengths(i)) == nrow(pheno))
   # Distribution of sd
@@ -30,6 +36,12 @@ evaluate_sd <- function(i, pheno){
 #' @family functions to evaluate samples
 #' @family functions to evaluate numbers
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' # Note that categorical columns will be omitted:
+#' evaluate_mean(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_mean <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
   # Calculates the distribution
@@ -46,14 +58,20 @@ evaluate_mean <- function(i, pheno) {
 
 #' Evaluate median absolute deviation
 #'
-#' Looks for the median absolute deviation values in each subgroup
+#' Looks for the median absolute deviation values in each subgroup.
 #' @inheritParams evaluate_mean
 #' @return A vector with the mean difference between the median absolute deviation
-#' of each group and the original mad
+#' of each group and the original mad.
 #' @importFrom stats mad
 #' @family functions to evaluate samples
 #' @family functions to evaluate numbers
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' # Note that categorical columns will be omitted:
+#' evaluate_mad(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_mad <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
   # Calculates the distribution

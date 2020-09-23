@@ -20,6 +20,13 @@ to the entropy and taking into account the independence between batches.
 If any column is different in each row it is assumed to be the sample names
 and thus omitted.
 }
+\examples{
+data(survey, package = "MASS")
+index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+                iterations = 50)
+# Note that numeric columns will be omitted:
+evaluate_entropy(index, survey[, c("Sex", "Smoke", "Age")])
+}
 \seealso{
 Other functions to evaluate samples: 
 \code{\link{evaluate_independence}()},

@@ -17,6 +17,6 @@ plates <- c("P1", "P2", "P1", "P2", "P2", "P3", "P1", "P3", "P1", "P1")
 use_index(plates)
 }
 \seealso{
-You can use \code{\link{evaluate_index}} to evaluate how good an
-index is. For the inverse look at  \code{\link{batch_names}}
+You can use \code{\link[=evaluate_index]{evaluate_index()}} to evaluate how good an
+index is. For the inverse look at  \code{\link[=batch_names]{batch_names()}}.
 }

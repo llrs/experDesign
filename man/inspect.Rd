@@ -11,11 +11,19 @@ inspect(i, pheno, omit = NULL)
 
 \item{pheno}{Data.frame with the sample information.}
 
-\item{omit}{Name of the columns of the pheno that will be omitted}
+\item{omit}{Name of the columns of the \code{pheno} that will be omitted}
 }
 \value{
-The data.frame
+The data.frame with a new column batch with the name of the batch the sample goes to.
 }
 \description{
 Given the index and the data of the samples append the batch assignment
+}
+\examples{
+data(survey, package = "MASS")
+columns <- c("Sex", "Age", "Smoke")
+index <- design(pheno = survey[, columns], size_subset = 70,
+                iterations = 10)
+batches <- inspect(index, survey[, columns])
+head(batches)
 }

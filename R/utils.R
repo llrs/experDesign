@@ -1,5 +1,7 @@
 is_num <- function(x, ...) {
-  if (ncol(x) == 1) {
+  if (is.null(ncol(x))) {
+    is.numeric(x)
+  } else if (ncol(x) == 1) {
     apply(x, 2, is.numeric)
   } else {
     vapply(x, is.numeric, logical(1L))
@@ -19,9 +21,16 @@ omit <- function(pheno, omit){
 
 
 summary_num <- function(pheno) {
-  diff <- matrix(0, ncol = ncol(pheno), nrow = 5)
+  if (is.null(ncol(pheno))) {
+    ncol <- 1
+    column <- "variable"
+  } else {
+    ncol <- ncol(pheno)
+    column <- colnames(pheno)
+  }
+  diff <- matrix(0, ncol = ncol, nrow = 5)
   rownames(diff) <- c("mean", "sd", "mad", "na", "entropy")
-  colnames(diff) <- colnames(pheno)
+  colnames(diff) <- column
   diff
 }
 

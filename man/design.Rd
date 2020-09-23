@@ -4,25 +4,34 @@
 \alias{design}
 \title{Design a batch experiment}
 \usage{
-design(pheno, size_subset, omit = NULL, iterations = 500)
+design(pheno, size_subset, omit = NULL, iterations = 500, name = "SubSet")
 }
 \arguments{
 \item{pheno}{Data.frame with the sample information.}
 
-\item{size_subset}{Numeric value of the number of sample per batch}
+\item{size_subset}{Numeric value of the number of sample per batch.}
 
-\item{omit}{Name of the columns of the pheno that will be omitted}
+\item{omit}{Name of the columns of the \code{pheno} that will be omitted.}
 
-\item{iterations}{Numeric value of iterations that will be performed}
+\item{iterations}{Numeric value of iterations that will be performed.}
+
+\item{name}{A character used to name the subsets, either a single one or a
+vector the same size as \code{n}.}
 }
 \value{
-The indices of which samples go with which batch
+The indices of which samples go with which batch.
 }
 \description{
 Given some samples it distribute them in several batches, trying to have
 equal number of samples per batch. It can handle both numeric and
 categorical data.
 }
+\examples{
+data(survey, package = "MASS")
+index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+                iterations = 50)
+index
+}
 \seealso{
-The \code{evaluate_*} functions and \code{\link{create_subset}}
+The \verb{evaluate_*} functions and \code{\link[=create_subset]{create_subset()}}.
 }

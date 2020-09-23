@@ -33,3 +33,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: false
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)

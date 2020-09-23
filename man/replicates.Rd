@@ -9,14 +9,14 @@ replicates(pheno, size_subset, controls, omit = NULL, iterations = 500)
 \arguments{
 \item{pheno}{Data.frame with the sample information.}
 
-\item{size_subset}{Numeric value of the number of sample per batch}
+\item{size_subset}{Numeric value of the number of sample per batch.}
 
 \item{controls}{The numeric value of the amount of technical controls per
 batch.}
 
-\item{omit}{Name of the columns of the pheno that will be omitted}
+\item{omit}{Name of the columns of the \code{pheno} that will be omitted.}
 
-\item{iterations}{Numeric value of iterations that will be performed}
+\item{iterations}{Numeric value of iterations that will be performed.}
 }
 \value{
 A index with some samples duplicated in the batches
@@ -24,12 +24,13 @@ A index with some samples duplicated in the batches
 \description{
 To ensure that the batches are comparable some samples are processed in each
 batch. This function allows to take into account that effect.
-It uses the most different samples as controls as defined with `extreme_cases`.
+It uses the most different samples as controls as defined with \code{\link[=extreme_cases]{extreme_cases()}}.
 }
 \examples{
 samples <- data.frame(L = letters[1:25], Age = rnorm(25))
 index <- replicates(samples, 5, controls = 2, iterations = 10)
+head(index)
 }
 \seealso{
-\code{\link{design}}, \code{\link{extreme_cases}}
+\code{\link[=design]{design()}}, \code{\link[=extreme_cases]{extreme_cases()}}.
 }

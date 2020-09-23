@@ -10,9 +10,14 @@
 #' @param name A character used to name the subsets, either a single one or a
 #' vector the same size as `n`.
 #' @return The indices of which samples go with which batch.
-#' @seealso The \code{evaluate_*} functions and \code{\link{create_subset}}
+#' @seealso The `evaluate_*` functions and [create_subset()].
 #' @importFrom methods is
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' index
 design <- function(pheno, size_subset, omit = NULL, iterations = 500,
                    name = "SubSet") {
   opt <- Inf
@@ -69,16 +74,17 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #'
 #' To ensure that the batches are comparable some samples are processed in each
 #' batch. This function allows to take into account that effect.
-#' It uses the most different samples as controls as defined with `extreme_cases`.
+#' It uses the most different samples as controls as defined with [extreme_cases()].
 #' @inheritParams design
 #' @param controls The numeric value of the amount of technical controls per
 #' batch.
 #' @return A index with some samples duplicated in the batches
-#' @seealso \code{\link{design}}, \code{\link{extreme_cases}}
+#' @seealso [design()], [extreme_cases()].
 #' @export
 #' @examples
 #' samples <- data.frame(L = letters[1:25], Age = rnorm(25))
 #' index <- replicates(samples, 5, controls = 2, iterations = 10)
+#' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
   stopifnot(is.numeric(size_subset))

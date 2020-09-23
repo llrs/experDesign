@@ -23,9 +23,12 @@ insert <- function(matrix, vector, name) {
 #' @param pheno Data.frame with information about the samples
 #' @return A matrix with the mean, standard deviation, MAD values of the
 #' numeric variables, the entropy of the categorical, and the amount of
-#' \code{NA} per variable.
+#' `NA` per variable.
 #' @family functions to evaluate samples
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' evaluate_orig(survey[, c("Sex", "Age", "Smoke")])
 evaluate_orig <- function(pheno) {
 
   stopifnot(!is.null(colnames(pheno)))
@@ -62,14 +65,21 @@ evaluate_orig <- function(pheno) {
 #' Measures several indicators per group
 #' @param i Index
 #' @inheritParams evaluate_orig
-#' @return An array of three dimensions with the mean, sd, and mad of the
-#' numeric variables, the entropy of the categorical and the number of
-#' \code{NA} by each subgroup.
+#' @return An array of three dimensions with the mean, standard deviation
+#' ([sd()]), and median absolute deviation ([mad()]) of the numeric variables, the
+#' entropy of the categorical and the number of `NA` by each subgroup.
 #' @family functions to evaluate samples
-#' @seealso If you have already an index you can use \code{\link{use_index}}
+#' @seealso If you have already an index you can use [use_index()].
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- create_subset(nrow(survey), 50, 5)
+#' ev_index <- evaluate_index(index, survey[, c("Sex", "Smoke")])
+#' ev_index["entropy", , ]
 evaluate_index <- function(i, pheno) {
-
+  if (!(is.matrix(pheno) || is.data.frame(pheno))) {
+    stop("Please provide a matrix or a data.frame")
+  }
   num <- is_num(pheno)
 
   diff <- summary_num(pheno)

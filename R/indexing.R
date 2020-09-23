@@ -7,7 +7,7 @@
 #' @param name A character used to name the subsets, either a single one or a
 #' vector the same size as `n`.
 #' @return A random list of indices of the samples.
-#' @seealso \code{\link{batch_names}}, \code{\link{use_index}} if you already
+#' @seealso [batch_names()], [use_index()] if you already
 #' have a factor to be used as index.
 #' @export
 #' @examples
@@ -60,8 +60,8 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSe
 #' Convert a given factor to an accepted index
 #' @param x A character or a factor to be used as index
 #' @export
-#' @seealso  You can use \code{\link{evaluate_index}} to evaluate how good an
-#' index is. For the inverse look at  \code{\link{batch_names}}
+#' @seealso  You can use [evaluate_index()] to evaluate how good an
+#' index is. For the inverse look at  [batch_names()].
 #' @examples
 #' plates <- c("P1", "P2", "P1", "P2", "P2", "P3", "P1", "P3", "P1", "P1")
 #' use_index(plates)
@@ -75,8 +75,8 @@ use_index <- function(x){
 #' Given an index return the name of the batches the samples are in
 #' @param i A list of numeric indices.
 #' @return A character vector with the names of the batch for each the index.
-#' @seealso \code{\link{create_subset}}, for the inverse look at
-#' \code{\link{use_index}}
+#' @seealso [create_subset()], for the inverse look at
+#' [use_index()].
 #' @export
 #' @examples
 #' index <- create_subset(100, 50, 2)

@@ -21,6 +21,6 @@ batch <- batch_names(index)
 head(batch)
 }
 \seealso{
-\code{\link{create_subset}}, for the inverse look at
-\code{\link{use_index}}
+\code{\link[=create_subset]{create_subset()}}, for the inverse look at
+\code{\link[=use_index]{use_index()}}.
 }
