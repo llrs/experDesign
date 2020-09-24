@@ -4,6 +4,7 @@ reference:
   - contents:
     - design
     - replicates
+    - spatial
     - batch_names
     - use_index
     - check_index

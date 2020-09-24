@@ -3,6 +3,7 @@
 * Remove BiocStyle dependency.
 * Gain the hability to name the subsets.
 * Add examples to all functions.
+* Add function to consider spatial distribution on plates/machines.
 
 # experDesign 0.0.2
 

@@ -32,22 +32,23 @@ facility. It assumes that you have collected the samples and the information
 but you still need to do the experiment in several batches due to technical or 
 practical limitations. The question that tries to answer is: 
 
-> Which samples are done in which batch?
+> Which samples go with each batch?
 
 Of all the possible combinations of samples, it looks for the combination which 
-minimizes the differences between each subgroup according to the following rule:
+minimizes the differences between each subgroup according to the following rules:
 
- - If the variable is categorical it tires to randomize the variable across the subgrups
+ - If the variable is categorical it tires to randomize the variable across the subgrups.
  - If the variable is numeric it tries to distribute evenly following the original distribution of values.
  - If there are `NA` (not available values) it looks to distribute them randomly.
 
 Even with this measures you might end up with some batch effect due to:
  - Confounding variables not provided for their randomization on the batches
-  Sometimes due to being unknown, impossible to measure 
- - Lack of [replicates](https://en.wikipedia.org/wiki/Replication_(statistics))
-  If you can't provide new replicates, aim to provide more technical replicates
+  Sometimes due to being unknown, impossible to measure.
+ - Lack of [replicates](https://en.wikipedia.org/wiki/Replication_(statistics))(samples with the same conditions)
+  If you can't provide new replicates, aim to provide more technical replicates.
+  Technical replicates mean reanalyzing the same sample twice or more, the more samples with technical replicates the more accurate your measures will be and easier to avoid or detect batch effects.
  - Processing
-  If there is a change on the methodology, or you pause and resume later the sample collection there might be changes on the outcome. 
+  If there is a change on the methodology, or you pause and resume later the sample collection there might be changes on the outcome due to external factors. 
 
 # Previous work
 
