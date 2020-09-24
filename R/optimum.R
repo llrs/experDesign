@@ -5,13 +5,15 @@
 #' and add replicates.
 #' @return
 #' \describe{
-#' \item{\code{optimum_batches}}{A numeric value with the number of batches to
+#' \item{`optimum_batches`}{A numeric value with the number of batches to
 #' use.}
-#' \item{\code{optimum_subset}}{A numeric value with the maximum number of samples per batch of the data.}
-#' \item{\code{sizes_batches}}{A numeric vector with the number of samples in each batch.}
+#' \item{`optimum_subset`}{A numeric value with the maximum number of samples
+#' per batch of the data.}
+#' \item{`sizes_batches`}{A numeric vector with the number of samples in each
+#' batch.}
 #' }
-#' @param size_data A numeric value of the number of samples to use
-#' @param batches A numeric value of the number of batches
+#' @param size_data A numeric value of the number of samples to use.
+#' @param batches A numeric value of the number of batches.
 #' @inheritParams design
 #' @examples
 #' size_data <- 50

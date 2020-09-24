@@ -8,14 +8,23 @@ distribution(report, column)
 }
 \arguments{
 \item{report}{A data.frame which must contain a batch column. Which can be
-obtained with \code{\link{inspect}}}
+obtained with \code{\link[=inspect]{inspect()}}.}
 
-\item{column}{The name of the column one wants to inspect}
+\item{column}{The name of the column one wants to inspect.}
 }
 \value{
-\code{TRUE} if the values are maximal distributed, otherwise
-\code{FALSE}
+\code{TRUE} if the values are maximal distributed, otherwise \code{FALSE}.
 }
 \description{
-Checks if all the values are maximally distributed in the several batches
+Checks if all the values are maximally distributed in the several batches.
+Aimed for categorical variables.
+}
+\examples{
+data(survey, package = "MASS")
+columns <- c("Sex", "Age", "Smoke")
+index <- design(pheno = survey[, columns], size_subset = 70,
+                iterations = 10)
+batches <- inspect(index, survey[, columns])
+distribution(batches, "Sex")
+distribution(batches, "Smoke")
 }

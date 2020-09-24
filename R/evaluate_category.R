@@ -10,6 +10,12 @@
 #' @family functions to evaluate samples
 #' @family functions to evaluate categories
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' # Note that numeric columns will be omitted:
+#' evaluate_entropy(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_entropy <- function(i, pheno) {
 
   num <- is_num(pheno)
@@ -36,15 +42,21 @@ evaluate_entropy <- function(i, pheno) {
 
 #' Compare independence by chisq.test
 #'
-#' Looks the independence between the categories and the batches
-#' @param i Index of subsets
-#' @param pheno A data.frame with the information about the samples
+#' Looks the independence between the categories and the batches.
+#' @param i Index of subsets.
+#' @param pheno A data.frame with the information about the samples.
 #' @return Returns a vector with the p-values of the chisq.test between the
-#' category and the subset
+#' category and the subset.
 #' @importFrom stats chisq.test
 #' @family functions to evaluate samples
 #' @family functions to evaluate categories
 #' @export
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' # Note that numeric columns will be omitted:
+#' evaluate_independence(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_independence <- function(i, pheno) {
   num <- is_num(pheno)
 

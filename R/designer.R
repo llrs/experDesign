@@ -4,14 +4,22 @@
 #' equal number of samples per batch. It can handle both numeric and
 #' categorical data.
 #' @param pheno Data.frame with the sample information.
-#' @param size_subset Numeric value of the number of sample per batch
-#' @param omit Name of the columns of the pheno that will be omitted
-#' @param iterations Numeric value of iterations that will be performed
-#' @return The indices of which samples go with which batch
-#' @seealso The \code{evaluate_*} functions and \code{\link{create_subset}}
+#' @param size_subset Numeric value of the number of sample per batch.
+#' @param omit Name of the columns of the `pheno` that will be omitted.
+#' @param iterations Numeric value of iterations that will be performed.
+#' @param name A character used to name the subsets, either a single one or a
+#' vector the same size as `n`.
+#' @return The indices of which samples go with which batch.
+#' @seealso The `evaluate_*` functions and [create_subset()].
 #' @importFrom methods is
 #' @export
-design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
+#' @examples
+#' data(survey, package = "MASS")
+#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+#'                 iterations = 50)
+#' index
+design <- function(pheno, size_subset, omit = NULL, iterations = 500,
+                   name = "SubSet") {
   opt <- Inf
 
   # Calculate batches
@@ -41,7 +49,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
   eval_n <- ifelse(num, 4, 3)
 
   for (x in seq_len(iterations)) {
-    i <- create_subset(size_data, size_subset_optimum, batches)
+    i <- create_subset(size_data, size_subset_optimum, batches, name = name)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
@@ -66,16 +74,17 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500) {
 #'
 #' To ensure that the batches are comparable some samples are processed in each
 #' batch. This function allows to take into account that effect.
-#' It uses the most different samples as controls as defined with `extreme_cases`.
+#' It uses the most different samples as controls as defined with [extreme_cases()].
 #' @inheritParams design
 #' @param controls The numeric value of the amount of technical controls per
 #' batch.
 #' @return A index with some samples duplicated in the batches
-#' @seealso \code{\link{design}}, \code{\link{extreme_cases}}
+#' @seealso [design()], [extreme_cases()].
 #' @export
 #' @examples
 #' samples <- data.frame(L = letters[1:25], Age = rnorm(25))
 #' index <- replicates(samples, 5, controls = 2, iterations = 10)
+#' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
   stopifnot(is.numeric(size_subset))

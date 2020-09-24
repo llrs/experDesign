@@ -11,9 +11,9 @@ extreme_cases(pheno, size, omit = NULL, iterations = 500)
 
 \item{size}{The number of samples to subset.}
 
-\item{omit}{Name of the columns of the pheno that will be omitted}
+\item{omit}{Name of the columns of the \code{pheno} that will be omitted.}
 
-\item{iterations}{Numeric value of iterations that will be performed}
+\item{iterations}{Numeric value of iterations that will be performed.}
 }
 \value{
 A vector with the number of the rows that are selected.
@@ -30,5 +30,5 @@ sel <- extreme_cases(metadata, 10)
 metadata[sel, ]
 }
 \seealso{
-\code{\link{optimum}}
+\code{\link[=optimum]{optimum()}}
 }

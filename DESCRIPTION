@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Design Experiments for Batches
-Version: 0.0.2
+Version: 0.0.2.9000
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
@@ -24,7 +24,6 @@ Suggests:
     rmarkdown,
     testthat (>= 2.1.0),
     covr,
-    BiocStyle,
     MASS,
     spelling
 biocViews:
@@ -34,3 +33,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: false
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)

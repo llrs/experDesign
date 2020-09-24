@@ -13,10 +13,17 @@ evaluate_mad(i, pheno)
 }
 \value{
 A vector with the mean difference between the median absolute deviation
-of each group and the original mad
+of each group and the original mad.
 }
 \description{
-Looks for the median absolute deviation values in each subgroup
+Looks for the median absolute deviation values in each subgroup.
+}
+\examples{
+data(survey, package = "MASS")
+index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+                iterations = 50)
+# Note that categorical columns will be omitted:
+evaluate_mad(index, survey[, c("Sex", "Smoke", "Age")])
 }
 \seealso{
 Other functions to evaluate samples: 

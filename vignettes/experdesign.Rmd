@@ -3,13 +3,13 @@ title: "exprDesign"
 author: "Lluís Revilla Sancho"
 date: "`r Sys.Date()`"
 output:
-  BiocStyle::html_document:
+  html_document:
     fig_caption: true
     code_folding: show
     self_contained: yes
-    toc_float:
-      collapsed: true
-      toc_depth: 3
+    toc: true
+    toc_float: true
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{exprDesign}
   %\VignetteEncoding{UTF-8}
@@ -21,8 +21,6 @@ editor_options:
 ```{r knitsetup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_knit$set(root.dir = ".")
 knitr::opts_chunk$set(collapse = TRUE, warning = TRUE)
-BiocStyle::markdown()
-library("BiocStyle")
 set.seed(445)
 library("experDesign")
 ```
@@ -39,9 +37,17 @@ practical limitations. The question that tries to answer is:
 Of all the possible combinations of samples, it looks for the combination which 
 minimizes the differences between each subgroup according to the following rule:
 
- - If the variable is categorical it looks so that the entropy is closer to random.
- - If the variable is numeric it looks so that the distribution is closer to the original.
+ - If the variable is categorical it tires to randomize the variable across the subgrups
+ - If the variable is numeric it tries to distribute evenly following the original distribution of values.
  - If there are `NA` (not available values) it looks to distribute them randomly.
+
+Even with this measures you might end up with some batch effect due to:
+ - Confounding variables not provided for their randomization on the batches
+  Sometimes due to being unknown, impossible to measure 
+ - Lack of [replicates](https://en.wikipedia.org/wiki/Replication_(statistics))
+  If you can't provide new replicates, aim to provide more technical replicates
+ - Processing
+  If there is a change on the methodology, or you pause and resume later the sample collection there might be changes on the outcome. 
 
 # Previous work
 
@@ -62,7 +68,8 @@ more accurate.
 # Preparation
 
 We can use the survey dataset for the examples:
-```{r}
+
+```{r show}
 data(survey, package = "MASS") 
 head(survey)
 ```
@@ -77,7 +84,7 @@ There are `r choose(237, 70)` combinations some of them would be have in a
 single experiment all the right handed students. We could measure all these combinations
 but we can try to find an optimum value.
 
-```{r, fig.show='hold'}
+```{r design, fig.show='hold'}
 # To reduce the variables used:
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
 (keep <- colnames(survey)[!colnames(survey) %in% omit])
@@ -89,8 +96,9 @@ index
 ```
 
 We can transform then into a vector to append to the file or to pass to the lab mate with:
+
 ```{r batch_names}
-batch_names(index)
+head(batch_names(index))
 ```
 
 # Checking results
@@ -126,7 +134,7 @@ table(unbalanced)[, , 1:5]
 
 In this dataset the classroom a single classroom has all the females (`r 50 -n`).
 
-```{r}
+```{r unbalanced_design}
 i <- design(unbalanced, 15)
 
 # Mean entropy en each subset
@@ -136,6 +144,7 @@ evaluate_orig(unbalanced)["entropy", ]
 # Dispersion of the entropy
 apply(evaluate_index(i, unbalanced)["entropy", , ], 1, sd)
 ```
+
 We can see that in this simple case where a single variable has all the other cases we approximately reached the same entropy levels. 
 
 # Quality check
@@ -159,7 +168,7 @@ index_replicates
 
 The controls will be those on all the batches:
 
-```{r}
+```{r index_replicates}
 survey[Reduce(intersect, index_replicates), ]
 ```
 
@@ -170,12 +179,14 @@ but if you have technical replicates do not add them to the table used by
 # Utilities
 
 To convert to a value to append to the data.frame we can use:
+
 ```{r batch}
 batch <- batch_names(index)
 ```
 
 Or if we want to do so automatically we can do:
-```{r}
+
+```{r inspect}
 df <- inspect(index, survey, omit = omit)
 head(df)
 ```
@@ -186,7 +197,7 @@ If a data.frame has a column with name "batch" we can use the function
 distribution to see if it is randomly distributed. Or we can see the mean 
 difference between each subgroup and the original value of the data.frame.
 
-```{r}
+```{r compare_groups}
 evaluate_entropy(index, survey)
 evaluate_independence(index, survey)
 
@@ -201,7 +212,8 @@ The numbers provided are just an indicator of how far are they from a perfect
 distance. The farthest and index is, the worst it is to account for batch effect.
 
 If we want the original numbers we can use `evaluate_index`, and look for specific values:
-```{r}
+
+```{r evaluate_independence}
 ev <- evaluate_index(index, survey)
 ev["entropy", "Sex",]
 ev[1:4, "Age",]
@@ -210,7 +222,7 @@ evaluate_independence(index, survey)
 
 # SessionInfo
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```
 

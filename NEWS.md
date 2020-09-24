@@ -1,3 +1,9 @@
+# experDesign (development version)
+
+* Remove BiocStyle dependency.
+* Gain the hability to name the subsets.
+* Add examples to all functions.
+
 # experDesign 0.0.2
 
 * CRAN release

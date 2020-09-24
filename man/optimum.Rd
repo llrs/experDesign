@@ -14,18 +14,20 @@ optimum_subset(size_data, batches)
 sizes_batches(size_data, size_subset, batches)
 }
 \arguments{
-\item{size_data}{A numeric value of the number of samples to use}
+\item{size_data}{A numeric value of the number of samples to use.}
 
-\item{size_subset}{Numeric value of the number of sample per batch}
+\item{size_subset}{Numeric value of the number of sample per batch.}
 
-\item{batches}{A numeric value of the number of batches}
+\item{batches}{A numeric value of the number of batches.}
 }
 \value{
 \describe{
 \item{\code{optimum_batches}}{A numeric value with the number of batches to
 use.}
-\item{\code{optimum_subset}}{A numeric value with the maximum number of samples per batch of the data.}
-\item{\code{sizes_batches}}{A numeric vector with the number of samples in each batch.}
+\item{\code{optimum_subset}}{A numeric value with the maximum number of samples
+per batch of the data.}
+\item{\code{sizes_batches}}{A numeric vector with the number of samples in each
+batch.}
 }
 }
 \description{

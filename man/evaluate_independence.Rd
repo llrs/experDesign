@@ -7,16 +7,23 @@
 evaluate_independence(i, pheno)
 }
 \arguments{
-\item{i}{Index of subsets}
+\item{i}{Index of subsets.}
 
-\item{pheno}{A data.frame with the information about the samples}
+\item{pheno}{A data.frame with the information about the samples.}
 }
 \value{
 Returns a vector with the p-values of the chisq.test between the
-category and the subset
+category and the subset.
 }
 \description{
-Looks the independence between the categories and the batches
+Looks the independence between the categories and the batches.
+}
+\examples{
+data(survey, package = "MASS")
+index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
+                iterations = 50)
+# Note that numeric columns will be omitted:
+evaluate_independence(index, survey[, c("Sex", "Smoke", "Age")])
 }
 \seealso{
 Other functions to evaluate samples: 

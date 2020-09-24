@@ -17,6 +17,10 @@ numeric variables, the entropy of the categorical, and the amount of
 \description{
 Measure some summary statistics of the whole cohort of samples
 }
+\examples{
+data(survey, package = "MASS")
+evaluate_orig(survey[, c("Sex", "Age", "Smoke")])
+}
 \seealso{
 Other functions to evaluate samples: 
 \code{\link{evaluate_entropy}()},

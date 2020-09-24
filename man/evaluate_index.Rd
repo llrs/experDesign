@@ -12,15 +12,21 @@ evaluate_index(i, pheno)
 \item{pheno}{Data.frame with information about the samples}
 }
 \value{
-An array of three dimensions with the mean, sd, and mad of the
-numeric variables, the entropy of the categorical and the number of
-\code{NA} by each subgroup.
+An array of three dimensions with the mean, standard deviation
+(\code{\link[=sd]{sd()}}), and median absolute deviation (\code{\link[=mad]{mad()}}) of the numeric variables, the
+entropy of the categorical and the number of \code{NA} by each subgroup.
 }
 \description{
 Measures several indicators per group
 }
+\examples{
+data(survey, package = "MASS")
+index <- create_subset(nrow(survey), 50, 5)
+ev_index <- evaluate_index(index, survey[, c("Sex", "Smoke")])
+ev_index["entropy", , ]
+}
 \seealso{
-If you have already an index you can use \code{\link{use_index}}
+If you have already an index you can use \code{\link[=use_index]{use_index()}}.
 
 Other functions to evaluate samples: 
 \code{\link{evaluate_entropy}()},

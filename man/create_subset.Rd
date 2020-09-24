@@ -4,17 +4,20 @@
 \alias{create_subset}
 \title{Create index of subsets of a data}
 \usage{
-create_subset(size_data, size_subset = NULL, n = NULL)
+create_subset(size_data, size_subset = NULL, n = NULL, name = "SubSet")
 }
 \arguments{
-\item{size_data}{A numeric value of the amount of samples to distribute}
+\item{size_data}{A numeric value of the amount of samples to distribute.}
 
-\item{size_subset}{A numeric value with the amount of samples per batch}
+\item{size_subset}{A numeric value with the amount of samples per batch.}
 
-\item{n}{A numeric value with the number of batches}
+\item{n}{A numeric value with the number of batches.}
+
+\item{name}{A character used to name the subsets, either a single one or a
+vector the same size as \code{n}.}
 }
 \value{
-A random list of indices of the samples
+A random list of indices of the samples.
 }
 \description{
 Index of the samples grouped by batches.
@@ -23,6 +26,6 @@ Index of the samples grouped by batches.
 index <- create_subset(100, 50, 2)
 }
 \seealso{
-\code{\link{batch_names}}, \code{\link{use_index}} if you already
+\code{\link[=batch_names]{batch_names()}}, \code{\link[=use_index]{use_index()}} if you already
 have a factor to be used as index.
 }
