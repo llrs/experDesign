@@ -35,7 +35,7 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSe
   if (length(name) != 1 & length(name) != n) {
     stop("Provide a single character or a vector the same size of the batches.",
          call. = FALSE)
-  } else if (length(names) == 1) {
+  } else if (length(name) == 1) {
     names_batches <- paste0(name, seq_len(n))
   } else {
     names_batches <- name

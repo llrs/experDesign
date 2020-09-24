@@ -18,7 +18,21 @@ omit <- function(pheno, omit){
   }
 }
 
+position_parse <- function(x){
 
+}
+
+
+position_name <- function(rows, columns) {
+  nrow <- length(rows)
+  ncol <- length(columns)
+  plate <- matrix(nrow = nrow, ncol = ncol, dimnames = list(rows, columns))
+  positions <- expand.grid(rows, columns, stringsAsFactors = FALSE)
+  positions$Var2 <- as.character(positions$Var2)
+  positions$name <- apply(positions, 1, paste0, collapse = "")
+  colnames(positions)[1:2] <- c("row", "column")
+  positions
+}
 
 summary_num <- function(pheno) {
   if (is.null(ncol(pheno))) {
