@@ -19,7 +19,7 @@ status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](h
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 The goal of experDesign is to help you decide which samples go in which
@@ -99,14 +99,14 @@ given our max number of samples per batch:
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet2" "SubSet2" "SubSet3" "SubSet3" "SubSet1" "SubSet2" "SubSet1"
-#>  [8] "SubSet3" "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet2"
-#> [15] "SubSet2" "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet3" "SubSet2"
-#> [22] "SubSet2" "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet1" "SubSet2"
-#> [29] "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet3" "SubSet3" "SubSet2"
-#> [36] "SubSet3" "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet3"
-#> [43] "SubSet1" "SubSet3" "SubSet1" "SubSet1" "SubSet3" "SubSet3" "SubSet3"
-#> [50] "SubSet2"
+#>  [1] "SubSet1" "SubSet3" "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet1"
+#>  [8] "SubSet3" "SubSet3" "SubSet1" "SubSet3" "SubSet2" "SubSet2" "SubSet2"
+#> [15] "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet2"
+#> [22] "SubSet3" "SubSet1" "SubSet1" "SubSet3" "SubSet1" "SubSet2" "SubSet2"
+#> [29] "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet2" "SubSet3" "SubSet3"
+#> [36] "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet3"
+#> [43] "SubSet3" "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet2" "SubSet1"
+#> [50] "SubSet3"
 ```
 
 Naively one would either fill some batches fully or distribute them not
@@ -122,16 +122,16 @@ use:
 r <- replicates(metadata, size_batch, 5)
 lengths(r)
 #> SubSet1 SubSet2 SubSet3 
-#>      20      20      20
+#>      22      20      18
 r
 #> $SubSet1
-#>  [1]  4  7 11 12 13 14 17 20 21 23 24 27 28 29 39 41 44 46 47 50
+#>  [1]  9 11 12 17 18 20 24 25 26 28 30 32 33 35 38 39 40 42 46 47 49 50
 #> 
 #> $SubSet2
-#>  [1]  2  3  5  6  9 15 18 19 21 23 24 26 35 38 40 42 45 46 47 48
+#>  [1]  2  4  5  6  7  8 13 16 17 18 19 20 21 23 31 34 42 44 47 48
 #> 
 #> $SubSet3
-#>  [1]  1  8 10 16 21 22 23 24 25 30 31 32 33 34 36 37 43 46 47 49
+#>  [1]  1  3 10 14 15 17 18 20 22 27 29 36 37 41 42 43 45 47
 ```
 
 Which seeks as controls the most diverse values and adds them to the
