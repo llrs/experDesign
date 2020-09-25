@@ -65,7 +65,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
 
   # Use index to duplicate samples in case the index comes from replicates.
   pheno_o <- pheno_o[unlist(index), ]
-  old_rows <- round(as.numeric(rownames(pheno_o[unlist(index), ])))
+  old_rows <- round(as.numeric(rownames(pheno_o)))
   rownames(pheno_o) <- NULL
   new_rows <- as.numeric(rownames(pheno_o))
 

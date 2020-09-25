@@ -19,7 +19,8 @@ omit <- function(pheno, omit){
 }
 
 translate_index <- function(index, old_position, new_position) {
-
+  stopifnot(length(new_position) == length(old_position))
+  stopifnot(sum(lengths(index)) == length(new_position))
   for (i in seq_along(index)) {
     index[[i]] <- old_position[new_position %in% index[[i]]]
   }
