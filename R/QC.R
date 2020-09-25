@@ -86,18 +86,20 @@ qcSubset <- function(index, size, each = FALSE) {
   out
 }
 
-#' Check index
+#' Check index distribution on batches
 #'
-#' Report the statistics for each subset and variable compared to the original
+#' Report the statistics for each subset and variable compared to the original.
 #' @inheritParams design
 #' @inheritParams qcSubset
-#' @return A matrix with the differences with the original data
+#' @return A matrix with the differences with the original data.
+#' @seealso Functions that create an index [design()], [replicates()],
+#' [spatial()]. See also [create_subset()] for a random index.
 #' @export
 #' @examples
 #' index <- create_subset(50, 24)
 #' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
-#'  sex = c("Male","Female"))
-#' sel <- extreme_cases(metadata, 7)
+#'                         sex = c("Male","Female"))
+#' check_index(metadata, index)
 check_index <- function(pheno, index, omit = NULL) {
   batches <- length(index)
 

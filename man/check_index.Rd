@@ -2,7 +2,7 @@
 % Please edit documentation in R/QC.R
 \name{check_index}
 \alias{check_index}
-\title{Check index}
+\title{Check index distribution on batches}
 \usage{
 check_index(pheno, index, omit = NULL)
 }
@@ -14,14 +14,18 @@ check_index(pheno, index, omit = NULL)
 \item{omit}{Name of the columns of the \code{pheno} that will be omitted.}
 }
 \value{
-A matrix with the differences with the original data
+A matrix with the differences with the original data.
 }
 \description{
-Report the statistics for each subset and variable compared to the original
+Report the statistics for each subset and variable compared to the original.
 }
 \examples{
 index <- create_subset(50, 24)
 metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
- sex = c("Male","Female"))
-sel <- extreme_cases(metadata, 7)
+                        sex = c("Male","Female"))
+check_index(metadata, index)
+}
+\seealso{
+Functions that create an index \code{\link[=design]{design()}}, \code{\link[=replicates]{replicates()}},
+\code{\link[=spatial]{spatial()}}. See also \code{\link[=create_subset]{create_subset()}} for a random index.
 }
