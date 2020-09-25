@@ -63,8 +63,14 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
 
+  # Use index to duplicate samples in case the index comes from replicates.
+  pheno_o <- pheno_o[unlist(index), ]
+  old_rows <- round(as.numeric(rownames(pheno_o[unlist(index), ])))
+  rownames(pheno_o) <- NULL
+  new_rows <- as.numeric(rownames(pheno_o))
+
   for (x in seq_len(iterations)) {
-    i <- create_subset(nrow(pheno), batches, length(position), name = position)
+    i <- create_subset(sum(lengths(index)), batches, length(position), name = position)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
@@ -82,6 +88,5 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
       val <- i
     }
   }
-  val
-
+  translate_index(val, old_rows, new_rows)
 }

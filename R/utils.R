@@ -18,8 +18,12 @@ omit <- function(pheno, omit){
   }
 }
 
-position_parse <- function(x){
+translate_index <- function(index, old_position, new_position) {
 
+  for (i in seq_along(index)) {
+    index[[i]] <- old_position[new_position %in% index[[i]]]
+  }
+  index
 }
 
 
