@@ -95,7 +95,7 @@ The CRAN task View of [Experimental Design](https://CRAN.R-project.org/view=Expe
 
 Two packages allow to distribute the samples on batches:
 
-- The [OSAT](https://bioconductor.org/packages/OSAT/) package handles categorical 
+- The [OSAT](https://bioconductor.org/packages/release/bioc/html/OSAT.html) package handles categorical 
 variables but not numeric data. It doesn't work with our data.
 
  - The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
