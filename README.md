@@ -99,13 +99,13 @@ given our max number of samples per batch:
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet1"
-#>  [8] "SubSet2" "SubSet3" "SubSet1" "SubSet2" "SubSet3" "SubSet3" "SubSet3"
-#> [15] "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2" "SubSet1" "SubSet1"
-#> [22] "SubSet2" "SubSet1" "SubSet3" "SubSet2" "SubSet3" "SubSet3" "SubSet2"
-#> [29] "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet2" "SubSet1"
-#> [36] "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet2" "SubSet2"
-#> [43] "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet1" "SubSet2" "SubSet3"
+#>  [1] "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
+#>  [8] "SubSet1" "SubSet2" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet3"
+#> [15] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2"
+#> [22] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet1"
+#> [29] "SubSet3" "SubSet2" "SubSet3" "SubSet2" "SubSet3" "SubSet3" "SubSet2"
+#> [36] "SubSet1" "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet3"
+#> [43] "SubSet2" "SubSet3" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet2"
 #> [50] "SubSet3"
 ```
 
@@ -125,13 +125,13 @@ lengths(r)
 #>      20      20      20
 r
 #> $SubSet1
-#>  [1]  1  3  5  7  9 15 18 19 27 32 33 34 35 37 38 41 42 46 47 50
+#>  [1]  4  9 10 12 20 21 22 23 25 26 28 29 31 39 40 41 43 45 49 50
 #> 
 #> $SubSet2
-#>  [1]  4  6  7 10 11 12 17 21 22 23 25 26 27 30 32 33 35 39 40 44
+#>  [1]  2  7 13 15 16 18 21 23 24 27 30 33 35 36 37 38 41 47 49 50
 #> 
 #> $SubSet3
-#>  [1]  2  7  8 13 14 16 20 24 27 28 29 31 32 33 35 36 43 45 48 49
+#>  [1]  1  3  5  6  8 11 14 17 19 21 23 32 34 41 42 44 46 48 49 50
 ```
 
 Which seeks as controls the most diverse values and adds them to the
@@ -170,5 +170,5 @@ I made before developing the package.
 # Other
 
 Please note that this project is released with a [Contributor Code of
-Conduct](https://llrs.github.io/experDesign/CODE_OF_CONDUCT.html). By
-participating in this project you agree to abide by its terms.
+Conduct](https://www.contributor-covenant.org/version/1/0/0/code-of-conduct/).
+By participating in this project you agree to abide by its terms.

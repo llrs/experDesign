@@ -108,5 +108,5 @@ Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/
 
 # Other
 
-Please note that this project is released with a [Contributor Code of Conduct](https://llrs.github.io/experDesign/CODE_OF_CONDUCT.html).
+Please note that this project is released with a [Contributor Code of Conduct](https://www.contributor-covenant.org/version/1/0/0/code-of-conduct/).
 By participating in this project you agree to abide by its terms.
