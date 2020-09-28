@@ -1,11 +1,10 @@
-This release fixes the current warnings on CRAN as far as I could test.
-Improves the documentation of some exported functions and introduce a new one (spatial). 
+This resubmission fixes the link notes found by the CRAN team.
 
 ## Test environments
 
 * local R installation, R 4.0.1
-* ubuntu 16.04 (on travis-ci), R 4.0.1
-* win-builder (devel)
+* ubuntu 16.04 (on travis-ci), old-release, release, devel
+* win-builder, old-release, release, devel
 * Github Actions (windows), release
 * Github Actions (macOS), release
 * Github Actions Ubuntu 20.04, release and devel
@@ -13,8 +12,6 @@ Improves the documentation of some exported functions and introduce a new one (s
 ## R CMD check results
 
 0 errors | 0 warnings | 0 note
-
-There's a message about a possibly invalid URL that uses the recommended Bioconductor link but it is redirected. 
 
 ## Dependencies
 
