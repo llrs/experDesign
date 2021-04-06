@@ -72,3 +72,7 @@ mean_difference <- function(differences, subset_ind, eval_n) {
     colSums(x, na.rm = TRUE)/eval_n
   })
 }
+
+release_bullets <- function(){
+  c("Update codemeta.json with: `codemetar::write_codemeta()`")
+}
