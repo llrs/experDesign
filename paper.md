@@ -17,8 +17,7 @@ tags:
 
 # Summary
 
-After a correct design the collection of samples is a critical step where many errors and problems might affect the  collection of samples. On large collections where experiments must be run on batches this might affect the results. experDesign provides help to decide which samples go on which batch, to minimize batch effects for known variables.
-
+After a correct design the collection of samples is a critical step where many errors and problems might affect the  collection of samples. On large collections where experiments must be run on batches this might impact the results if not taken into account. experDesign helps to minimize batch effects for known variables assigning which samples go on which batch.
 
 # Statement of need
 
