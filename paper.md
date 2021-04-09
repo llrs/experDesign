@@ -35,7 +35,7 @@ impact the results if not taken into account. experDesign helps to
 minimize batch effects for known variables assigning which samples go on
 which batch.
 
-# Statement of need
+# Introduction
 
 On the design of an experiment three main techniques are used to see
 differences between groups of interest: blocks, then randomization and
@@ -54,7 +54,7 @@ are applied together to ensure the robustness of the study.
 Between the designing of an experiment and the collection of the samples
 many things can happen. If something goes wrong and some samples are
 missing they can increase confounding variables or even make the study
-useless. However, few tools exists to prevent generating a batch effect.
+useless.
 
 To prevent the batch effect there can be two options: randomization
 and/or replication. Whether the practitioner goes with randomization or
@@ -62,17 +62,51 @@ replication they must take into account the blocking design from the
 beginning or they might. For instance, if cases and controls are run in
 different batches, sample variation can be entirely confounded by this
 (Chen et al. 2011). The samples can be properly randomized to minimize
-the batch effect by looking how the variables distribute on each batch.
+the batch effect by looking how the variables distribute on each batch,
+on what it is know as randomized blocked/ stratified sampling
+experimental design.
 
-The package experDesign for R is an extension to R that all(R Core Team
-2014)
+# State of the art
 
-Several functions of experDesign allow this. The main function
-`design`distribute the samples on multiple batches so that each variable
-is equally homogeneous in each batch. If the experiment is carried out
-on a specific spatial distribution the `spatial` function takes into
-consideration the position of the samples to distribute them
-homogeneously also by position.
+There are some tools to prevent generating a batch effect on the R
+language from multiple fields and areas, but specially on the biological
+research (R Core Team 2014). They have some caveats that limit their
+application to some cases and to our knowledge there hasn’t been a
+comparison of these different methods.
+
+*OSAT*, on [Bioconductor](https://bioconductor.org/packages/OSAT/),
+first allocates the samples on each batch according to a variable and
+later shuffles the samples on each batch to randomize the other
+variables (Yan et al. 2012). This algorithm relies on categorical
+variables and cannot use numeric ones such as age or time-related
+variables unless they are treated as categorical.
+
+*minDiff*, on [github](https://github.com/m-Py/minDiff), and its
+successor *anticlust*, on
+[CRAN](https://cran.r-project.org/package=anticlust), (“Using
+Anticlustering to Partition Data Sets into Equivalent Parts. - PsycNET,”
+n.d.) divided elements into similar parts, ensuring similarity between
+groups by enforcing heterogeneity within group. Conceptually it is
+similar to reversing the clustering methods k-means and cluster editing,
+and as them it must use numeric variables.
+
+Recently, *Omixer*, a new package on
+[Bioconductor](https://bioconductor.org/packages/Omixer/), has been made
+available (Sinke, Cats, and Heijmans 2021). It tests if the random
+assignments are homogeneous transforming all variables to numeric and
+using the Kendall’s correlation if there are more than 5 samples,
+otherwise using the Pearson chi-squared test.
+
+Finally the package *experDesign*, on
+[CRAN](https://cran.r-project.org/package=experDesign), provides similar
+functionality conceptually similar to *anticlust* but does accept
+categorical variables.
+
+The main function `design`distribute the samples on multiple batches so
+that each variable is equally homogeneous in each batch. If the
+experiment is carried out on a specific spatial distribution the
+`spatial` function takes into consideration the position of the samples
+to distribute them homogeneously also by position.
 
 Another recommended quality control measure to avoid batch effects is
 adding replicates. The most common method is adding technical replicates
@@ -109,3 +143,16 @@ of Batch Effects in High-Throughput Data.” *Nature Reviews. Genetics* 11
 R Core Team. 2014. *R: A Language and Environment for Statistical
 Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 <https://R-project.org/>.
+
+Sinke, Lucy, Davy Cats, and Bastiaan T Heijmans. 2021. “Omixer:
+Multivariate and Reproducible Sample Randomization to Proactively
+Counter Batch Effects in Omics Studies.” *Bioinformatics*, no. btab159
+(March). <https://doi.org/10.1093/bioinformatics/btab159>.
+
+“Using Anticlustering to Partition Data Sets into Equivalent Parts. -
+PsycNET.” n.d. <https://doi.apa.org/doiLanding?doi=10.1037>.
+
+Yan, Li, Changxing Ma, Dan Wang, Qiang Hu, Maochun Qin, Jeffrey M.
+Conroy, Lara E. Sucheston, et al. 2012. “OSAT: A Tool for
+Sample-to-Batch Allocations in Genomics Experiments.” *BMC Genomics* 13
+(1): 689. <https://doi.org/10.1186/1471-2164-13-689>.
