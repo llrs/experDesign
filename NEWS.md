@@ -1,9 +1,11 @@
 # experDesign (development version)
 
+* Added reference to a new package Omixer on the README. 
+
 # experDesign 0.0.4
 
 * Remove BiocStyle dependency.
-* Gain the hability to name the subsets.
+* Gain the ability to name the subsets.
 * Add examples to all functions.
 * Add function to consider spatial distribution on plates/machines.
 

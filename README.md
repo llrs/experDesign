@@ -99,13 +99,13 @@ given our max number of samples per batch:
 d <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
 batch_names(d)
-#>  [1] "SubSet3" "SubSet2" "SubSet2" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
-#>  [8] "SubSet1" "SubSet2" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet3"
-#> [15] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2"
-#> [22] "SubSet1" "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet1"
-#> [29] "SubSet3" "SubSet2" "SubSet3" "SubSet2" "SubSet3" "SubSet3" "SubSet2"
-#> [36] "SubSet1" "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet3"
-#> [43] "SubSet2" "SubSet3" "SubSet3" "SubSet1" "SubSet1" "SubSet2" "SubSet2"
+#>  [1] "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet3" "SubSet1"
+#>  [8] "SubSet1" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2" "SubSet1"
+#> [15] "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet3" "SubSet2"
+#> [22] "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
+#> [29] "SubSet2" "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet2"
+#> [36] "SubSet1" "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet3" "SubSet3"
+#> [43] "SubSet1" "SubSet2" "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet2"
 #> [50] "SubSet3"
 ```
 
@@ -122,16 +122,16 @@ use:
 r <- replicates(metadata, size_batch, 5)
 lengths(r)
 #> SubSet1 SubSet2 SubSet3 
-#>      20      20      20
+#>      21      21      18
 r
 #> $SubSet1
-#>  [1]  4  9 10 12 20 21 22 23 25 26 28 29 31 39 40 41 43 45 49 50
+#>  [1]  1  3  4  7  8 10 12 13 14 16 20 29 35 38 39 41 42 43 46 47 50
 #> 
 #> $SubSet2
-#>  [1]  2  7 13 15 16 18 21 23 24 27 30 33 35 36 37 38 41 47 49 50
+#>  [1]  2  5  6  8  9 12 13 14 18 19 22 26 30 33 36 37 38 44 45 48 49
 #> 
 #> $SubSet3
-#>  [1]  1  3  5  6  8 11 14 17 19 21 23 32 34 41 42 44 46 48 49 50
+#>  [1]  8 11 12 13 14 15 17 21 23 24 25 27 28 31 32 34 38 40
 ```
 
 Which seeks as controls the most diverse values and adds them to the
@@ -149,15 +149,21 @@ already collected.
 
 Two packages allow to distribute the samples on batches:
 
-  - The
+-   The
     [OSAT](https://bioconductor.org/packages/release/bioc/html/OSAT.html)
     package handles categorical variables but not numeric data. It
     doesn’t work with our data.
 
-  - The [minDiff](https://github.com/m-Py/minDiff) package reported in
+-   The [minDiff](https://github.com/m-Py/minDiff) package reported in
     [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles
     both numeric and categorical data. But it can only optimize for two
     nominal criteria. It doesn’t work for our data.
+
+-   The [Omixer](https://bioconductor.org/packages/Omixer/) package
+    handles both numeric and categorical data (converting categorical
+    variables to numeric). But both the same way either Pearson’s
+    Chi-squared Test if there are few samples or Kendall’s correlation.
+    It does allow to protect some spots from being used.
 
 If you are still designing the experiment and do not have collected any
 data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign)
