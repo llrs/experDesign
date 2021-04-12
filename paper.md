@@ -22,6 +22,7 @@ date: Sys.Date()
 tags:
   - R
   - Batch effect
+  - experiment design
 bibliography: paper.bib
 ---
 
@@ -37,34 +38,40 @@ which batch.
 
 # Introduction
 
-On the design of an experiment three main techniques are used to see
-differences between groups of interest: blocks, then randomization and
-replication (Klaus 2015). Sometimes variables caused by not tacking into
-account the blocking effect they have create batch effects on the
-experiment. There are several techniques to identify and take into
-account them (Leek et al. 2010) . Randomization is a method to get the
-average effect by mixing the potential confounding variables.
-Replication is important to judge whether an observed difference is
-merely by chance or there is an actual difference between the variables.
-It consists on adding more samples with the same conditions in order to
-be able to estimate the dispersion and the mean value of the population.
-On some settings (clínical, agriculture, …) several of these techniques
-are applied together to ensure the robustness of the study.
+Sometimes not tacking into account how some variable are blocking
+creates batch effects on an experiment. There are several techniques to
+identify and take into account batch effects when analyzing an
+experiment (Leek et al. 2010). However, it would be better if the batch
+effects could be avoided before carrying out the experiment. To avoid
+creating them a good design of the experiment is needed. To design an
+experiment three techniques are used to reduce unwanted variation:
+blocking, randomization and replication (Klaus 2015).
+
+**Blocking** groups samples that are equal according to one or more
+variables allowing to estimate the variation on the measurement from
+these variables. **Randomization** is a method to get the average effect
+by mixing the potential confounding variables. **Replication** increases
+the number of samples used on the experiment to better estimate the
+variation of the experiment. On some settings (clínical, agriculture, …)
+several of these techniques are applied together to ensure the
+robustness of the study.
 
 Between the designing of an experiment and the collection of the samples
 many things can happen. If something goes wrong and some samples are
-missing they can increase confounding variables or even make the study
-useless.
+missing the unwanted variation of the experiment will increase.
+Sometimes If the experiments needs to be done in batches and if not
+taken into account on the design of the experiment it can introduce a
+batch effect that can be impossible to remove from the data.
 
 To prevent the batch effect there can be two options: randomization
-and/or replication. Whether the practitioner goes with randomization or
+and/or replication. If the practitioner goes with randomization or
 replication they must take into account the blocking design from the
-beginning or they might. For instance, if cases and controls are run in
-different batches, sample variation can be entirely confounded by this
-(Chen et al. 2011). The samples can be properly randomized to minimize
-the batch effect by looking how the variables distribute on each batch,
-on what it is know as randomized blocked/ stratified sampling
-experimental design.
+beginning or they might further exacerbate the problem. For instance, if
+cases and controls are measured in different batches, sample variation
+can be entirely confounded by this (Chen et al. 2011). Samples can be
+properly randomized to minimize the batch effect by looking how the
+variables distribute on each batch, on what it is known as randomized
+blocked/ stratified sampling experimental design.
 
 # State of the art
 
@@ -72,49 +79,61 @@ There are some tools to prevent generating a batch effect on the R
 language from multiple fields and areas, but specially on the biological
 research (R Core Team 2014). They have some caveats that limit their
 application to some cases and to our knowledge there hasn’t been a
-comparison of these different methods.
+comparison of these different methods. Here we describe existing
+packages briefly:
 
-*OSAT*, on [Bioconductor](https://bioconductor.org/packages/OSAT/),
-first allocates the samples on each batch according to a variable and
-later shuffles the samples on each batch to randomize the other
-variables (Yan et al. 2012). This algorithm relies on categorical
-variables and cannot use numeric ones such as age or time-related
-variables unless they are treated as categorical.
+-   *OSAT*, on [Bioconductor](https://bioconductor.org/packages/OSAT/),
+    first allocates the samples on each batch according to a variable
+    and later shuffles the samples on each batch to randomize the other
+    variables (Yan et al. 2012). This algorithm relies on categorical
+    variables and cannot use numeric ones such as age or time-related
+    variables unless they are treated as categorical.
 
-*minDiff*, on [github](https://github.com/m-Py/minDiff), and its
-successor *anticlust*, on
-[CRAN](https://cran.r-project.org/package=anticlust), (“Using
-Anticlustering to Partition Data Sets into Equivalent Parts. - PsycNET,”
-n.d.) divided elements into similar parts, ensuring similarity between
-groups by enforcing heterogeneity within group. Conceptually it is
-similar to reversing the clustering methods k-means and cluster editing,
-and as them it must use numeric variables.
+-   *minDiff*, on [github](https://github.com/m-Py/minDiff), and its
+    successor *anticlust*, on
+    [CRAN](https://cran.r-project.org/package=anticlust), (“Using
+    Anticlustering to Partition Data Sets into Equivalent Parts. -
+    PsycNET,” n.d.) divides the samples into similar groups, ensuring
+    similarity by enforcing heterogeneity within group. Conceptually it
+    is similar to reversing the clustering methods k-means and cluster
+    editing.
 
-Recently, *Omixer*, a new package on
-[Bioconductor](https://bioconductor.org/packages/Omixer/), has been made
-available (Sinke, Cats, and Heijmans 2021). It tests if the random
-assignments are homogeneous transforming all variables to numeric and
-using the Kendall’s correlation if there are more than 5 samples,
-otherwise using the Pearson chi-squared test.
+-   Recently, *Omixer*, a new package on
+    [Bioconductor](https://bioconductor.org/packages/Omixer/), has been
+    made available (Sinke, Cats, and Heijmans 2021). It tests if the
+    random assignments are homogeneous transforming all variables to
+    numeric and using the Kendall’s correlation if there are more than 5
+    samples, otherwise using the Pearson chi-squared test.
 
-Finally the package *experDesign*, on
-[CRAN](https://cran.r-project.org/package=experDesign), provides similar
-functionality conceptually similar to *anticlust* but does accept
-categorical variables.
+-   Finally the package *experDesign*, on
+    [CRAN](https://cran.r-project.org/package=experDesign), which
+    provides groups with characteristics similar to the whole sample by
+    comparing the random samples with the whole dataset for several
+    statistics.
 
-The main function `design`distribute the samples on multiple batches so
-that each variable is equally homogeneous in each batch. If the
-experiment is carried out on a specific spatial distribution the
-`spatial` function takes into consideration the position of the samples
-to distribute them homogeneously also by position.
+# Description
 
-Another recommended quality control measure to avoid batch effects is
-adding replicates. The most common method is adding technical replicates
-(Blainey, Krzywinski, and Altman 2014). Technical replicates are samples
-that are divided on several batches so that later each batch can be
-compared based on this sample repeated across multiple batches. To make
-it easier to select the replicates needed and from which samples the
-function `replicates` is provided.
+The package experDesign provides the function `design` to distribute the
+samples on multiple batches so that each variable is homogeneous in each
+batch. It is similar to the *anticluster* method for maximum variance.
+If the experiment is carried out on a specific spatial distribution the
+`spatial` function distributes the samples homogeneously also by
+position similar to *Omixer*. Currently it doesn’t allow to mask some
+positions as *Omixer* .
+
+Adding replicates is a method to have a successful experiment. When the
+design is already done then the replicates are called technical
+replicates (Blainey, Krzywinski, and Altman 2014). Technical replicates
+are samples that are measured multiple times and allow to reduce the
+uncertainty of the measurement. If the technical replicates are
+distributed on several batches they allow to measure the batch effect.
+To select the replicates needed and from which samples the function
+`extreme_cases` is provided. For easier usage the `replicates` designs
+an experiment with the number of replicates per batch desired.
+
+experDesign also provides functionality to calculate the right number of
+batches for your data. Instead of sequentially filling the batches it
+distributes the samples on the minimum number of batches required.
 
 # References
 
