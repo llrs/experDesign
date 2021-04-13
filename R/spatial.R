@@ -68,9 +68,12 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   old_rows <- round(as.numeric(rownames(pheno_o)))
   rownames(pheno_o) <- NULL
   new_rows <- as.numeric(rownames(pheno_o))
-
+  size_data <- sum(lengths(index))
+  size_subset <- batches
+  batches <- length(position)
+  size_batches <- internal_batches(size_data, size_subset, batches)
   for (x in seq_len(iterations)) {
-    i <- create_subset(sum(lengths(index)), batches, length(position), name = position)
+    i <- create_index(size_data, size_batches, batches, name = position)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals

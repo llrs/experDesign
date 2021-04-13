@@ -24,12 +24,11 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   # Calculate batches
   size_data <- nrow(pheno)
-
   batches <- optimum_batches(size_data, size_subset)
-  size_subset_optimum <- optimum_subset(size_data, batches)
 
-  if (!check_sizes(size_data, size_subset_optimum, batches)) {
-    stop("Please provide a higher number of batches or more samples per batch.")
+  if (!valid_sizes(size_data, size_subset, batches)) {
+    stop("Please provide a higher number of batches or more samples per batch.",
+         call. = FALSE)
   }
 
   pheno_o <- omit(pheno, omit)
@@ -47,9 +46,9 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
   # Numbers are evaluated 4 times, and categories only 3
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
-
+  size_batches <- internal_batches(size_data, size_subset, batches)
   for (x in seq_len(iterations)) {
-    i <- create_subset(size_data, size_subset_optimum, batches, name = name)
+    i <- create_index(size_data, size_batches, batches, name = name)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals
