@@ -1,6 +1,8 @@
 # experDesign (development version)
 
 * Added reference to a new package Omixer on the README. 
+* Fixed batches sizes
+* Speed increase
 
 # experDesign 0.0.4
 
