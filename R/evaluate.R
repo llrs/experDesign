@@ -88,9 +88,10 @@ evaluate_index <- function(i, pheno) {
     subset_na <- na_orig <- colSums(is.na(pheno[x, , drop = FALSE]))
     diff1 <- insert(diff, subset_na, "na")
 
+    # Look for eval_n <- ifelse(num, 4, 3) if any change happens on numeric
+    # or categorical tests.
     if (sum(num) >= 1) {
       pheno_num <- pheno[x, num, drop = FALSE]
-
       subset_num <- apply(pheno_num, 2, function(y) {
         c("sd" = sd(y, na.rm = TRUE),
           "mean" = mean(y, na.rm = TRUE),
