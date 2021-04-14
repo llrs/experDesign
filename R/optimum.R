@@ -90,19 +90,18 @@ internal_batches <- function(size_data, size_subset, batches) {
     return(rep(size_subset, times = batches))
   }
 
+  max_batch_size <- optimum_subset(size_data, batches)
   # Calculate the minimum number of samples per batch
-  remaining <- size_data - size_subset*(batches - 1)
-
-  # Look for the combination of samples that is less reductive
-  s <- seq(from = remaining, to = size_subset)
-  l <- rep(list(s), batches) # List of possibilities for each batch
-  combn_sizes <- expand.grid(l) # All combinations
-  combn_sizes <- as.matrix(combn_sizes)
-  k <- rowSums(combn_sizes) == size_data
-  combn_sizes <- combn_sizes[k, ]
-  r <- apply(combn_sizes, 1, function(x){max(x) - min(x)})
-  final_combn <- combn_sizes[r == min(r), ][1, ]
-  sort(unlist(final_combn, FALSE, FALSE), decreasing = TRUE)
+  remaining <- size_data - max_batch_size*batches
+  # Pre-allocate the max size of each batch
+  out <- rep(max_batch_size, batches)
+  # Calculate how many samples must be removed
+  samples_to_remove_per_batch <- ceiling(abs(remaining)/batches)
+  # Calculate how many batches have less samples
+  batches_to_remove_samples <- abs(remaining)/samples_to_remove_per_batch
+  # Apply it:``
+  out[1:batches_to_remove_samples] <- out[1:batches_to_remove_samples] - samples_to_remove_per_batch
+  return(sort(out, decreasing = TRUE))
 }
 
 check_number <- function(x, name) {
