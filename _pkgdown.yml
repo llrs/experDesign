@@ -1,4 +1,6 @@
 destination: docs
+development:
+  mode: auto
 
 home:
   title: Design experiments for batches
