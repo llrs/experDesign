@@ -1,6 +1,4 @@
 destination: docs
-development:
-  mode: auto
 
 home:
   title: Design experiments for batches
@@ -12,7 +10,7 @@ home:
 template:
   opengraph:
     twitter:
-      creator: "@Lluis_Rev"
+      creator: "@Lluis_Revilla"
       card: summary_large_image
 
 reference:
