@@ -133,7 +133,7 @@ designs an experiment with the number of replicates per batch desired.
 
 *experDesign* also provides several small utilities to make it easier
 design the experiment in batches. For instance, it helps to calculate
-the samples to dictribute on the minimum number of batches required with
+the samples to distribute on the minimum number of batches required with
 `sizes_batches`.
 
 # References
