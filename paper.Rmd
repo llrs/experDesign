@@ -29,28 +29,42 @@ bibliography: paper.bib
 # Summary
 
 The design of an experiment is critical for their success.
-However, after a correct design the collection of samples is a critical step where many errors and problems might affect the experiment result.
-Missing samples on experiments that must be carried out on batches might impact the results if not taken into account.
-*experDesign* helps to minimize batch effects for known variables assigning which samples go on which batch.
+However, after an initial correct design the process till the measurement is critical.
+At the several steps required from collection to measurement many errors and problems might affect the experiment result.
+This variation if not taken into account can make an experiment inconclusive.
+*experDesign* provides tools to minimize the risk of making an experiment inconclusive by assigning which samples go on which batch.
 
 # Introduction
 
-Sometimes not tacking into account how some variable are blocking creates batch effects on an experiment.
-There are several techniques to identify and take into account batch effects when analyzing an experiment [@leek2010]. However, it would be better if the batch effects could be avoided before carrying out the experiment. To avoid creating them a good design of the experiment is needed. To design an experiment three techniques are used to reduce unwanted variation: blocking, randomization and replication [@klaus2015].
+To properly design an experiment the source of variation between the samples must be the one we are interested in.
+Usually one controls the environment where the study or experiment is being done.
+Sometimes, this is not enough or not possible, and then one need to apply some methods to control these variation.
+There are three techniques used to reduce unwanted variation: blocking, randomization and replication [@klaus2015].
 
 **Blocking** groups samples that are equal according to one or more variables allowing to estimate the variation on the measurement from these variables.
 **Randomization** is a method to get the average effect by mixing the potential confounding variables.
 **Replication** increases the number of samples used on the experiment to better estimate the variation of the experiment.
 On some settings (clinical, agriculture, ...) several of these techniques are applied together to ensure the robustness of the study.
 
-Between the designing of an experiment and the collection of the samples many things can happen.
-If something goes wrong and some samples are missing the unwanted variation of the experiment will increase.
-Sometimes If the experiments needs to be done in batches and if not taken into account on the design of the experiment it can introduce a batch effect that can be impossible to remove from the data.
+Between the designing of an experiment and the measurement of the samples many things can happen.
+If some samples go missing (or are contaminated, or do not pass the quality control to perform the measurement, or ...) the unwanted variation of the experiment will increase.
+Even if this doesn't happen, sometimes the experiments need to be done in batches because there are some technical; for example the machine cannot measure more samples at once, or practical considerations; for example it is not possible to take more measurements on the field in the allowed time.
 
-To prevent the batch effect there can be two options: randomization and/or replication.
-If the practitioner goes with randomization or replication they must take into account the blocking design from the beginning or they might further exacerbate the problem.
-For instance, if cases and controls are measured in different batches, sample variation can be entirely confounded by this [@chen2011].
-Samples can be properly randomized to minimize the batch effect by looking how the variables distribute on each batch, on what it is known as randomized blocked/ stratified sampling experimental design.
+There are several techniques to identify and take into account batch effects when analyzing an experiment already measured [@leek2010]. However, if the source of them are not taken into account before measuring they can introduce a batch effect that could be impossible to remove.
+Therefore, it would be better if the batch effects were avoided before carrying out the experiment.
+Tacking into account how the process from the design to the measurement can introduce variability will help avoiding batch effects.
+
+To prevent the apparition of batch effect after the design of the experiment there are two options: randomization and replication.
+This techniques can prevent the batch effect to be able to compare between or within the desired variable.
+One can do both of them but in any case it must take into account the blocking design from the beginning or they might further exacerbate the problem.
+For instance, if one designs an experiment with cases and controls and the controls are measured in one batch and the controls in a different batch then the difference between them can be entirely confounded by a malfunction of the measurement machine in one batch [@chen2011].
+
+However, samples can be properly randomized to minimize the batch effect by looking how the variables distribute on each batch, this is known as randomized block experimental design or stratified random sampling experimental design.
+
+Replications consist on increasing the number of measurements with similar attributes.
+Usually at least three samples are included for each condition of interest to be able to estimate the variation of the attributes.
+If there is one extraction and then a sample is measured multiple times it is called a technical replicate.
+Technical replicates help estimate the variation of the measurement method or the process.
 
 # State of the art
 
@@ -84,5 +98,71 @@ For easier usage the `replicates` designs an experiment with the number of repli
 
 *experDesign* also provides several small utilities to make it easier design the experiment in batches.
 For instance, it helps to calculate the samples to distribute on the minimum number of batches required with `sizes_batches`.
+
+# Comparison
+
+For completeness a description of the usage of the different software
+
+```{r example-data}
+data(survey, package = "MASS")
+survey$ID <- seq_len(nrow(survey))
+VoI <- c("Sex", "Smoke", "Age")
+n_batch <- 3
+iterations <- 1000
+```
+
+## OSAT
+
+OSAT provides some template for some setups:
+
+```{r osat}
+library("OSAT")
+gs <- setup.sample(survey, optimal = VoI)
+gc <- setup.container(IlluminaBeadChip96Plate, n_batch, batch = 'plates')
+gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
+```
+
+## anticlust
+
+```{r anticlust}
+library("anticlust")
+anticlust_index <- anticlustering(
+  survey[, VoI],
+  K = n_batch,
+  objective = "variance",
+  method = "exchange",
+  repetitions = iterations
+)
+```
+
+## Omixer
+
+```{r Omixer}
+library("Omixer")
+layout <- data.frame(well = 1:96, 
+    row = factor(rep(1:8, each=12), labels = LETTERS[1:8]),
+    column = rep(1:12, 8), 
+    plate  = 1,
+    chip = as.integer(ceiling(rep(1:12, 8)/2)))
+layout$chipPos <- ifelse(layout$column %% 2 == 0, 
+                         as.numeric(layout$row) + 8,
+                         layout$row)
+layout2 <- layout
+layout2$plate <- 2
+layout3 <- layout
+layout3$plate <- 3
+plates <- rbind(layout, layout2, layout3)
+Omixer_index <- omixerRand(survey, sampleId = "ID", 
+    block = "block", iterNum = 10, wells = 96,
+    plateNum = n_batch, randVars = VoI, layout = plates, techVars = NULL)
+```
+
+## experDesign
+
+```{r experDesign}
+library("experDesign")
+experDesign_index <- design(survey[, VoI], size_subset = 96,
+                  iterations = iterations)
+```
 
 # References
