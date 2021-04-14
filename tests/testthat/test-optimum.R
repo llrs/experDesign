@@ -23,4 +23,10 @@ test_that("internal_batches", {
   batches <- 1
   expect_length(internal_batches(size_data, size_batch, batches), batches)
   expect_true(internal_batches(size_data, size_batch, batches) <= size_batch)
+  out <- internal_batches(237, 96, 3)
+  expect_equal(out, c(79, 79, 79))
+  out <- internal_batches(237, 79, 3)
+  expect_equal(out, c(79, 79, 79))
+  out <- internal_batches(237, 78, 3)
+  expect_equal(out, c(78, 78, 78))
 })
