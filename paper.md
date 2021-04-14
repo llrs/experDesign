@@ -91,12 +91,11 @@ packages briefly:
 
 -   *minDiff*, on [github](https://github.com/m-Py/minDiff), and its
     successor *anticlust*, on
-    [CRAN](https://cran.r-project.org/package=anticlust), (“Using
-    Anticlustering to Partition Data Sets into Equivalent Parts. -
-    PsycNET,” n.d.) divides the samples into similar groups, ensuring
-    similarity by enforcing heterogeneity within group. Conceptually it
-    is similar to reversing the clustering methods k-means and cluster
-    editing.
+    [CRAN](https://cran.r-project.org/package=anticlust), divides the
+    samples into similar groups, ensuring similarity by enforcing
+    heterogeneity within group (Papenberg and Klau, n.d.). Conceptually
+    it is similar to reversing the clustering methods k-means and
+    cluster editing.
 
 -   Recently, *Omixer*, a new package on
     [Bioconductor](https://bioconductor.org/packages/Omixer/), has been
@@ -141,9 +140,6 @@ the samples to distribute on the minimum number of batches required with
 Blainey, Paul, Martin Krzywinski, and Naomi Altman. 2014. “Replication.”
 *Nature Methods* 11 (9): 879–80. <https://doi.org/10.1038/nmeth.3091>.
 
-———. 2014. “Replication.” *Nature Methods* 11 (9): 879–80.
-<https://doi.org/10.1038/nmeth.3091>.
-
 Chen, Chao, Kay Grennan, Judith Badner, Dandan Zhang, Elliot Gershon, Li
 Jin, and Chunyu Liu. 2011. “Removing Batch Effects in Analysis of
 Expression Microarray Data: An Evaluation of Six Batch Adjustment
@@ -160,6 +156,10 @@ Rafael A. Irizarry. 2010. “Tackling the Widespread and Critical Impact
 of Batch Effects in High-Throughput Data.” *Nature Reviews. Genetics* 11
 (10). <https://doi.org/10.1038/nrg2825>.
 
+Papenberg, Martin, and Gunnar W. Klau. n.d. “Using Anticlustering to
+Partition Data Sets into Equivalent Parts. - PsycNET.” *Psychological
+Methods*. <https://doi.org/10.1037/met0000301>.
+
 R Core Team. 2014. *R: A Language and Environment for Statistical
 Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 <https://R-project.org/>.
@@ -168,9 +168,6 @@ Sinke, Lucy, Davy Cats, and Bastiaan T Heijmans. 2021. “Omixer:
 Multivariate and Reproducible Sample Randomization to Proactively
 Counter Batch Effects in Omics Studies.” *Bioinformatics*, no. btab159
 (March). <https://doi.org/10.1093/bioinformatics/btab159>.
-
-“Using Anticlustering to Partition Data Sets into Equivalent Parts. -
-PsycNET.” n.d. <https://doi.apa.org/doiLanding?doi=10.1037>.
 
 Yan, Li, Changxing Ma, Dan Wang, Qiang Hu, Maochun Qin, Jeffrey M.
 Conroy, Lara E. Sucheston, et al. 2012. “OSAT: A Tool for
