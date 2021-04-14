@@ -1,5 +1,5 @@
 ---
-title: "experDesign: helping performing experiments on collections"
+title: "experDesign: helping performing experiments on batches"
 output: 
   md_document:
     preserve_yaml: true
@@ -32,7 +32,7 @@ The design of an experiment is critical for their success. However,
 after a correct design the collection of samples is a critical step
 where many errors and problems might affect the experiment result.
 Missing samples on experiments that must be carried out on batches might
-impact the results if not taken into account. experDesign helps to
+impact the results if not taken into account. *experDesign* helps to
 minimize batch effects for known variables assigning which samples go on
 which batch.
 
@@ -52,7 +52,7 @@ variables allowing to estimate the variation on the measurement from
 these variables. **Randomization** is a method to get the average effect
 by mixing the potential confounding variables. **Replication** increases
 the number of samples used on the experiment to better estimate the
-variation of the experiment. On some settings (clínical, agriculture, …)
+variation of the experiment. On some settings (clinical, agriculture, …)
 several of these techniques are applied together to ensure the
 robustness of the study.
 
@@ -113,27 +113,28 @@ packages briefly:
 
 # Description
 
-The package experDesign provides the function `design` to distribute the
-samples on multiple batches so that each variable is homogeneous in each
-batch. It is similar to the *anticluster* method for maximum variance.
-If the experiment is carried out on a specific spatial distribution the
-`spatial` function distributes the samples homogeneously also by
-position similar to *Omixer*. Currently it doesn’t allow to mask some
-positions as *Omixer* .
+The package *experDesign* provides the function `design` to distribute
+the samples on multiple batches so that each variable is homogeneous in
+each batch. It is similar to the *anticluster* method for maximum
+variance. If the experiment is carried out on a specific spatial
+distribution the `spatial` function distributes the samples
+homogeneously also by position similar to *Omixer*.
 
-Adding replicates is a method to have a successful experiment. When the
-design is already done then the replicates are called technical
-replicates (Blainey, Krzywinski, and Altman 2014). Technical replicates
-are samples that are measured multiple times and allow to reduce the
-uncertainty of the measurement. If the technical replicates are
-distributed on several batches they allow to measure the batch effect.
-To select the replicates needed and from which samples the function
-`extreme_cases` is provided. For easier usage the `replicates` designs
-an experiment with the number of replicates per batch desired.
+In addition to distribute the samples on batches *experDesign* provides
+with tools to add technical replicates. When the design is already done
+then the replicates are called technical replicates (Blainey,
+Krzywinski, and Altman 2014). Technical replicates are samples that are
+measured multiple times and allow to reduce the uncertainty of the
+measurement. If the technical replicates are distributed on several
+batches they allow to measure the batch effect and thus minimize it. To
+select the technical replicates needed and from which samples the
+function `extreme_cases` is provided. For easier usage the `replicates`
+designs an experiment with the number of replicates per batch desired.
 
-experDesign also provides functionality to calculate the right number of
-batches for your data. Instead of sequentially filling the batches it
-distributes the samples on the minimum number of batches required.
+*experDesign* also provides several small utilities to make it easier
+design the experiment in batches. For instance, it helps to calculate
+the samples to dictribute on the minimum number of batches required with
+`sizes_batches`.
 
 # References
 
