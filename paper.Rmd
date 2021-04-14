@@ -54,10 +54,10 @@ There are some tools to prevent generating a batch effect on the R language from
 
 # Description
 
-The package experDesign provides the function `design` to distribute the samples on multiple batches so that each variable is homogeneous in each batch. It is similar to the *anticluster* method for maximum variance. If the experiment is carried out on a specific spatial distribution the `spatial` function distributes the samples homogeneously also by position similar to *Omixer*. Currently it doesn't allow to mask some positions as *Omixer* .
+The package experDesign provides the function `design` to distribute the samples on multiple batches so that each variable is homogeneous in each batch. It is similar to the *anticluster* method for maximum variance. If the experiment is carried out on a specific spatial distribution the `spatial` function distributes the samples homogeneously also by position similar to *Omixer*.
 
-Adding replicates is a method to have a successful experiment. When the design is already done then the replicates are called technical replicates [@blainey2014]. Technical replicates are samples that are measured multiple times and allow to reduce the uncertainty of the measurement. If the technical replicates are distributed on several batches they allow to measure the batch effect. To select the replicates needed and from which samples the function `extreme_cases` is provided. For easier usage the `replicates` designs an experiment with the number of replicates per batch desired.
+Adding replicates is a method to have a successful experiment. When the design is already done then the replicates are called technical replicates [@blainey2014]. Technical replicates are samples that are measured multiple times and allow to reduce the uncertainty of the measurement. If the technical replicates are distributed on several batches they allow to measure the batch effect. To select the technical replicates needed and from which samples the function `extreme_cases` is provided. For easier usage the `replicates` designs an experiment with the number of replicates per batch desired.
 
-experDesign also provides functionality to calculate the right number of batches for your data. Instead of sequentially filling the batches it distributes the samples on the minimum number of batches required.
+experDesign also provides several small utilities to make it easier design the experiment in batches. For instance, it helps to calculate the samples to place on the minimum number of batches required with `sizes_batches`.
 
 # References
