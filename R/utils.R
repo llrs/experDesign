@@ -27,11 +27,7 @@ translate_index <- function(index, old_position, new_position) {
   index
 }
 
-
 position_name <- function(rows, columns) {
-  nrow <- length(rows)
-  ncol <- length(columns)
-  plate <- matrix(nrow = nrow, ncol = ncol, dimnames = list(rows, columns))
   positions <- expand.grid(rows, columns, stringsAsFactors = FALSE)
   positions$Var2 <- as.character(positions$Var2)
   positions$name <- apply(positions, 1, paste0, collapse = "")
@@ -53,14 +49,15 @@ summary_num <- function(pheno) {
   diff
 }
 
-check_sizes <- function(size_data, n_batch, size_batch){
-  size_batch_min <- ceiling(size_data/n_batch)
-  n_batch_max <- ceiling(size_data/size_batch)
-  if (size_batch >= size_batch_min && n_batch >= n_batch_max) {
+valid_sizes <- function(size_data, size_subset, batches){
+  n_batch_max <- optimum_batches(size_data, size_subset)
+  size_batch_max <- optimum_subset(size_data, batches)
+  if (size_subset >= size_batch_max && batches >= n_batch_max && size_subset*batches >= size_data) {
     return(TRUE)
   }
   FALSE
 }
+
 
 
 
@@ -71,4 +68,8 @@ mean_difference <- function(differences, subset_ind, eval_n) {
     x <- insert(x, subset_ind, name = "ind")
     colSums(x, na.rm = TRUE)/eval_n
   })
+}
+
+release_bullets <- function(){
+  c("Update codemeta.json with: `codemetar::write_codemeta()`")
 }

@@ -1,7 +1,4 @@
-context("design")
-
-
-test_that("works", {
+test_that("design works", {
   set.seed(44)
   samples <- data.frame(L = letters[1:25], Age = rnorm(25))
   index <- design(samples, 5, iterations = 10)

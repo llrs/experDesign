@@ -1,0 +1,144 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "experDesign",
+  "description": "Distributes samples in batches while making batches homogeneous \n    according to their description. Allows for an arbitrary number of variables, \n    both numeric and categorical. For quality control it provides functions to \n    subset a representative sample.",
+  "name": "experDesign: Design Experiments for Batches",
+  "codeRepository": "https://github.com/llrs/experDesign",
+  "issueTracker": "https://github.com/llrs/experDesign/issues",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "0.0.4.9000",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 3.6.3 (2020-02-29)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Lluís",
+      "familyName": "Revilla Sancho",
+      "email": "lluis.revilla@gmail.com",
+      "@id": "https://orcid.org/0000-0001-9747-2570"
+    }
+  ],
+  "contributor": {},
+  "copyrightHolder": {},
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Lluís",
+      "familyName": "Revilla Sancho",
+      "email": "lluis.revilla@gmail.com",
+      "@id": "https://orcid.org/0000-0001-9747-2570"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 2.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "MASS",
+      "name": "MASS",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=MASS"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "spelling",
+      "name": "spelling",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spelling"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.5.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "methods",
+      "name": "methods"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    }
+  ],
+  "releaseNotes": "https://github.com/llrs/experDesign/blob/master/NEWS.md",
+  "readme": "https://github.com/llrs/experDesign/blob/master/README.md",
+  "fileSize": "285.302KB",
+  "contIntegration": ["https://ci.appveyor.com/project/llrs/experDesign", "https://travis-ci.org/llrs/experDesign", "https://codecov.io/github/llrs/experDesign?branch=master"],
+  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "https://www.repostatus.org/#active"],
+  "keywords": ["experiment-design", "batch", "cran"],
+  "relatedLink": "https://CRAN.R-project.org/package=experDesign"
+}

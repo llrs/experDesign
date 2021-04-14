@@ -21,34 +21,40 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSe
   if (is.null(n)) {
     n <- optimum_batches(size_data, size_subset)
   }
-  size_subset <- optimum_batches(size_data, n)
+  if (is.null(size_subset)) {
+    size_subset <- optimum_subset(size_data, n)
+  }
 
-  if (!check_sizes(size_data, size_subset, n)) {
+  if (!valid_sizes(size_data, size_subset, n)) {
     stop("Please provide a higher number of batches or more samples per batch.")
   }
-  .create_index(size_data, size_subset, n, name)
+  size_batches <- internal_batches(size_data, size_subset, n)
+  create_index(size_data, size_batches, n, name)
 }
 
 # The workhorse function without any check
-.create_index <- function(size_data, size_subset, n, name = "SubSet") {
+create_index <- function(size_data, size_batches, n, name = "SubSet") {
 
-  if (length(name) != 1 & length(name) != n) {
+  if (length(name) != 1 && length(name) != n) {
     stop("Provide a single character or a vector the same size of the batches.",
          call. = FALSE)
   } else if (length(name) == 1) {
-    names_batches <- paste0(name, seq_len(n))
-  } else {
-    names_batches <- name
+    name <- paste0(name, seq_len(n))
   }
-  # The size of each batch
-  size_batches <- sizes_batches(size_data, size_subset, n)
 
+  # The size of each batch
+  i <- distribute_samples(size_data, size_batches)
+  names(i) <- name
+  i
+
+}
+
+distribute_samples <- function(size_data, size_subsets) {
   # Create the subsets
-  i <- vector("list", length = n)
-  names(i) <- names_batches
+  i <- vector("list", length = length(size_subsets))
   vec <- seq_len(size_data)
-  for (j in seq_len(n)) {
-    out <- sort(sample(vec, size = size_batches[j]))
+  for (j in seq_along(size_subsets)) {
+    out <- sort(sample(vec, size = size_subsets[j]))
     vec <- vec[!vec %in% out]
     i[[j]] <- out
   }

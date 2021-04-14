@@ -29,9 +29,9 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
 
   nSamples <- nrow(pheno)
   opt <- -Inf
-
+  size_batches <- internal_batches(nSamples, size, 1)
   for (x in seq_len(iterations)) {
-    i <- .create_index(nSamples, size, 1)
+    i <- create_index(nSamples, size_batches, 1)
 
     subsets <- evaluate_index(i, pheno_o)
     # Evaluate the differences between the subsets and the originals

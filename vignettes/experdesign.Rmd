@@ -37,7 +37,7 @@ practical limitations. The question that tries to answer is:
 Of all the possible combinations of samples, it looks for the combination which 
 minimizes the differences between each subgroup according to the following rules:
 
- - If the variable is categorical it tires to randomize the variable across the subgrups.
+ - If the variable is categorical it tires to randomize the variable across the subgroups.
  - If the variable is numeric it tries to distribute evenly following the original distribution of values.
  - If there are `NA` (not available values) it looks to distribute them randomly.
 
