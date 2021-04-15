@@ -50,7 +50,8 @@ Between the designing of an experiment and the measurement of the samples many t
 If some samples go missing (or are contaminated, or do not pass the quality control to perform the measurement, or ...) the unwanted variation of the experiment will increase.
 Even if this doesn't happen, sometimes the experiments need to be done in batches because there are some technical; for example the machine cannot measure more samples at once, or practical considerations; for example it is not possible to take more measurements on the field in the allowed time.
 
-There are several techniques to identify and take into account batch effects when analyzing an experiment already measured [@leek2010]. However, if the source of them are not taken into account before measuring they can introduce a batch effect that could be impossible to remove.
+There are several techniques to identify and take into account batch effects when analyzing an experiment already measured [@leek2010].
+However, if the source of them are not taken into account before measuring they can introduce a batch effect that could be impossible to remove.
 Therefore, it would be better if the batch effects were avoided before carrying out the experiment.
 Tacking into account how the process from the design to the measurement can introduce variability will help avoiding batch effects.
 
@@ -118,7 +119,7 @@ OSAT provides some template for some setups:
 ```{r osat}
 library("OSAT")
 gs <- setup.sample(survey, optimal = VoI)
-gc <- setup.container(IlluminaBeadChip96Plate, n_batch, batch = 'plates')
+gc <- setup.container(IlluminaBeadChip96Plate, n = n_batch, batch = 'plates')
 gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
 ```
 
@@ -128,6 +129,13 @@ gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
 library("anticlust")
 anticlust_index <- anticlustering(
   survey[, VoI],
+  K = n_batch,
+  objective = "variance",
+  method = "exchange",
+  repetitions = iterations
+)
+anticlust_index <- anticlustering(
+  survey[, "Age"],
   K = n_batch,
   objective = "variance",
   method = "exchange",
@@ -163,6 +171,18 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = 96,
                   iterations = iterations)
+```
+
+## Summary
+
+Last we can compare some of the solutions
+
+```{r compare}
+OSAT_index <- get.experiment.setup(gSetup)$plates
+table(batch_names(experDesign_index), anticlust_index)
+# OSAT omits one sample
+table(batch_names(experDesign_index)[-137], OSAT_index$plates)
+table(anticlust_index[-137], OSAT_index$plates)
 ```
 
 # References
