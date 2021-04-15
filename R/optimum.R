@@ -78,7 +78,7 @@ sizes_batches <- function(size_data, size_subset, batches) {
 internal_batches <- function(size_data, size_subset, batches) {
   # If the data fits exactly there is no need for further calculations
   if (size_subset*batches == size_data) {
-    return(rep(size_subset, length.out = batches))
+    return(rep(size_subset, times = batches))
   }
 
   if (batches == 1) {
@@ -89,19 +89,29 @@ internal_batches <- function(size_data, size_subset, batches) {
   if (size_subset*batches == size_data) {
     return(rep(size_subset, times = batches))
   }
-
+ # If not all samples can be allocated return the maximum number of samples
   max_batch_size <- optimum_subset(size_data, batches)
+  if (max_batch_size > size_subset) {
+    return(rep(size_subset, times = batches))
+  }
+
   # Calculate the minimum number of samples per batch
   remaining <- size_data - max_batch_size*batches
   # Pre-allocate the max size of each batch
   out <- rep(max_batch_size, batches)
+
+  # On the rare case when the max_batch_size fulfills the data
+  if (remaining == 0) {
+    return(out)
+  }
+
   # Calculate how many samples must be removed
   samples_to_remove_per_batch <- ceiling(abs(remaining)/batches)
   # Calculate how many batches have less samples
   batches_to_remove_samples <- abs(remaining)/samples_to_remove_per_batch
   # Apply it:``
   out[1:batches_to_remove_samples] <- out[1:batches_to_remove_samples] - samples_to_remove_per_batch
-  return(sort(out, decreasing = TRUE))
+  sort(out, decreasing = TRUE)
 }
 
 check_number <- function(x, name) {
