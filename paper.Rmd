@@ -102,40 +102,47 @@ For instance, it helps to calculate the samples to distribute on the minimum num
 
 # Comparison
 
-For completeness a description of the usage of the different software
+For completeness a brief examples using each different software.
+
+First of all a brief data setup.
 
 ```{r example-data}
-data(survey, package = "MASS")
-survey$ID <- seq_len(nrow(survey))
-VoI <- c("Sex", "Smoke", "Age")
-n_batch <- 3
-iterations <- 1000
+data(cats, package = "MASS")
+cats$ID <- seq_len(nrow(cats))
+VoI <- c("Sex", "Bwt", "Hwt")
+n_batch <- 2
+iterations <- 10000
 ```
+
+The objective is to group the cats in 2 groups to avoid any batch effect on further measures on them.
+We set 10000 iterations and 2 groups
 
 ## OSAT
 
-OSAT provides some template for some setups:
+OSAT provides some template for some layouts:
 
 ```{r osat}
 library("OSAT")
-gs <- setup.sample(survey, optimal = VoI)
+gs <- setup.sample(cats, optimal = VoI)
 gc <- setup.container(IlluminaBeadChip96Plate, n = n_batch, batch = 'plates')
 gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
 ```
 
 ## anticlust
 
+anticlust only works with numeric variables:
+
 ```{r anticlust}
 library("anticlust")
 anticlust_index <- anticlustering(
-  survey[, VoI],
+  cats[, VoI],
   K = n_batch,
   objective = "variance",
   method = "exchange",
   repetitions = iterations
 )
 anticlust_index <- anticlustering(
-  survey[, "Age"],
+  cats[, c("Bwt", "Hwt")],
   K = n_batch,
   objective = "variance",
   method = "exchange",
@@ -157,11 +164,9 @@ layout$chipPos <- ifelse(layout$column %% 2 == 0,
                          layout$row)
 layout2 <- layout
 layout2$plate <- 2
-layout3 <- layout
-layout3$plate <- 3
-plates <- rbind(layout, layout2, layout3)
-Omixer_index <- omixerRand(survey, sampleId = "ID", 
-    block = "block", iterNum = 10, wells = 96,
+plates <- rbind(layout, layout2)
+Omixer_index <- omixerRand(cats, sampleId = "ID", 
+    block = "none", iterNum = iterations, wells = 96,
     plateNum = n_batch, randVars = VoI, layout = plates, techVars = NULL)
 ```
 
@@ -169,7 +174,7 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
 
 ```{r experDesign}
 library("experDesign")
-experDesign_index <- design(survey[, VoI], size_subset = 96,
+experDesign_index <- design(cats[, VoI], size_subset = 96,
                   iterations = iterations)
 ```
 
@@ -180,9 +185,11 @@ Last we can compare some of the solutions
 ```{r compare}
 OSAT_index <- get.experiment.setup(gSetup)$plates
 table(batch_names(experDesign_index), anticlust_index)
-# OSAT omits one sample
-table(batch_names(experDesign_index)[-137], OSAT_index$plates)
-table(anticlust_index[-137], OSAT_index$plates)
+
+table(batch_names(experDesign_index), OSAT_index)
+table(anticlust_index, OSAT_index)
 ```
+
+It doesn't seem possible to run Omixer without any spatial batch effect
 
 # References
