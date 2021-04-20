@@ -26,8 +26,6 @@ tags:
 bibliography: paper.bib
 ---
 
-    knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, error = TRUE)
-
 # Summary
 
 The design of an experiment is critical for their success. However,
@@ -248,13 +246,13 @@ Last we can compare some of the solutions
     table(batch_names(experDesign_index), OSAT_index)
     ##          OSAT_index
     ##            1  2
-    ##   SubSet1 39 33
-    ##   SubSet2 32 40
+    ##   SubSet1 34 38
+    ##   SubSet2 38 34
     table(anticlust_index, OSAT_index)
     ##                OSAT_index
     ## anticlust_index  1  2
-    ##               1 39 33
-    ##               2 32 40
+    ##               1 33 39
+    ##               2 39 33
 
 It doesn’t seem possible to run Omixer without any spatial batch effect
 

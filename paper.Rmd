@@ -26,8 +26,12 @@ tags:
 bibliography: paper.bib
 ---
 
-```{r setup}
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, error = TRUE)
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+	error = TRUE,
+	warning = TRUE,
+	collapse = TRUE
+)
 ```
 
 # Summary
