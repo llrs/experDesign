@@ -26,6 +26,10 @@ tags:
 bibliography: paper.bib
 ---
 
+```{r setup}
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, error = TRUE)
+```
+
 # Summary
 
 The design of an experiment is critical for their success.
@@ -94,7 +98,7 @@ In addition to distribute the samples on batches *experDesign* provides with too
 When the design is already done then the replicates are called technical replicates [@blainey2014].
 Technical replicates are samples that are measured multiple times and allow to reduce the uncertainty of the measurement.
 If the technical replicates are distributed on several batches they allow to measure the batch effect and thus minimize it.
-To select the technical replicates needed and from which samples the function `extreme_cases` is provided.
+To select the technical replicates needed and choose from which samples they are done the function `extreme_cases` is provided.
 For easier usage the `replicates` designs an experiment with the number of replicates per batch desired.
 
 *experDesign* also provides several small utilities to make it easier design the experiment in batches.
