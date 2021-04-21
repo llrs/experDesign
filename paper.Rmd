@@ -1,71 +1,80 @@
 ---
-title: "experDesign: helping performing experiments on batches"
-output: 
-  word_document: 
-    keep_md: true
+title: 'experDesign: helping performing experiments on batches'
+output:
   md_document:
-    preserve_yaml: true
-authors:
-  - name: "Lluís Revilla Sancho"
-    orcid: 0000-0001-9747-2570
-    affiliation: '1, 2'
-  - name: "Juan-José Lozano"
-    orcid: 0000-0001-9747-2570
-    affiliation: '1'
-  - name: "Azucena Salas"
-    orcid: 0000-0001-9747-2570
-    affiliation: '2'
+    preserve_yaml: yes
+  html_document:
+    df_print: paged
+  word_document:
+    keep_md: yes
+date: "23 April 2021"
 affiliations:
-  - name: "Centro de Investigación Biomédica en Red, Enfermedades Hepáticas y Digestivas"
-    index: 1
-  - name: "Institut d'Investigacions Biomèdiques August Pi i Sunyer, IDIBAPS"
-    index: 2
-date: Sys.Date()
+- name: Centro de Investigación Biomédica en Red, Enfermedades Hepáticas y Digestivas
+  index: 1
+- name: Institut d'Investigacions Biomèdiques August Pi i Sunyer, IDIBAPS
+  index: 2
+authors:
+- name: Lluís Revilla Sancho
+  orcid: 0000-0001-9747-2570
+  affiliation: 1, 2
+- name: Juan-José Lozano
+  orcid: 0000-0001-9747-2570
+  affiliation: '1'
+- name: Azucena Salas
+  orcid: 0000-0001-9747-2570
+  affiliation: '2'
 tags:
-  - R
-  - batch effect
-  - experiment design
+- R
+- batch effect
+- experiment design
 bibliography: paper.bib
 ---
 
 # Summary
 
-The design of an experiment is critical for their success.
-However, after an initial correct design the process till the measurement is critical.
-At the several steps required from collection to measurement many errors and problems might affect the experiment result.
-This variation if not taken into account can make an experiment inconclusive.
-*experDesign* provides tools to minimize the risk of making an experiment inconclusive by assigning which samples go on which batch.
+The design of an experiment is critical to its success.
+Nonetheless, even with a correct design, the process up to the moment of measurement is critical.
+At any one of the several steps required from collection to measurement various errors and problems could affect the experimental results.
+Failure to take such variability into account can render an experiment inconclusive.
+*experDesign* provides tools to minimize the risk of inconclusive results by specifically assigning samples to particular batches.
 
 # Introduction
 
-To properly design an experiment the source of variation between the samples must be the one we are interested in.
-Usually one controls the environment where the study or experiment is being done.
-Sometimes, this is not enough or not possible, and then one need to apply some methods to control these variation.
+To properly design an experiment, the source of the variation between samples must be identified.
+Typically, one can control the environment in which the study or experiment is being conducted.
+Sometimes, however, this is not possible, and then one needs to apply certain techniques to control for such variations.
 There are three techniques used to reduce unwanted variation: blocking, randomization and replication [@klaus2015].
 
-**Blocking** groups samples that are equal according to one or more variables allowing to estimate the variation on the measurement from these variables.
-**Randomization** is a method to get the average effect by mixing the potential confounding variables.
-**Replication** increases the number of samples used on the experiment to better estimate the variation of the experiment.
-On some settings (clinical, agriculture, ...) several of these techniques are applied together to ensure the robustness of the study.
+**Blocking** group samples that are equal, according to one or more variables, allows one to estimate the variation in the measurements of the factors from these variables.
+**Randomization** is a method to minimize the variation in the measurements by mixing the potential confounding variables.
+**Replication** increases the number of samples used in an experiment to better estimate the variation of the experiment.
+In some settings (e.g., clinical, agriculture, etc.), several of these techniques can be applied together to ensure the robustness of the study.
 
-Between the designing of an experiment and the measurement of the samples many things can happen.
-If some samples go missing (or are contaminated, or do not pass the quality control to perform the measurement, or ...) the unwanted variation of the experiment will increase.
-Even if this doesn't happen, sometimes the experiments need to be done in batches because there are some technical; for example the machine cannot measure more samples at once, or practical considerations; for example it is not possible to take more measurements on the field in the allowed time.
+Between the designing of an experiment and the measurement of the samples, many things can happen.
+If some samples are lost, are contaminated, or do not pass quality control for measurement purposes, the unwanted variation of the experiment will increase.
+Even if this doesn't happen, experiments will occasionally need to be carried out in batches due to technical reasons; for example, the machine cannot measure more than one samples at a time, or because of other practical considerations; for instance, it may not be possible to obtain additional measurements in the field during the allotted time.
 
-There are several techniques to identify and take into account batch effects when analyzing an experiment already measured [@leek2010].
-Experiments that run over long periods of time or are run across different laboratories are highly likely to be susceptible and even smaller single-laboratory studies if spanned several days or include personnel changes may be affected.
-However, if the source of them are not taken into account before measuring they can introduce a batch effect that could be impossible to remove.
-Therefore, it would be better if the batch effects were avoided before carrying out the experiment.
-Tacking into account the process from the design to the measurement can help to avoid batch effects.
+There are several techniques to identify and assess batch effects when analyzing an already measured experiment [@leek2010].
+Experiments that run over long periods of time or that are run across different laboratories are highly susceptible to batch effects.
+This is also true of even smaller single-laboratory studies, if they span several days or include personnel changes.
+However, if the source of variations are not taken into account before measuring is carried out, a batch effect can be introduced that later is almost impossible to remove.
+Thus, it would be better to avoid such batch effects before carrying out an experiment.
+Taking into account the process from the design phase to the final measurement can help prevent batch effects.
 
 Experiments should be designed to distribute batches and other potential sources of experimental variation across groups.
-To prevent the apparition of batch effect after the initial design of the experiment there are two options: randomization and replication.
-This techniques can prevent the batch effect and allow to compare between or within the desired variable(s).
-One can do both of them but in any case it must take into account the blocking design from the beginning or they might further exacerbate the problem.
+To prevent the occurrence of batch effects after the initial design of the experiment, there are two options: randomization and replication.
+These techniques can not only prevent batch effects, but can also facilitate comparisons between or within the desired variable(s).
+Both can be utilized, but in any case one must take blocking into account from the beginning or the problem might be further exacerbated.
 
-Randomization if done correctly helps reducing the variation across groups while replication let us be more confident of the result of the experiment.
-For instance, if one designs an experiment with cases and controls and the controls are measured in one batch and the controls in a different batch then the difference between them can be entirely confounded by a malfunction of the measurement machine in one batch [@chen2011].
-However, by looking how the variables distribute on each batch samples can be properly randomized to minimize the batch effect, this is known as randomized block experimental design or stratified random sampling experimental design.
+Randomization, if done correctly, can helps reducing variations across groups, while replication can help one be more confident of the experimental results.
+For instance, if one designs an experiment with cases and controls and the latter are measured in one batch and the controls in a different batch, then any difference between them can be entirely confounded by a malfunction of the measuring machine in either one of the batches [@chen2011].
+However, by examining how the variables are distributed across each batch sample, proper randomized can be ensured, thus minimizing batch effects.
+This is known as randomized block experimental design or stratified random sampling experimental design.
+
+Replications consist of increasing the number of measurements with similar attributes.
+Usually at least three samples are included for each condition of interest in order to estimate the variations of these attributes.
+When there is one extraction and then a sample is measured multiple times, this is referred to as a technical replicate.
+Technical replicates help estimate the variation of the measurement method, and thus the possible batch effect.
 
 Replications consist on increasing the number of measurements with similar attributes.
 Usually at least three samples are included for each condition of interest to be able to estimate the variation of the attributes.
@@ -74,35 +83,34 @@ Technical replicates help estimate the variation of the measurement method and t
 
 # State of the art
 
-There are some tools to prevent generating a batch effect on the R language from multiple fields and areas, but specially on the biological research [@rcoreteam2014].
-They have some caveats that limit their application to some cases and to our knowledge there hasn't been a comparison of these different methods.
-Here we describe the current packages briefly:
+There are some tools to prevent batch effects on the R language in multiple fields and areas, and particularly for biological research [@rcoreteam2014].
+They carry some caveats limiting their application in some cases, and to our knowledge no comparisons of these various methods has been conducted.
+Here we briefly describe the currently available packages:
 
--   *OSAT*, on [Bioconductor](https://bioconductor.org/packages/OSAT/), first allocates the samples on each batch according to a variable and later shuffles the samples on each batch to randomize the other variables [@yan2012].
-    This algorithm relies on categorical variables and cannot use numeric ones such as age or time-related variables unless they are treated as categorical.
+-   *OSAT*, at [Bioconductor](https://bioconductor.org/packages/OSAT/), first allocates the samples from each batch according to a variable; it then shuffles the samples from each batch in order to randomize the other variables [@yan2012].
+    This algorithm relies on categorical variables and cannot use numerical variables (e.g., age- or time-related) unless they are treated as categorical.
 
--   *minDiff*, on [github](https://github.com/m-Py/minDiff), and its successor *anticlust*, on [CRAN](https://cran.r-project.org/package=anticlust), divides the samples into similar groups, ensuring similarity by enforcing heterogeneity within group [@papenberg].
-    Conceptually it is similar to reversing the clustering methods k-means and cluster editing.
+-   *minDiff*, at [github](https://github.com/m-Py/minDiff), and its successor *anticlust*, at [CRAN](https://cran.r-project.org/package=anticlust), divide the samples into similar groups, ensuring similarity by enforcing heterogeneity within groups [@papenberg2020].
+    Conceptually it is similar to the clustering methods k-means.
 
--   Recently, *Omixer*, a new package on [Bioconductor](https://bioconductor.org/packages/Omixer/), has been made available [@sinke2021].
-    It tests if the random assignments are homogeneous transforming all variables to numeric and using the Kendall's correlation if there are more than 5 samples, otherwise using Pearson's chi-squared test.
+-   Recently, *Omixer*, a new package, has recently been made available at [Bioconductor](https://bioconductor.org/packages/Omixer/) [@sinke2021].
+    It tests whether the random assignments are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise , it utilizes the Pearson's chi-squared test.
 
--   Finally the package *experDesign*, on [CRAN](https://cran.r-project.org/package=experDesign), which provides groups with characteristics similar to the whole sample by comparing the random samples with the whole dataset for several statistics.
+-   Finally there is the package *experDesign*, at [CRAN](https://cran.r-project.org/package=experDesign), which provides groups with characteristics similar to the entire sample by comparing the random samples with the whole dataset across several statistics.
 
 # Description
 
-The package ***experDesign*** provides the function `design` to distribute the samples on multiple batches so that each variable is homogeneous in each batch.
-It is similar to the *anticluster* method for maximum variance.
-If the experiment is carried out on a specific spatial distribution the `spatial` function distributes the samples homogeneously also by position similar to *Omixer*.
+The package ***experDesign*** provides the functional `design` to distribute the samples into multiple batches such that each variable is homogeneous within each batch.
+It is similar to the *anticluster* method used for maximum variance.
+If the experiment is carried out with a specific spatial distribution, the `spatial` function also distributes the samples homogeneously by position in a manner similar to *Omixer*.
 
-In addition to distribute the samples on batches ***experDesign*** provides with tools to add technical replicates.
-When the design is already done then the replicates are called technical replicates [@blainey2014].
-Technical replicates are samples that are measured multiple times and allow to reduce the uncertainty of the measurement.
-If the technical replicates are distributed on several batches they allow to measure the batch effect and thus minimize it.
-To select the technical replicates needed and choose from which samples they are done the function `extreme_cases` is provided.
-For easier usage the `replicates` designs an experiment with the number of replicates per batch desired.
+In addition to distributing the samples into batches, ***experDesign*** provides tools to add technical replicates.
+When the design is complete, the replicates are referred to as technical replicates [@blainey2014].Technical replicates are samples that are measured multiple times, which reduces the uncertainty of the measurement.
+If the technical replicates are distributed across several batches, batch effects can be measured and thus minimized.
+To select the technical replicates needed and in order to choose from which samples they are calculated, the function `extreme_cases` is provided.
+For easier usage, the `replicates` function designs an experiment with the number of replicates per batch desired.
 
-***experDesign*** also provides several small utilities to make it easier design the experiment in batches.
-For instance, it helps to calculate the samples to distribute on the minimum number of batches required with `sizes_batches`.
+***experDesign*** also provides several small utilities to make it easier to design the experiment in batches.
+For instance, a function called `sizes_batches` helps calculate the number of samples in order to distribute them across the number of batches required.
 
 # References
