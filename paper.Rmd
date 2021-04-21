@@ -1,16 +1,18 @@
 ---
 title: "experDesign: helping performing experiments on batches"
 output: 
+  word_document: 
+    keep_md: true
   md_document:
     preserve_yaml: true
 authors:
   - name: "Lluís Revilla Sancho"
     orcid: 0000-0001-9747-2570
     affiliation: '1, 2'
-  - name: "Juan José Lozano Salvatella"
+  - name: "Juan-José Lozano"
     orcid: 0000-0001-9747-2570
     affiliation: '1'
-  - name: "Azucena Salas Martínez"
+  - name: "Azucena Salas"
     orcid: 0000-0001-9747-2570
     affiliation: '2'
 affiliations:
@@ -21,18 +23,10 @@ affiliations:
 date: Sys.Date()
 tags:
   - R
-  - Batch effect
+  - batch effect
   - experiment design
 bibliography: paper.bib
 ---
-
-```{r setup, echo = FALSE}
-knitr::opts_chunk$set(
-	error = TRUE,
-	warning = TRUE,
-	collapse = TRUE
-)
-```
 
 # Summary
 
@@ -59,27 +53,30 @@ If some samples go missing (or are contaminated, or do not pass the quality cont
 Even if this doesn't happen, sometimes the experiments need to be done in batches because there are some technical; for example the machine cannot measure more samples at once, or practical considerations; for example it is not possible to take more measurements on the field in the allowed time.
 
 There are several techniques to identify and take into account batch effects when analyzing an experiment already measured [@leek2010].
+Experiments that run over long periods of time or are run across different laboratories are highly likely to be susceptible and even smaller single-laboratory studies if spanned several days or include personnel changes may be affected.
 However, if the source of them are not taken into account before measuring they can introduce a batch effect that could be impossible to remove.
 Therefore, it would be better if the batch effects were avoided before carrying out the experiment.
-Tacking into account how the process from the design to the measurement can introduce variability will help avoiding batch effects.
+Tacking into account the process from the design to the measurement can help to avoid batch effects.
 
-To prevent the apparition of batch effect after the design of the experiment there are two options: randomization and replication.
-This techniques can prevent the batch effect to be able to compare between or within the desired variable.
+Experiments should be designed to distribute batches and other potential sources of experimental variation across groups.
+To prevent the apparition of batch effect after the initial design of the experiment there are two options: randomization and replication.
+This techniques can prevent the batch effect and allow to compare between or within the desired variable(s).
 One can do both of them but in any case it must take into account the blocking design from the beginning or they might further exacerbate the problem.
-For instance, if one designs an experiment with cases and controls and the controls are measured in one batch and the controls in a different batch then the difference between them can be entirely confounded by a malfunction of the measurement machine in one batch [@chen2011].
 
-However, samples can be properly randomized to minimize the batch effect by looking how the variables distribute on each batch, this is known as randomized block experimental design or stratified random sampling experimental design.
+Randomization if done correctly helps reducing the variation across groups while replication let us be more confident of the result of the experiment.
+For instance, if one designs an experiment with cases and controls and the controls are measured in one batch and the controls in a different batch then the difference between them can be entirely confounded by a malfunction of the measurement machine in one batch [@chen2011].
+However, by looking how the variables distribute on each batch samples can be properly randomized to minimize the batch effect, this is known as randomized block experimental design or stratified random sampling experimental design.
 
 Replications consist on increasing the number of measurements with similar attributes.
 Usually at least three samples are included for each condition of interest to be able to estimate the variation of the attributes.
 If there is one extraction and then a sample is measured multiple times it is called a technical replicate.
-Technical replicates help estimate the variation of the measurement method or the process.
+Technical replicates help estimate the variation of the measurement method and thus of the possible batch effect.
 
 # State of the art
 
 There are some tools to prevent generating a batch effect on the R language from multiple fields and areas, but specially on the biological research [@rcoreteam2014].
 They have some caveats that limit their application to some cases and to our knowledge there hasn't been a comparison of these different methods.
-Here we describe existing packages briefly:
+Here we describe the current packages briefly:
 
 -   *OSAT*, on [Bioconductor](https://bioconductor.org/packages/OSAT/), first allocates the samples on each batch according to a variable and later shuffles the samples on each batch to randomize the other variables [@yan2012].
     This algorithm relies on categorical variables and cannot use numeric ones such as age or time-related variables unless they are treated as categorical.
@@ -88,116 +85,24 @@ Here we describe existing packages briefly:
     Conceptually it is similar to reversing the clustering methods k-means and cluster editing.
 
 -   Recently, *Omixer*, a new package on [Bioconductor](https://bioconductor.org/packages/Omixer/), has been made available [@sinke2021].
-    It tests if the random assignments are homogeneous transforming all variables to numeric and using the Kendall's correlation if there are more than 5 samples, otherwise using the Pearson chi-squared test.
+    It tests if the random assignments are homogeneous transforming all variables to numeric and using the Kendall's correlation if there are more than 5 samples, otherwise using Pearson's chi-squared test.
 
 -   Finally the package *experDesign*, on [CRAN](https://cran.r-project.org/package=experDesign), which provides groups with characteristics similar to the whole sample by comparing the random samples with the whole dataset for several statistics.
 
 # Description
 
-The package *experDesign* provides the function `design` to distribute the samples on multiple batches so that each variable is homogeneous in each batch.
+The package ***experDesign*** provides the function `design` to distribute the samples on multiple batches so that each variable is homogeneous in each batch.
 It is similar to the *anticluster* method for maximum variance.
 If the experiment is carried out on a specific spatial distribution the `spatial` function distributes the samples homogeneously also by position similar to *Omixer*.
 
-In addition to distribute the samples on batches *experDesign* provides with tools to add technical replicates.
+In addition to distribute the samples on batches ***experDesign*** provides with tools to add technical replicates.
 When the design is already done then the replicates are called technical replicates [@blainey2014].
 Technical replicates are samples that are measured multiple times and allow to reduce the uncertainty of the measurement.
 If the technical replicates are distributed on several batches they allow to measure the batch effect and thus minimize it.
 To select the technical replicates needed and choose from which samples they are done the function `extreme_cases` is provided.
 For easier usage the `replicates` designs an experiment with the number of replicates per batch desired.
 
-*experDesign* also provides several small utilities to make it easier design the experiment in batches.
+***experDesign*** also provides several small utilities to make it easier design the experiment in batches.
 For instance, it helps to calculate the samples to distribute on the minimum number of batches required with `sizes_batches`.
-
-# Comparison
-
-For completeness a brief examples using each different software.
-
-First of all a brief data setup.
-
-```{r example-data}
-data(cats, package = "MASS")
-cats$ID <- seq_len(nrow(cats))
-VoI <- c("Sex", "Bwt", "Hwt")
-n_batch <- 2
-iterations <- 10000
-```
-
-The objective is to group the cats in 2 groups to avoid any batch effect on further measures on them.
-We set 10000 iterations and 2 groups
-
-## OSAT
-
-OSAT provides some template for some layouts:
-
-```{r osat}
-library("OSAT")
-gs <- setup.sample(cats, optimal = VoI)
-gc <- setup.container(IlluminaBeadChip96Plate, n = n_batch, batch = 'plates')
-gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
-```
-
-## anticlust
-
-anticlust only works with numeric variables:
-
-```{r anticlust}
-library("anticlust")
-anticlust_index <- anticlustering(
-  cats[, VoI],
-  K = n_batch,
-  objective = "variance",
-  method = "exchange",
-  repetitions = iterations
-)
-anticlust_index <- anticlustering(
-  cats[, c("Bwt", "Hwt")],
-  K = n_batch,
-  objective = "variance",
-  method = "exchange",
-  repetitions = iterations
-)
-```
-
-## Omixer
-
-```{r Omixer}
-library("Omixer")
-layout <- data.frame(well = 1:96, 
-    row = factor(rep(1:8, each=12), labels = LETTERS[1:8]),
-    column = rep(1:12, 8), 
-    plate  = 1,
-    chip = as.integer(ceiling(rep(1:12, 8)/2)))
-layout$chipPos <- ifelse(layout$column %% 2 == 0, 
-                         as.numeric(layout$row) + 8,
-                         layout$row)
-layout2 <- layout
-layout2$plate <- 2
-plates <- rbind(layout, layout2)
-Omixer_index <- omixerRand(cats, sampleId = "ID", 
-    block = "none", iterNum = iterations, wells = 96,
-    plateNum = n_batch, randVars = VoI, layout = plates, techVars = NULL)
-```
-
-## experDesign
-
-```{r experDesign}
-library("experDesign")
-experDesign_index <- design(cats[, VoI], size_subset = 96,
-                  iterations = iterations)
-```
-
-## Summary
-
-Last we can compare some of the solutions
-
-```{r compare}
-OSAT_index <- get.experiment.setup(gSetup)$plates
-table(batch_names(experDesign_index), anticlust_index)
-
-table(batch_names(experDesign_index), OSAT_index)
-table(anticlust_index, OSAT_index)
-```
-
-It doesn't seem possible to run Omixer without any spatial batch effect
 
 # References
