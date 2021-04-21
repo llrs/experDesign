@@ -20,12 +20,17 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/llrs/experDesign?branch=master&svg=true)](https://ci.appveyor.com/project/llrs/experDesign)
 [![Travis build status](https://travis-ci.org/llrs/experDesign.svg?branch=master)](https://travis-ci.org/llrs/experDesign)
 [![Coverage status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 The goal of experDesign is to help you decide which samples go in which batch, 
-reducing the potential batch bias when analyzing.
+reducing the potential batch bias before performing an experiment.
+It provides three main functions :
+
+* `design()`: Randomize the samples according to their variables.
+* `replicates()`: Selects some samples for replicates and randomizes the samples.
+* `spatial()`: Randomize the samples on a spatial grid.
 
 ## Installation
 
@@ -43,51 +48,42 @@ devtools::install_github("llrs/experDesign")
 
 ## Example
 
-Imagine you have some samples already collected and you want to distributed them in batches:
-```{r experDesign_setup}
+We can use the survey dataset for the examples:
+
+```{r show}
 library("experDesign")
-metadata <- expand.grid(height = seq(60, 80, 5), 
-                        weight = seq(100, 300, 50),
-                        sex = c("Male","Female"))
-head(metadata, 15)
+data(survey, package = "MASS") 
+head(survey)
 ```
 
-If you block incorrectly and end up with a group in a single batch we will end up with batch effect.
-In order to avoid this `design` helps you assign each sample to a batch (in this case each batch has 24 samples at most). First we can explore the number of samples and the number of batches:
+The dataset has numeric, categorical values and some `NA`'s value.
 
-```{r size}
-size_data <- nrow(metadata)
-size_batch <- 24
-(batches <- optimum_batches(size_data, size_batch))
-# So now the best number of samples for each batch is less than the available
-(size <- optimum_subset(size_data, batches))
-# The distribution of samples per batch
-sizes_batches(size_data, size, batches)
+# Picking samples for each batch
+
+Imagine that we can only work in groups of 70, and we want to randomize by Sex, 
+Smoke, Age, and by writing hand.  
+There are `r choose(237, 70)` combinations some of them would be have in a 
+single experiment all the right handed students. We could measure all these combinations
+but we can try to find an optimum value.
+
+```{r design, fig.show='hold'}
+# To reduce the variables used:
+omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
+(keep <- colnames(survey)[!colnames(survey) %in% omit])
+head(survey[, keep])
+
+# Looking for groups at most of 70 samples.
+index <- design(pheno = survey, size_subset = 70, omit = omit)
+index
 ```
 
-Note that instead of using a whole batch and then leave a single sample on the third distributes all the samples in the three batches that will be needed.
-We can directly look for the distribution of the samples given our max number of samples per batch:
+We can transform then into a vector to append to the file or to pass to the lab mate with:
 
-```{r design}
-d <- design(metadata, size_batch)
-# It is a list but we can convert it to a vector with:
-batch_names(d)
+```{r batch_names}
+head(batch_names(index))
 ```
 
-Naively one would either fill some batches fully or distribute them not evenly 
-(the  first 17 packages together, the next 17 and so on). This solution ensures 
-that the data is randomized. For more random distribution you can increase the number of iterations performed to calculate this distribution.
 
-If you need space for replicates to control for batch effect you can use:
-
-```{r replicates}
-r <- replicates(metadata, size_batch, 5)
-lengths(r)
-r
-```
-
-Which seeks as controls the most diverse values and adds them to the samples 
-distribution. Note that if the sample is already present on that batch is not added again, that's why the number of samples per batch is different from the design without replicates.
 
 # Previous work
 

@@ -2,9 +2,13 @@
 
 * Added reference to a new package Omixer on the README. 
 
-* Fixed batches sizes errors
+* Fixed batches sizes errors.
 
-* Speed increase (5x) on design, spatial and replicates
+* Speed increase (5x) on design, spatial and replicates.
+
+* Update Code of Conduct.
+
+* Add online documentation url.
 
 # experDesign 0.0.4
 
