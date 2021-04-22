@@ -15,3 +15,5 @@
 ^CRAN-RELEASE$
 ^\.github$
 ^codemeta\.json$
+paper-rev2.md
+^.*\.docx
