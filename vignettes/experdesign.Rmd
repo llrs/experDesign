@@ -55,68 +55,99 @@ Even with this measures you might end up with some batch effect due to:
 Before building this package I would like to give credit to those that made 
 also efforts in this direction:
 
-The [OSAT](https://bioconductor.org/packages/release/bioc/html/OSAT.html) package handles categorical 
-variables but not numeric data.
 
-The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
-numeric and categorical data, but it can only optimize for two nominal criteria.
+The CRAN task View of [Experimental Design](https://CRAN.R-project.org/view=ExperimentalDesign) includes many packages relevant for designing an experiment before collecting data, but none of them provides how to manage them once the samples are already collected.
 
-This package handles both numerical and categorical variables as many as you 
-wish. But the accuracy depends on the number of `iterations` done. 
-But if you only have data falling on any of these condition the results will be 
-more accurate.
+Two packages allow to distribute the samples on batches:
 
-# Preparation
+- The [OSAT](https://bioconductor.org/packages/release/bioc/html/OSAT.html) package handles categorical 
+variables but not numeric data. It doesn't work with our data.
 
-We can use the survey dataset for the examples:
+ - The [minDiff](https://github.com/m-Py/minDiff) package reported in [Stats.SE](https://stats.stackexchange.com/a/326015/105234), handles both 
+numeric and categorical data. But it can only optimize for two nominal criteria.
+It doesn't work for our data.
 
-```{r show}
-data(survey, package = "MASS") 
-head(survey)
+ - The [Omixer](https://bioconductor.org/packages/Omixer/) package handles both 
+numeric and categorical data (converting categorical variables to numeric). But both the same way either Pearson's Chi-squared Test if there are few samples or Kendall's correlation. It does allow to protect some spots from being used.
+
+If you are still designing the experiment and do not have collected any data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign) might be relevant for you.
+
+Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48) I made before developing the package.
+
+
+# Design of Experiment {#DoE}
+
+Imagine you have some samples already collected and you want to distributed them in batches:
+```{r experDesign_setup}
+library("experDesign")
+metadata <- expand.grid(height = seq(60, 80, 5), 
+                        weight = seq(100, 300, 50),
+                        sex = c("Male","Female"))
+head(metadata, 15)
 ```
 
-The dataset has numeric, categorical values and some `NA`'s value.
+If you block incorrectly and end up with a group in a single batch we will end up with batch effect.
+In order to avoid this `design()` helps you assign each sample to a batch (in this case each batch has 24 samples at most). First we can explore the number of samples and the number of batches:
 
-# Picking samples for each batch
-
-Imagine that we can only work in groups of 70, and we want to randomize by Sex, 
-Smoke, Age, and by writing hand.  
-There are `r choose(237, 70)` combinations some of them would be have in a 
-single experiment all the right handed students. We could measure all these combinations
-but we can try to find an optimum value.
-
-```{r design, fig.show='hold'}
-# To reduce the variables used:
-omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
-(keep <- colnames(survey)[!colnames(survey) %in% omit])
-head(survey[, keep])
-
-# Looking for groups at most of 70 samples.
-index <- design(pheno = survey, size_subset = 70, omit = omit)
-index
+```{r size}
+size_data <- nrow(metadata)
+size_batch <- 24
+(batches <- optimum_batches(size_data, size_batch))
+# So now the best number of samples for each batch is less than the available
+(size <- optimum_subset(size_data, batches))
+# The distribution of samples per batch
+sizes_batches(size_data, size, batches)
 ```
 
-We can transform then into a vector to append to the file or to pass to the lab mate with:
+Note that instead of using a whole batch and then leave a single sample on the third distributes all the samples in the three batches that will be needed.
 
-```{r batch_names}
-head(batch_names(index))
+# Randomization
+
+We can directly look for the distribution of the samples given our max number of samples per batch:
+
+```{r design}
+d <- design(metadata, size_batch)
+# It is a list but we can convert it to a vector with:
+batch_names(d)
 ```
 
-# Checking results
+Naively one would either fill some batches fully or distribute them not evenly 
+(the  first 17 packages together, the next 17 and so on). This solution ensures 
+that the data is randomized. For more random distribution you can increase the number of iterations performed to calculate this distribution.
 
-We can check the values of the sampling with:
+# Randomization and replicates
 
-```{r evaluate_index}
-out <- evaluate_index(index, survey[, keep])
-out[, "Age", ]
+If you need space for replicates to control for batch effect you can use:
+
+```{r replicates}
+r <- replicates(metadata, size_batch, 5)
+lengths(r)
+r
 ```
 
-And we can compare with the original distribution using `evaluate_orig`:
+Which seeks as controls the most diverse values and adds them to the samples 
+distribution. Note that if the sample is already present on that batch is not added again, that's why the number of samples per batch is different from the design without replicates.
 
-```{r evaluate_orig}
-orig <- evaluate_orig(survey)
-orig[, "Age"]
+# Layout
+
+Lastly, we can see how these samples would be distributed in a layout of 6x4:
+
+```{r spatial}
+s <- spatial(r, metadata, rows = LETTERS[1:6], columns = 1:4)
+head(s)
 ```
+
+# Report for easy on field usage
+
+We can add the batches to the initial data with `inspect()`:
+
+```{r report}
+report <- inspect(r, metadata)
+report2 <- inspect(s, report, index_name = "position")
+head(report2)
+```
+
+And now we can see the batch and position of each sample
 
 
 # Unbalanced setting
@@ -154,71 +185,10 @@ If you need a subset with the samples that are more diverse you can use the
 following function:
 
 ```{r QC}
+data(survey, package = "MASS") 
+head(survey)
 samples <- extreme_cases(survey, size = 10)
 survey[samples, ]
-```
-
-It is recommended to add replicates on the several batches to estimate the differences between the batches. If you want to add replicates on the batches you can use the following:
-
-```{r replicates}
-# Looking for groups at most of 70 samples.
-index_replicates <- replicates(pheno = survey, size_subset = 70, 
-                               controls = 10, omit = omit)
-index_replicates
-```
-
-The controls will be those on all the batches:
-
-```{r index_replicates}
-survey[Reduce(intersect, index_replicates), ]
-```
-
-If you have biological replicates use the information you have about them, 
-but if you have technical replicates do not add them to the table used by 
-`design` or `replicates`.
-
-# Utilities
-
-To convert to a value to append to the data.frame we can use:
-
-```{r batch}
-batch <- batch_names(index)
-```
-
-Or if we want to do so automatically we can do:
-
-```{r inspect}
-df <- inspect(index, survey, omit = omit)
-head(df)
-```
-
-# Comparing groups
-
-If a data.frame has a column with name "batch" we can use the function 
-distribution to see if it is randomly distributed. Or we can see the mean 
-difference between each subgroup and the original value of the data.frame.
-
-```{r compare_groups}
-evaluate_entropy(index, survey)
-evaluate_independence(index, survey)
-
-evaluate_na(index, survey)
-
-evaluate_mean(index, survey)
-evaluate_sd(index, survey)
-evaluate_mad(index, survey)
-```
-
-The numbers provided are just an indicator of how far are they from a perfect 
-distance. The farthest and index is, the worst it is to account for batch effect.
-
-If we want the original numbers we can use `evaluate_index`, and look for specific values:
-
-```{r evaluate_independence}
-ev <- evaluate_index(index, survey)
-ev["entropy", "Sex",]
-ev[1:4, "Age",]
-evaluate_independence(index, survey)
 ```
 
 # SessionInfo
