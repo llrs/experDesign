@@ -1,13 +1,16 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "experDesign",
   "description": "Distributes samples in batches while making batches homogeneous \n    according to their description. Allows for an arbitrary number of variables, \n    both numeric and categorical. For quality control it provides functions to \n    subset a representative sample.",
   "name": "experDesign: Design Experiments for Batches",
-  "codeRepository": "https://github.com/llrs/experDesign",
+  "codeRepository": "https://github.com/llrs/experDesign/",
   "issueTracker": "https://github.com/llrs/experDesign/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.4.9000",
+  "version": "0.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -136,9 +139,16 @@
   ],
   "releaseNotes": "https://github.com/llrs/experDesign/blob/master/NEWS.md",
   "readme": "https://github.com/llrs/experDesign/blob/master/README.md",
-  "fileSize": "285.302KB",
+  "fileSize": "1316.643KB",
   "contIntegration": ["https://ci.appveyor.com/project/llrs/experDesign", "https://travis-ci.org/llrs/experDesign", "https://codecov.io/github/llrs/experDesign?branch=master"],
-  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "https://www.repostatus.org/#active"],
-  "keywords": ["experiment-design", "batch", "cran"],
-  "relatedLink": "https://CRAN.R-project.org/package=experDesign"
+  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#stable", "https://www.repostatus.org/#active"],
+  "keywords": [
+    "experiment-design",
+    "batch",
+    "cran"
+  ],
+  "relatedLink": [
+    "https://CRAN.R-project.org/package=experDesign",
+    "https://experdesign.llrs.dev"
+  ]
 }
