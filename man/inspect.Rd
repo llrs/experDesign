@@ -4,14 +4,16 @@
 \alias{inspect}
 \title{Inspect the index}
 \usage{
-inspect(i, pheno, omit = NULL)
+inspect(i, pheno, omit = NULL, index_name = "batch")
 }
 \arguments{
 \item{i}{List of indices of samples per batch}
 
 \item{pheno}{Data.frame with the sample information.}
 
-\item{omit}{Name of the columns of the \code{pheno} that will be omitted}
+\item{omit}{Name of the columns of the \code{pheno} that will be omitted.}
+
+\item{index_name}{Column name of the index of the resulting data.frame.}
 }
 \value{
 The data.frame with a new column batch with the name of the batch the sample goes to.
