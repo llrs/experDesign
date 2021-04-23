@@ -1,8 +1,16 @@
 # experDesign (development version)
 
+# experDesign 0.1.0
+
 * Added reference to a new package Omixer on the README. 
-* Fixed batches sizes
-* Speed increase
+
+* Fixed batches sizes errors.
+
+* Speed increase (5x) on design, spatial and replicates.
+
+* Update Code of Conduct.
+
+* Add online documentation url.
 
 # experDesign 0.0.4
 

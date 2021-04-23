@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Design Experiments for Batches
-Version: 0.0.4.9001
+Version: 0.1.0.9000
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
@@ -12,7 +12,7 @@ Description: Distributes samples in batches while making batches homogeneous
     both numeric and categorical. For quality control it provides functions to 
     subset a representative sample.
 License: MIT + file LICENSE
-URL: https://github.com/llrs/experDesign
+URL: https://experdesign.llrs.dev, https://github.com/llrs/experDesign/
 BugReports: https://github.com/llrs/experDesign/issues
 Depends: 
     R (>= 3.5.0)

@@ -3,7 +3,8 @@
 #' Given the index and the data of the samples append the batch assignment
 #' @param i List of indices of samples per batch
 #' @param pheno Data.frame with the sample information.
-#' @param omit Name of the columns of the `pheno` that will be omitted
+#' @param omit Name of the columns of the `pheno` that will be omitted.
+#' @param index_name Column name of the index of the resulting data.frame.
 #' @return The data.frame with a new column batch with the name of the batch the sample goes to.
 #' @export
 #' @examples
@@ -13,8 +14,11 @@
 #'                 iterations = 10)
 #' batches <- inspect(index, survey[, columns])
 #' head(batches)
-inspect <- function(i, pheno, omit = NULL) {
+inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
   batch <- batch_names(i)
+  i <- unlist(i, FALSE, FALSE)
+  i <- sort(i)
+  pheno <- pheno[i, ]
 
   # Omit columns
   if (!is.null(omit)) {
@@ -23,7 +27,9 @@ inspect <- function(i, pheno, omit = NULL) {
     pheno_o <- pheno
   }
 
-  cbind(pheno_o, batch)
+  out <- cbind(pheno_o, batch)
+  colnames(out)[ncol(out)] <- index_name
+  out
 }
 
 

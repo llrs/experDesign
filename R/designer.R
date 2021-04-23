@@ -20,10 +20,17 @@
 #' index
 design <- function(pheno, size_subset, omit = NULL, iterations = 500,
                    name = "SubSet") {
+  stopifnot(is.numeric(size_subset) && is.finite(size_subset))
+  stopifnot(length(dim(pheno)) == 2)
+  stopifnot(is.numeric(iterations) && is.finite(iterations))
+  stopifnot(is.character(name))
   opt <- Inf
 
   # Calculate batches
   size_data <- nrow(pheno)
+  if (size_subset >= size_data) {
+    stop("All the data can be done in one batch.", call. = FALSE)
+  }
   batches <- optimum_batches(size_data, size_subset)
 
   if (!valid_sizes(size_data, size_subset, batches)) {
@@ -86,9 +93,14 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
-  stopifnot(is.numeric(size_subset))
-  stopifnot(is.numeric(controls))
+  stopifnot(is.numeric(size_subset) && is.finite(size_subset))
+  stopifnot(length(dim(pheno)) == 2)
+  stopifnot(is.numeric(iterations) && is.finite(iterations))
 
+  size_data <- nrow(pheno)
+  if (size_subset >= size_data) {
+    stop("All the data can be done in one batch.", call. = FALSE)
+  }
   if (size_subset < controls) {
     stop("The controls are technical controls for the batches.\n\t",
          "They cannot be above the number of samples per batch.", call. = FALSE)

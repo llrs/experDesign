@@ -19,6 +19,9 @@
 spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = LETTERS[1:5],
          columns = 1:10, iterations = 500) {
 
+  stopifnot(length(dim(pheno)) == 2)
+  stopifnot(is.numeric(iterations) && is.finite(iterations))
+
   nrow <- length(rows)
   ncol <- length(columns)
 
@@ -33,6 +36,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
          "\n\tPlease check the rows and columns or how you created the index.",
          call. = FALSE)
   }
+
   plate <- matrix(nrow = nrow, ncol = ncol, dimnames = list(rows, columns))
   positions <- position_name(rows, columns)
   if (any(!remove_positions %in% positions$name)) {

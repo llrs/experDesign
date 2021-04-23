@@ -1,8 +1,8 @@
-This resubmission fixes the link notes found by the CRAN team.
+This resubmission fixes some bugs and speed increase on some functions
 
 ## Test environments
 
-* local R installation, R 4.0.1
+* local R installation, R 3.6.3 and 4.0.1
 * ubuntu 16.04 (on travis-ci), old-release, release, devel
 * win-builder, old-release, release, devel
 * Github Actions (windows), release

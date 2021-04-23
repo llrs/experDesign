@@ -16,14 +16,20 @@ status](https://travis-ci.org/llrs/experDesign.svg?branch=master)](https://travi
 [![Coverage
 status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
 [![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 The goal of experDesign is to help you decide which samples go in which
-batch, reducing the potential batch bias when analyzing.
+batch, reducing the potential batch bias before performing an
+experiment. It provides three main functions :
+
+-   `design()`: Randomize the samples according to their variables.
+-   `replicates()`: Selects some samples for replicates and randomizes
+    the samples.
+-   `spatial()`: Randomize the samples on a spatial grid.
 
 ## Installation
 
@@ -44,100 +50,87 @@ devtools::install_github("llrs/experDesign")
 
 ## Example
 
-Imagine you have some samples already collected and you want to
-distributed them in batches:
+We can use the survey dataset for the examples:
 
 ``` r
 library("experDesign")
-metadata <- expand.grid(height = seq(60, 80, 5), 
-                        weight = seq(100, 300, 50),
-                        sex = c("Male","Female"))
-head(metadata, 15)
-#>    height weight  sex
-#> 1      60    100 Male
-#> 2      65    100 Male
-#> 3      70    100 Male
-#> 4      75    100 Male
-#> 5      80    100 Male
-#> 6      60    150 Male
-#> 7      65    150 Male
-#> 8      70    150 Male
-#> 9      75    150 Male
-#> 10     80    150 Male
-#> 11     60    200 Male
-#> 12     65    200 Male
-#> 13     70    200 Male
-#> 14     75    200 Male
-#> 15     80    200 Male
+data(survey, package = "MASS") 
+head(survey)
+#>      Sex Wr.Hnd NW.Hnd W.Hnd    Fold Pulse    Clap Exer Smoke Height      M.I
+#> 1 Female   18.5   18.0 Right  R on L    92    Left Some Never 173.00   Metric
+#> 2   Male   19.5   20.5  Left  R on L   104    Left None Regul 177.80 Imperial
+#> 3   Male   18.0   13.3 Right  L on R    87 Neither None Occas     NA     <NA>
+#> 4   Male   18.8   18.9 Right  R on L    NA Neither None Never 160.00   Metric
+#> 5   Male   20.0   20.0 Right Neither    35   Right Some Never 165.00   Metric
+#> 6 Female   18.0   17.7 Right  L on R    64   Right Some Never 172.72 Imperial
+#>      Age
+#> 1 18.250
+#> 2 17.583
+#> 3 16.917
+#> 4 20.333
+#> 5 23.667
+#> 6 21.000
 ```
 
-If you block incorrectly and end up with a group in a single batch we
-will end up with batch effect. In order to avoid this `design` helps you
-assign each sample to a batch (in this case each batch has 24 samples at
-most). First we can explore the number of samples and the number of
-batches:
+The dataset has numeric, categorical values and some `NA`’s value.
+
+# Picking samples for each batch
+
+Imagine that we can only work in groups of 70, and we want to randomize
+by Sex, Smoke, Age, and by writing hand.  
+There are 1.6543999^{61} combinations some of them would be have in a
+single experiment all the right handed students. We could measure all
+these combinations but we can try to find an optimum value.
 
 ``` r
-size_data <- nrow(metadata)
-size_batch <- 24
-(batches <- optimum_batches(size_data, size_batch))
-#> [1] 3
-# So now the best number of samples for each batch is less than the available
-(size <- optimum_subset(size_data, batches))
-#> [1] 17
-# The distribution of samples per batch
-sizes_batches(size_data, size, batches)
-#> [1] 17 17 16
-```
+# To reduce the variables used:
+omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
+(keep <- colnames(survey)[!colnames(survey) %in% omit])
+#> [1] "Sex"   "W.Hnd" "Smoke" "Age"
+head(survey[, keep])
+#>      Sex W.Hnd Smoke    Age
+#> 1 Female Right Never 18.250
+#> 2   Male  Left Regul 17.583
+#> 3   Male Right Occas 16.917
+#> 4   Male Right Never 20.333
+#> 5   Male Right Never 23.667
+#> 6 Female Right Never 21.000
 
-Note that instead of using a whole batch and then leave a single sample
-on the third distributes all the samples in the three batches that will
-be needed. We can directly look for the distribution of the samples
-given our max number of samples per batch:
-
-``` r
-d <- design(metadata, size_batch)
-# It is a list but we can convert it to a vector with:
-batch_names(d)
-#>  [1] "SubSet2" "SubSet1" "SubSet3" "SubSet3" "SubSet3" "SubSet3" "SubSet1"
-#>  [8] "SubSet1" "SubSet2" "SubSet1" "SubSet3" "SubSet1" "SubSet2" "SubSet1"
-#> [15] "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet3" "SubSet2"
-#> [22] "SubSet2" "SubSet3" "SubSet1" "SubSet1" "SubSet3" "SubSet2" "SubSet1"
-#> [29] "SubSet2" "SubSet1" "SubSet1" "SubSet2" "SubSet3" "SubSet2" "SubSet2"
-#> [36] "SubSet1" "SubSet2" "SubSet3" "SubSet3" "SubSet2" "SubSet3" "SubSet3"
-#> [43] "SubSet1" "SubSet2" "SubSet2" "SubSet1" "SubSet1" "SubSet3" "SubSet2"
-#> [50] "SubSet3"
-```
-
-Naively one would either fill some batches fully or distribute them not
-evenly (the first 17 packages together, the next 17 and so on). This
-solution ensures that the data is randomized. For more random
-distribution you can increase the number of iterations performed to
-calculate this distribution.
-
-If you need space for replicates to control for batch effect you can
-use:
-
-``` r
-r <- replicates(metadata, size_batch, 5)
-lengths(r)
-#> SubSet1 SubSet2 SubSet3 
-#>      21      21      18
-r
+# Looking for groups at most of 70 samples.
+index <- design(pheno = survey, size_subset = 70, omit = omit)
+index
 #> $SubSet1
-#>  [1]  1  3  4  7  8 10 12 13 14 16 20 29 35 38 39 41 42 43 46 47 50
+#>  [1]  14  16  29  30  33  37  39  49  51  52  57  68  72  73  74  76  77  78  82
+#> [20]  92  93 107 108 109 111 118 122 123 124 125 129 137 140 142 151 152 158 160
+#> [39] 162 164 165 168 170 181 182 183 184 191 193 195 214 218 221 222 223 224 228
+#> [58] 234 235 237
 #> 
 #> $SubSet2
-#>  [1]  2  5  6  8  9 12 13 14 18 19 22 26 30 33 36 37 38 44 45 48 49
+#>  [1]   2   3   4  12  13  15  25  27  32  43  44  50  53  54  63  65  66  71  79
+#> [20]  83  84  85  86 101 102 106 116 121 131 135 136 138 139 144 147 149 153 157
+#> [39] 161 163 167 171 175 180 188 192 194 204 209 211 212 213 215 216 219 225 226
+#> [58] 227 229
 #> 
 #> $SubSet3
-#>  [1]  8 11 12 13 14 15 17 21 23 24 25 27 28 31 32 34 38 40
+#>  [1]   1   5   7   8  11  17  20  21  22  23  24  31  34  38  40  41  45  48  55
+#> [20]  56  60  62  64  67  87  90  94 100 104 105 110 112 113 114 115 117 119 120
+#> [39] 126 128 145 155 156 159 166 169 172 178 179 185 187 196 199 200 202 203 210
+#> [58] 220 230
+#> 
+#> $SubSet4
+#>  [1]   6   9  10  18  19  26  28  35  36  42  46  47  58  59  61  69  70  75  80
+#> [20]  81  88  89  91  95  96  97  98  99 103 127 130 132 133 134 141 143 146 148
+#> [39] 150 154 173 174 176 177 186 189 190 197 198 201 205 206 207 208 217 231 232
+#> [58] 233 236
 ```
 
-Which seeks as controls the most diverse values and adds them to the
-samples distribution. Note that if the sample is already present on that
-batch is not added again, that’s why the number of samples per batch is
-different from the design without replicates.
+We can transform then into a vector to append to the file or to pass to
+the lab mate with:
+
+``` r
+head(batch_names(index))
+#> [1] "SubSet3" "SubSet2" "SubSet2" "SubSet2" "SubSet3" "SubSet4"
+```
 
 # Previous work
 
