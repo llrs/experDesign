@@ -1,13 +1,5 @@
 ---
 title: 'experDesign: helping performing experiments on batches'
-output:
-  md_document:
-    preserve_yaml: yes
-  html_document:
-    df_print: paged
-  word_document:
-    keep_md: yes
-date: "23 April 2021"
 affiliations:
 - name: Centro de Investigación Biomédica en Red, Enfermedades Hepáticas y Digestivas
   index: 1
@@ -27,6 +19,7 @@ tags:
 - R
 - batch effect
 - experiment design
+date: "23 April 2021"
 bibliography: paper.bib
 ---
 
@@ -181,6 +174,10 @@ number of replicates per batch desired.
 easier to design the experiment in batches. For instance, a function
 called `sizes_batches` helps calculate the number of samples in order to
 distribute them across the number of batches required.
+
+# Acknowledgments
+
+We are grateful to Joe Moore for English-language assistance.
 
 # References
 

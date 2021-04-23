@@ -113,4 +113,8 @@ For easier usage, the `replicates` function designs an experiment with the numbe
 ***experDesign*** also provides several small utilities to make it easier to design the experiment in batches.
 For instance, a function called `sizes_batches` helps calculate the number of samples in order to distribute them across the number of batches required.
 
+# Acknowledgments
+
+We are grateful to Joe Moore for English-language assistance.
+
 # References
