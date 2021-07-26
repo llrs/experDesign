@@ -8,7 +8,7 @@ output:
   pdf_document: default
   html_document:
     df_print: paged
-date: "15th July 2021"
+date: "26st July 2021"
 affiliations:
 - name: Centro de Investigación Biomédica en Red, Enfermedades Hepáticas y Digestivas
   index: 1
@@ -32,7 +32,7 @@ bibliography: paper.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, error = TRUE)
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, error = TRUE, fig.width = 9)
 ```
 
 # Summary
@@ -47,17 +47,19 @@ Failure to take such variability into account can render an experiment inconclus
 
 To properly design an experiment, the source of the variation between samples must be identified.
 Typically, one can control the environment in which the study or experiment is being conducted.
-Sometimes, however, this is not possible, and then one needs to apply certain techniques to control for such variations.
+Sometimes, however, this is not possible.
+In this event, techniques to control such variations need to be applied.
 There are three techniques used to decrease the uncertainty of the unwanted variation: blocking, randomization and replication [@klaus2015].
 
-**Blocking** groups samples that are equal according to one or more variables, allowing one to estimate the differences between each batch by comparing measurements within blocks.
-**Randomization** minimizes the variation in the measurements by mixing the potential confounding variables.
+**Blocking** groups samples that are equal according to one or more variables, allowing the estimation of the differences between each batch by comparing measurements within blocks.
+**Randomization** minimizes the variation in the measurements by randomly mixing the potential confounding variables.
 **Replication** increases the number of samples used in an experiment to better estimate the variation of the experiment.
 In some settings these techniques can be applied together to ensure the robustness of the study.
 
-Between the designing of an experiment and the measurement of the samples, some samples might be lost, be contaminated, or degradation below quality threshold can happen.
+Between the designing of an experiment and the measurement of the samples, some samples might be lost, contaminated, or degradated below quality threshold.
 Even if this does not happen, experiments will occasionally need to be carried out in batches.
-Batches might be due to technical reasons, for example, the machine cannot measure more than some amount of samples at a time; and practical reasons, for instance, it may not be possible to obtain additional measurements in the field during the allotted time.
+Batches might be due to technical reasons, for example, the machine cannot measure more than a number of samples at the same time.
+They can be also due to practical reasons, for instance, it may not be possible to obtain additional measurements in the field during the allotted time.
 
 This divergence from the original design might cause batch effects perturbing the analysis.
 There are several techniques to identify and assess batch effects when analyzing an already measured experiment [@leek2010].
@@ -82,18 +84,18 @@ Here we briefly describe the currently available packages:
 -   *OSAT*, at [Bioconductor](https://bioconductor.org/packages/OSAT/), first allocates the samples from each batch according to a variable; it then shuffles the samples from each batch in order to randomize the other variables [@yan2012].
     This algorithm relies on categorical variables and cannot use numerical variables (e.g., age- or time-related) unless they are treated as categorical.
 
--   *minDiff*, at [github](https://github.com/m-Py/minDiff), and its successor *anticlust*, at [CRAN](https://cran.r-project.org/package=anticlust), divides the samples into similar groups, ensuring similarity by enforcing heterogeneity within groups [@papenberg2020].
+-   *anticlust*, at [CRAN](https://cran.r-project.org/package=anticlust), divides the samples into similar groups, ensuring similarity by enforcing heterogeneity within groups [@papenberg2020].
     Conceptually it is similar to the clustering methods k-means.
 
--   Recently, *Omixer*, a new package, has recently been made available at [Bioconductor](https://bioconductor.org/packages/Omixer/) [@sinke2021].
-    It tests whether the random assignments are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.
+-   Recently, *Omixer*, a new package, has been made available at [Bioconductor](https://bioconductor.org/packages/Omixer/) [@sinke2021].
+    It tests whether the random assignments made by it are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.
 
 # Statement of need
 
 Current solutions to stratify samples to reduce and control batch effect do not work for all cases and usual needs of researchers.
-They are either specialized to specific type of data or omit some conditions that are often meet or only work on a specific subset of conditions.
+They are either specialized to specific type of data, omit some conditions that are often meet or only work on a specific subset of conditions.
 The new package ***experDesign*** works on all kind of data types and doesn't require a spatial distribution making it suitable for all kind of experiments.
-This package is intended for people looking for a quick easy to interpret solution providing reasonable suggestions about how to distribute the samples on their analysis.
+This package is intended for people looking for a quick and easy to interpret solution providing reasonable suggestions about how to distribute the samples on their analysis.
 
 For completeness a description and comparison of the usage of the different software currently available on CRAN and Bioconductor is presented below.
 First some real data from a survey:
@@ -113,8 +115,10 @@ This data set has three variables of interest; Sex, Smoke and Age are a mix of c
 
 OSAT provides some template for some setups and works for numeric and categorical variables:
 
-```{r osat}
+```{r osat, fig.cap="Samples distributions with OSAT."}
 library("ggplot2")
+theme_plots <- theme_minimal() + theme(text = element_text(size = 10))
+theme_set(theme_plots)
 library("OSAT")
 library("patchwork")
 gs <- setup.sample(survey, optimal = VoI)
@@ -144,7 +148,7 @@ OSAT returns one row less that the input provided because it deletes one row bec
 
 anticlust doesn't handle all the variables, it only accepts numeric variables:
 
-```{r anticlust, error=TRUE}
+```{r anticlust, error=TRUE, fig.cap="Samples distributions with anticlust."}
 library("anticlust")
 anticlust_index <- anticlustering(
   survey[, VoI],
@@ -196,16 +200,24 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
 
 # Description
 
-The package ***experDesign*** provides the functional `design` to distribute the samples into multiple batches such that each variable is homogeneous within each batch.
+The package ***experDesign*** provides the function `design` to arrange the samples into multiple batches such that the variable's distribution is homogeneous within each batch.
 Each batch is set to have some centrality and dispersion statistics to match as closely as possible the original input design data.
-It does by comparing the mean, the standard deviation, the median absolute deviation, variables with no value number, the entropy and the independence of the categorical variables.
-On each iteration if the distribution of samples for each batch has less differences with the original distribution than the last previous stored sample distribution then it replace it as the best sample distribution.
+The statistics used are the mean, the standard deviation, the median absolute deviation, variables with no value number, the entropy and the independence of the categorical variables.
+On each iteration if the random distribution of samples' statitics for each batch has less differences with the original distribution than the last stored sample distribution then it replaces it as the best sample distribution.
 At the end of the iterations the best sample distribution is returned to the user.
 
-```{r experDesign}
+Users can follow the following flowchart to decide what function(s) they need to use:
+
+![Flow chart to decide which functions are needed](flow_chart.png){width="353"}
+
+If users want a design without replicates but batches have some spatial distribution, we need to use `design` to allocate the samples on each batch and then the `spatial` function to randomly distribute the samples homogeneously by position within each batch.
+The samples are distributed on each position as with the `design` function, only returning the distribution with less differences between the statistics previously mentioned with the original distribution to the user of all the iterations tried.
+See below for an example:
+
+```{r experDesign, fig.cap="Samples distributions with experDesign."}
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = size_subset,
-                  iterations = iterations)
+                  iterations = iterations, name = "")
 experDesign_index_spatial <- spatial(index = experDesign_index, pheno = survey[, VoI], 
                                      iterations = iterations, rows = LETTERS[1:8], columns = 1:12)
 experDesign_report <- inspect(experDesign_index, survey[, VoI])
@@ -225,7 +237,7 @@ experDesign_smoke <- ggplot(experDesign_report) +
 (experDesign_smoke/(experDesign_age + experDesign_sex + plot_layout(guides = 'collect'))) + plot_annotation(title = "experDesign")
 ```
 
-One can check the statistics of the index for multiple statistics:
+The statistics of the index can be checked for multiple statistics, as shown in the following code:
 
 ```{r evaluate}
 evaluate_na(experDesign_index, survey[, VoI])
@@ -246,19 +258,16 @@ ei <- evaluate_index(experDesign_index_spatial, survey[, VoI])
 ei[, , "G1"]
 ```
 
-And compare it with the original distribution:
+We can also compare our results with the original distribution:
 
 ```{r original}
 evaluate_orig(survey[, VoI])
 ```
 
-In ***experDesign*** the difference is used to compare with the original distribution, this approach is similar to the *anticlust* method used for maximum variance, but instead of the difference with the original distribution the objective function is the sum of the squared errors between cluster centers and individual data points and instead of comparing to the clusters center it is compared to the whole data.
-If the experiment is carried out with a specific spatial distribution, the `spatial` function also distributes the samples homogeneously by position.
-See below for an example.
-
 In addition to distributing the samples into batches, ***experDesign*** provides tools to add technical replicates.
 In order to choose them from the available samples, the function `extreme_cases` is provided.
 For easier usage, the `replicates` function designs an experiment with the number of replicates per batch desired.
+The rest of the workflow is similar to the above example:
 
 ```{r controls}
 extreme_cases(survey[, VoI], size = 5)
@@ -280,14 +289,15 @@ head(report_replicates_position[duplicated(report_replicates_position$ID), ])
 ```
 
 ***experDesign*** also provides several small utilities to make it easier to design the experiment in batches.
-For instance, a function called `sizes_batches` helps calculate the number of samples in order to distribute them across the number of batches required and another one calculates the minimal amount of batches required:
+For instance, a function called `sizes_batches` helps calculate the number of samples in order to distribute them across the batches required.
+Furthermore, `optimum_batches` calculates the minimal amount of batches required:
 
 ```{r show-batches}
 optimum_batches(size_data = 250, size_subset = 96)
 sizes_batches(size_data = 250, size_subset = 96, batches = 3)
 ```
 
-In conclusion the ***experDesign*** can be a first fast step to prepare for a batch experiment.
+In conclusion the ***experDesign*** can be a first and fast step to prepare for a batched experiment.
 It can use as many numeric and categorical variables as needed to stratify the experiment design on batches including spatial distributions.
 
 # Acknowledgments
