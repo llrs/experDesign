@@ -45,40 +45,40 @@ Failure to take such variability into account can render an experiment inconclus
 
 # Introduction
 
-To properly design an experiment, the source of the variation between samples must be identified.
+To design an experiment that can support conclusive results upon analysis, the source of the variation between samples must be identified.
 Typically, one can control the environment in which the study or experiment is being conducted.
 Sometimes, however, this is not possible.
 In this event, techniques to control such variations need to be applied.
 There are three techniques used to decrease the uncertainty of the unwanted variation: blocking, randomization and replication [@klaus2015].
 
-**Blocking** groups samples that are equal according to one or more variables, allowing the estimation of the differences between each batch by comparing measurements within blocks.
+**Blocking** is a method that groups samples that are equal according to one or more variables, allowing the estimation of the differences between each batch by comparing measurements within blocks.
 **Randomization** minimizes the variation in the measurements by randomly mixing the potential confounding variables.
 **Replication** increases the number of samples used in an experiment to better estimate the variation of the experiment.
 In some settings these techniques can be applied together to ensure the robustness of the study.
 
 Between the designing of an experiment and the measurement of the samples, some samples might be lost, contaminated, or degradated below quality threshold.
-Even if this does not happen, experiments will occasionally need to be carried out in batches.
-Batches might be due to technical reasons, for example, the machine cannot measure more than a number of samples at the same time.
+In addition, experiments will occasionally need to be carried out in batches.
+Batches might be necessary for technical reasons, for example, the device cannot measure more than a number of samples at the same time.
 They can be also due to practical reasons, for instance, it may not be possible to obtain additional measurements in the field during the allotted time.
 
 This divergence from the original design might cause batch effects perturbing the analysis.
 There are several techniques to identify and assess batch effects when analyzing an already measured experiment [@leek2010].
-However, if the source of variations is not taken into account before measurement is completed, a batch effect can be introduced that confounds the analysis.
-Thus, it would be better to avoid such batch effects before executing an experiment.
+It would be better to avoid such batch effects before executing an experiment.
+By taking into account the de differences between the original design and the state before measurement is done, confounding effects could be minimized.
 
-To prevent the batch effect to confound an analysis after the initial design of the experiment, there are two options: randomization and replication.
-Randomization, can help reduce variations across groups, while replication helps estimate the variation of the measurements or samples, thus increasing the precision of the estimates of the true value on the analysis.
+To prevent the batch effect fom confounding the analysis after the initial design of the experiment, there are two options: randomization and replication.
+Randomization, consists on shuffling the samples to mix samples with different attributes, can help reduce variations across groups, while replication helps estimate the variation of the measurements or samples, thus increasing the precision of the estimates of the true value on the analysis.
 Replications consist of increasing the number of measurements with similar attributes.
 When a sample is measured multiple times, this is referred to as a technical replicate.
 Technical replicates help estimate the variation of the measurement method, and thus the possible batch effect [@blainey2014].
 
 Randomization and replicates can be used to prevent batch effects to confound the analysis.
-However, by examining how the variables are distributed across each batch, proper randomization can be ensured, thus minimizing batch effects.
+By examining how the variables are distributed across each batch, proper randomization can be ensured, thus minimizing batch effects.
 This is known as randomized block experimental design or stratified random sampling experimental design.
 
 # State of the art
 
-There are some tools to minimize batch effects on the R language in multiple fields and areas, and particularly for biological research [@rcoreteam2014].
+There are some tools to minimize batch effects on the R language in multiple fields, and particularly for biological research [@rcoreteam2014].
 Here we briefly describe the currently available packages:
 
 -   *OSAT*, at [Bioconductor](https://bioconductor.org/packages/OSAT/), first allocates the samples from each batch according to a variable; it then shuffles the samples from each batch in order to randomize the other variables [@yan2012].
@@ -92,13 +92,13 @@ Here we briefly describe the currently available packages:
 
 # Statement of need
 
-Current solutions to stratify samples to reduce and control batch effect do not work for all cases and usual needs of researchers.
-They are either specialized to specific type of data, omit some conditions that are often meet or only work on a specific subset of conditions.
-The new package ***experDesign*** works on all kind of data types and doesn't require a spatial distribution making it suitable for all kind of experiments.
-This package is intended for people looking for a quick and easy to interpret solution providing reasonable suggestions about how to distribute the samples on their analysis.
+Current solutions to stratify samples to reduce and control batch effect do not work for all cases.
+They are either specialized to particular type of data, they omit some conditions that are often met or they only work on a specific subset of conditions.
+The new package ***experDesign*** works on all kind of data types and does not require a spatial distribution making it suitable for all kind of experiments.
+This package is intended for people looking for a quick and easy solution providing reasonable suggestions on how to distribute the samples for their analysis.
 
 For completeness a description and comparison of the usage of the different software currently available on CRAN and Bioconductor is presented below.
-First some real data from a survey:
+First, we start with some real data from a survey:
 
 ```{r example-data}
 data(survey, package = "MASS")
@@ -113,7 +113,7 @@ This data set has three variables of interest; Sex, Smoke and Age are a mix of c
 
 ## OSAT
 
-OSAT provides some template for some setups and works for numeric and categorical variables:
+OSAT provides some template for plates that hold 2, 4, 8 Illumina BeadChip chips and have 24, 48, 96 wells and works for numeric and categorical variables:
 
 ```{r osat, fig.cap="Samples distributions with OSAT."}
 library("ggplot2")
@@ -142,11 +142,12 @@ osat_smoke <- ggplot(osat_report) +
   plot_annotation(title = "OSAT")
 ```
 
-OSAT returns one row less that the input provided because it deletes one row because it has an NA value on the Sex variable.
+OSAT returns one row less that the input provided.
+This row is deleted because it has an NA value on the Sex variable.
 
 ## anticlust
 
-anticlust doesn't handle all the variables, it only accepts numeric variables:
+anticlust does not handle all the variables, it only accepts numeric variables:
 
 ```{r anticlust, error=TRUE, fig.cap="Samples distributions with anticlust."}
 library("anticlust")
@@ -203,7 +204,7 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
 The package ***experDesign*** provides the function `design` to arrange the samples into multiple batches such that the variable's distribution is homogeneous within each batch.
 Each batch is set to have some centrality and dispersion statistics to match as closely as possible the original input design data.
 The statistics used are the mean, the standard deviation, the median absolute deviation, variables with no value number, the entropy and the independence of the categorical variables.
-On each iteration if the random distribution of samples' statitics for each batch has less differences with the original distribution than the last stored sample distribution then it replaces it as the best sample distribution.
+On each iteration if the random distribution of samples' statitics for each batch has fewer differences with the original distribution than the last stored sample distribution then it replaces it as the best sample distribution.
 At the end of the iterations the best sample distribution is returned to the user.
 
 Users can follow the following flowchart to decide what function(s) they need to use:
@@ -211,8 +212,8 @@ Users can follow the following flowchart to decide what function(s) they need to
 ![Flow chart to decide which functions are needed](flow_chart.png){width="353"}
 
 If users want a design without replicates but batches have some spatial distribution, we need to use `design` to allocate the samples on each batch and then the `spatial` function to randomly distribute the samples homogeneously by position within each batch.
-The samples are distributed on each position as with the `design` function, only returning the distribution with less differences between the statistics previously mentioned with the original distribution to the user of all the iterations tried.
-See below for an example:
+Samples are distributed on each position as with the `design` function, only returning to the user the distribution with less differences between the statistics previously mentioned with the original distribution of all the iterations tried.
+See below an example:
 
 ```{r experDesign, fig.cap="Samples distributions with experDesign."}
 library("experDesign")
