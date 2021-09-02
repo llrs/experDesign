@@ -91,13 +91,6 @@ Here we briefly describe the currently available packages:
 -   Recently, [*Omixer*](https://bioconductor.org/packages/Omixer/), a new package, has been made available at Bioconductor [@sinke2021].
     It tests whether the random assignments made by it are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.
 
-# Statement of need
-
-Current solutions for stratifying samples to reduce and control batch effect do not work for all cases.
-They are either specialized to a particular type of data, they omit some conditions that are usually met, or they only work under a specific subset of conditions.
-The new package ***experDesign*** works with all data types and does not require a spatial distribution making it suitable for all kind of experiments.
-This package is intended for people needing a quick and easy solution that will provide reasonable suggestions on how to best distribute the samples for analysis.
-
 For completeness a description and comparison of the usage of the different software packages currently available on CRAN and Bioconductor is presented below.
 First, we start with some real data obtained from a survey:
 
@@ -124,8 +117,10 @@ theme_set(theme_plots)
 library("OSAT")
 library("patchwork")
 gs <- setup.sample(survey, optimal = VoI)
-gc <- setup.container(plate = IlluminaBeadChip96Plate, n = n_batch, batch = 'plates')
-gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
+gc <- setup.container(plate = IlluminaBeadChip96Plate, 
+                      n = n_batch, batch = 'plates')
+gSetup <- create.optimized.setup(sample = gs, container = gc, 
+                                 nSim = iterations)
 osat_report <- get.experiment.setup(gSetup)
 nrow(osat_report)
 osat_age <- ggplot(osat_report) +
@@ -167,7 +162,8 @@ anticlust_index <- anticlustering(
   method = "exchange",
   repetitions = iterations
 )
-report_anticlust <- data.frame(Age = survey[, "Age"], batch = as.character(anticlust_index))
+report_anticlust <- data.frame(Age = survey[, "Age"], 
+                               batch = as.character(anticlust_index))
 library("ggplot2")
 ggplot(report_anticlust) + 
   geom_histogram(aes(Age, fill = batch)) +
@@ -187,19 +183,31 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
                            block = "block", iterNum = 10, wells = size_subset, 
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(1, nrow(survey)),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(1, nrow(survey)),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(0, nrow(survey)),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(0, nrow(survey)),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(1, 288),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(1, 288),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(0, 288),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(0, 288),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 
 ```
+
+
+# Statement of need
+
+Current solutions for stratifying samples to reduce and control batch effect do not work for all cases.
+They are either specialized to a particular type of data, they omit some conditions that are usually met, or they only work under a specific subset of conditions.
+The new package ***experDesign*** works with all data types and does not require a spatial distribution making it suitable for all kind of experiments.
+This package is intended for people needing a quick and easy solution that will provide reasonable suggestions on how to best distribute the samples for analysis.
 
 # Description
 
@@ -220,8 +228,11 @@ See the example below:
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = size_subset,
                   iterations = iterations, name = "")
-experDesign_index_spatial <- spatial(index = experDesign_index, pheno = survey[, VoI], 
-                                     iterations = iterations, rows = LETTERS[1:8], columns = 1:12)
+experDesign_index_spatial <- spatial(index = experDesign_index, 
+                                     pheno = survey[, VoI], 
+                                     iterations = iterations, 
+                                     rows = LETTERS[1:8], 
+                                     columns = 1:12)
 experDesign_report <- inspect(experDesign_index, survey[, VoI])
 nrow(experDesign_report)
 experDesign_age <- ggplot(experDesign_report) + 
@@ -236,7 +247,9 @@ experDesign_smoke <- ggplot(experDesign_report) +
   geom_bar(aes(Smoke, fill = batch)) +
   facet_wrap(~batch) +
   labs(fill = "Batch")
-(experDesign_smoke/(experDesign_age + experDesign_sex + plot_layout(guides = 'collect'))) + plot_annotation(title = "experDesign")
+(experDesign_smoke/(experDesign_age + 
+                      experDesign_sex + plot_layout(guides = 'collect'))) +
+  plot_annotation(title = "experDesign")
 ```
 
 The statistics of the index can be checked for multiple statistics, as shown in the following code:
@@ -276,7 +289,8 @@ extreme_cases(survey[, VoI], size = 5)
 replicates_index <- replicates(pheno = survey[, VoI], 
                                size_subset = size_subset, controls = 5, 
                                iterations = iterations)
-spatial_replicate_index <- spatial(index = replicates_index, pheno = survey[, VoI], 
+spatial_replicate_index <- spatial(index = replicates_index, 
+                                   pheno = survey[, VoI], 
                                    rows = LETTERS[1:8], columns = 1:12)
 survey$ID <- seq_len(nrow(survey))
 report_replicates <- inspect(i = replicates_index, 

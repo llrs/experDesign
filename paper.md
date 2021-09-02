@@ -89,13 +89,6 @@ Here we briefly describe the currently available packages:
 -   Recently, [*Omixer*](https://bioconductor.org/packages/Omixer/), a new package, has been made available at Bioconductor [@sinke2021].
     It tests whether the random assignments made by it are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.
 
-# Statement of need
-
-Current solutions for stratifying samples to reduce and control batch effect do not work for all cases.
-They are either specialized to a particular type of data, they omit some conditions that are usually met, or they only work under a specific subset of conditions.
-The new package ***experDesign*** works with all data types and does not require a spatial distribution making it suitable for all kind of experiments.
-This package is intended for people needing a quick and easy solution that will provide reasonable suggestions on how to best distribute the samples for analysis.
-
 For completeness a description and comparison of the usage of the different software packages currently available on CRAN and Bioconductor is presented below.
 First, we start with some real data obtained from a survey:
 
@@ -124,8 +117,10 @@ theme_set(theme_plots)
 library("OSAT")
 library("patchwork")
 gs <- setup.sample(survey, optimal = VoI)
-gc <- setup.container(plate = IlluminaBeadChip96Plate, n = n_batch, batch = 'plates')
-gSetup <- create.optimized.setup(sample = gs, container = gc, nSim = iterations)
+gc <- setup.container(plate = IlluminaBeadChip96Plate, 
+                      n = n_batch, batch = 'plates')
+gSetup <- create.optimized.setup(sample = gs, container = gc, 
+                                 nSim = iterations)
 ## Warning in create.optimized.setup(sample = gs, container = gc, nSim =
 ## iterations): Using default optimization method: optimal.shuffle
 osat_report <- get.experiment.setup(gSetup)
@@ -175,7 +170,8 @@ anticlust_index <- anticlustering(
   method = "exchange",
   repetitions = iterations
 )
-report_anticlust <- data.frame(Age = survey[, "Age"], batch = as.character(anticlust_index))
+report_anticlust <- data.frame(Age = survey[, "Age"], 
+                               batch = as.character(anticlust_index))
 library("ggplot2")
 ggplot(report_anticlust) + 
   geom_histogram(aes(Age, fill = batch)) +
@@ -200,28 +196,40 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 ## Error in omixerRand(survey, sampleId = "ID", block = "block", iterNum = 10, : Number of unmasked wells must equal number of samples.
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(1, nrow(survey)),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(1, nrow(survey)),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 ## Error: Tibble columns must have compatible sizes.
 ## * Size 288: Existing data.
 ## * Size 237: Column `mask`.
 ## ℹ Only values of size one are recycled.
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(0, nrow(survey)),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(0, nrow(survey)),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 ## Error: Tibble columns must have compatible sizes.
 ## * Size 288: Existing data.
 ## * Size 237: Column `mask`.
 ## ℹ Only values of size one are recycled.
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(1, 288),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(1, 288),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 ## Error in omixerRand(survey, sampleId = "ID", block = "block", iterNum = 10, : Number of unmasked wells must equal number of samples.
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
-                           block = "block", iterNum = 10, wells = size_subset, mask = rep(0, 288),
+                           block = "block", iterNum = 10, wells = size_subset, 
+                           mask = rep(0, 288),
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 ## Error in omixerRand(survey, sampleId = "ID", block = "block", iterNum = 10, : Number of unmasked wells must equal number of samples.
 ```
+
+
+# Statement of need
+
+Current solutions for stratifying samples to reduce and control batch effect do not work for all cases.
+They are either specialized to a particular type of data, they omit some conditions that are usually met, or they only work under a specific subset of conditions.
+The new package ***experDesign*** works with all data types and does not require a spatial distribution making it suitable for all kind of experiments.
+This package is intended for people needing a quick and easy solution that will provide reasonable suggestions on how to best distribute the samples for analysis.
 
 # Description
 
@@ -243,8 +251,11 @@ See the example below:
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = size_subset,
                   iterations = iterations, name = "")
-experDesign_index_spatial <- spatial(index = experDesign_index, pheno = survey[, VoI], 
-                                     iterations = iterations, rows = LETTERS[1:8], columns = 1:12)
+experDesign_index_spatial <- spatial(index = experDesign_index, 
+                                     pheno = survey[, VoI], 
+                                     iterations = iterations, 
+                                     rows = LETTERS[1:8], 
+                                     columns = 1:12)
 experDesign_report <- inspect(experDesign_index, survey[, VoI])
 nrow(experDesign_report)
 ## [1] 237
@@ -260,7 +271,9 @@ experDesign_smoke <- ggplot(experDesign_report) +
   geom_bar(aes(Smoke, fill = batch)) +
   facet_wrap(~batch) +
   labs(fill = "Batch")
-(experDesign_smoke/(experDesign_age + experDesign_sex + plot_layout(guides = 'collect'))) + plot_annotation(title = "experDesign")
+(experDesign_smoke/(experDesign_age + 
+                      experDesign_sex + plot_layout(guides = 'collect'))) +
+  plot_annotation(title = "experDesign")
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
@@ -274,17 +287,17 @@ evaluate_na(experDesign_index, survey[, VoI])
 ##       Sex     Smoke       Age 
 ## 0.4444444 0.4444444 0.0000000
 evaluate_entropy(experDesign_index, survey[, VoI])
-##        Sex      Smoke 
-## 0.00589071 0.49227878
+##         Sex       Smoke 
+## 0.000693659 0.488735971
 evaluate_mad(experDesign_index, survey[, VoI])
 ##      Age 
 ## 25.94501
 evaluate_sd(experDesign_index, survey[, VoI])
 ##      Age 
-## 0.983568
+## 0.523386
 evaluate_mean(experDesign_index, survey[, VoI])
-##        Age 
-## 0.08579466
+##       Age 
+## 0.1315049
 # All together for each batch
 ei <- evaluate_index(experDesign_index, survey[, VoI])
 ei[, , "SubSet1"]
@@ -294,24 +307,24 @@ evaluate_na(experDesign_index_spatial, survey[, VoI])
 ## 0.02061632 0.02061632 0.00000000
 evaluate_entropy(experDesign_index_spatial, survey[, VoI])
 ##       Sex     Smoke 
-## 0.4143536 1.0000000
+## 0.4205148 1.0000000
 evaluate_mad(experDesign_index_spatial, survey[, VoI])
 ##      Age 
-## 25.75065
+## 25.74615
 evaluate_sd(experDesign_index_spatial, survey[, VoI])
 ##      Age 
-## 5.071823
+## 5.174576
 evaluate_mean(experDesign_index_spatial, survey[, VoI])
-##    Age 
-## 2.2549
+##      Age 
+## 2.262361
 # All together for each batch
 ei <- evaluate_index(experDesign_index_spatial, survey[, VoI])
 ei[, , "G1"]
 ##          variables
 ## stat            Sex     Smoke       Age
-##   mean    0.0000000 0.0000000 21.305667
-##   sd      0.0000000 0.0000000  3.700851
-##   mad     0.0000000 0.0000000  2.100844
+##   mean    0.0000000 0.0000000 19.194667
+##   sd      0.0000000 0.0000000  1.926148
+##   mad     0.0000000 0.0000000  2.346956
 ##   na      0.0000000 0.0000000  0.000000
 ##   entropy 0.9182958 0.9182958  0.000000
 ```
@@ -337,11 +350,12 @@ The rest of the workflow is similar to the above example:
 
 ```r
 extreme_cases(survey[, VoI], size = 5)
-## [1]  16  66  99 171 195
+## [1]  31  43 124 158 222
 replicates_index <- replicates(pheno = survey[, VoI], 
                                size_subset = size_subset, controls = 5, 
                                iterations = iterations)
-spatial_replicate_index <- spatial(index = replicates_index, pheno = survey[, VoI], 
+spatial_replicate_index <- spatial(index = replicates_index, 
+                                   pheno = survey[, VoI], 
                                    rows = LETTERS[1:8], columns = 1:12)
 survey$ID <- seq_len(nrow(survey))
 report_replicates <- inspect(i = replicates_index, 
@@ -352,21 +366,21 @@ report_replicates_position <- inspect(i = spatial_replicate_index,
 # Batch and position where the samples should be:
 head(report_replicates_position)
 ##      Sex Smoke    Age ID   batch position
-## 1 Female Never 18.250  1 SubSet3       F8
-## 2   Male Regul 17.583  2 SubSet3       F4
-## 3   Male Occas 16.917  3 SubSet3       G8
-## 4   Male Never 20.333  4 SubSet2       A4
-## 5   Male Never 23.667  5 SubSet3       E4
-## 6 Female Never 21.000  6 SubSet2       G1
+## 1 Female Never 18.250  1 SubSet2      H11
+## 2   Male Regul 17.583  2 SubSet1       G7
+## 3   Male Occas 16.917  3 SubSet2       H3
+## 4   Male Never 20.333  4 SubSet2       F6
+## 5   Male Never 23.667  5 SubSet3      B12
+## 6 Female Never 21.000  6 SubSet2       E9
 # Technical replicates:
 head(report_replicates_position[duplicated(report_replicates_position$ID), ])
-##         Sex Smoke    Age ID   batch position
-## 7.3    Male Never 18.833  7 SubSet1       C7
-## 7.4    Male Never 18.833  7 SubSet1      G11
-## 7.1    Male Never 18.833  7 SubSet2       E3
-## 7.2    Male Never 18.833  7 SubSet3       A4
-## 75.1 Female Never 17.750 75 SubSet3       B9
-## 75.2 Female Never 17.750 75 SubSet3      E11
+##         Sex Smoke   Age ID   batch position
+## 24.3   Male Never 18.25 24 SubSet1       H6
+## 24.4   Male Never 18.25 24 SubSet1       F9
+## 24.1   Male Never 18.25 24 SubSet2       D5
+## 24.2   Male Never 18.25 24 SubSet3       E8
+## 75.1 Female Never 17.75 75 SubSet2      G10
+## 75.2 Female Never 17.75 75 SubSet2      D12
 ```
 
 ***experDesign*** also provides several small utilities to make it easier to design the experiment in batches.
