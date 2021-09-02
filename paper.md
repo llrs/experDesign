@@ -275,16 +275,16 @@ evaluate_na(experDesign_index, survey[, VoI])
 ## 0.4444444 0.4444444 0.0000000
 evaluate_entropy(experDesign_index, survey[, VoI])
 ##        Sex      Smoke 
-## 0.00286977 0.49312642
+## 0.00589071 0.49227878
 evaluate_mad(experDesign_index, survey[, VoI])
 ##      Age 
-## 25.86297
+## 25.94501
 evaluate_sd(experDesign_index, survey[, VoI])
-##       Age 
-## 0.1469049
+##      Age 
+## 0.983568
 evaluate_mean(experDesign_index, survey[, VoI])
-##       Age 
-## 0.4121125
+##        Age 
+## 0.08579466
 # All together for each batch
 ei <- evaluate_index(experDesign_index, survey[, VoI])
 ei[, , "SubSet1"]
@@ -294,26 +294,26 @@ evaluate_na(experDesign_index_spatial, survey[, VoI])
 ## 0.02061632 0.02061632 0.00000000
 evaluate_entropy(experDesign_index_spatial, survey[, VoI])
 ##       Sex     Smoke 
-## 0.3648235 1.0000000
+## 0.4143536 1.0000000
 evaluate_mad(experDesign_index_spatial, survey[, VoI])
 ##      Age 
-## 25.66835
+## 25.75065
 evaluate_sd(experDesign_index_spatial, survey[, VoI])
 ##      Age 
-## 5.227784
+## 5.071823
 evaluate_mean(experDesign_index_spatial, survey[, VoI])
-##      Age 
-## 2.237893
+##    Age 
+## 2.2549
 # All together for each batch
 ei <- evaluate_index(experDesign_index_spatial, survey[, VoI])
 ei[, , "G1"]
 ##          variables
-## stat            Sex     Smoke        Age
-##   mean    0.0000000 0.0000000 19.8056667
-##   sd      0.0000000 0.0000000  0.3466776
-##   mad     0.0000000 0.0000000  0.2461116
-##   na      0.0000000 0.0000000  0.0000000
-##   entropy 0.9182958 0.9182958  0.0000000
+## stat            Sex     Smoke       Age
+##   mean    0.0000000 0.0000000 21.305667
+##   sd      0.0000000 0.0000000  3.700851
+##   mad     0.0000000 0.0000000  2.100844
+##   na      0.0000000 0.0000000  0.000000
+##   entropy 0.9182958 0.9182958  0.000000
 ```
 
 We can also compare our results with the original distribution:
@@ -337,7 +337,7 @@ The rest of the workflow is similar to the above example:
 
 ```r
 extreme_cases(survey[, VoI], size = 5)
-## [1]  62 103 171 176 192
+## [1]  16  66  99 171 195
 replicates_index <- replicates(pheno = survey[, VoI], 
                                size_subset = size_subset, controls = 5, 
                                iterations = iterations)
@@ -352,21 +352,21 @@ report_replicates_position <- inspect(i = spatial_replicate_index,
 # Batch and position where the samples should be:
 head(report_replicates_position)
 ##      Sex Smoke    Age ID   batch position
-## 1 Female Never 18.250  1 SubSet1       B7
-## 2   Male Regul 17.583  2 SubSet1       C5
-## 3   Male Occas 16.917  3 SubSet1       D8
-## 4   Male Never 20.333  4 SubSet2       A3
-## 5   Male Never 23.667  5 SubSet1       E3
-## 6 Female Never 21.000  6 SubSet1       C5
+## 1 Female Never 18.250  1 SubSet3       F8
+## 2   Male Regul 17.583  2 SubSet3       F4
+## 3   Male Occas 16.917  3 SubSet3       G8
+## 4   Male Never 20.333  4 SubSet2       A4
+## 5   Male Never 23.667  5 SubSet3       E4
+## 6 Female Never 21.000  6 SubSet2       G1
 # Technical replicates:
 head(report_replicates_position[duplicated(report_replicates_position$ID), ])
 ##         Sex Smoke    Age ID   batch position
-## 11.3 Female Never 28.500 11 SubSet1       F4
-## 11.4 Female Never 28.500 11 SubSet1      C12
-## 11.1 Female Never 28.500 11 SubSet2      A12
-## 11.2 Female Never 28.500 11 SubSet3      H11
-## 20.1   Male Never 17.917 20 SubSet3       D3
-## 20.2   Male Never 17.917 20 SubSet3      G12
+## 7.3    Male Never 18.833  7 SubSet1       C7
+## 7.4    Male Never 18.833  7 SubSet1      G11
+## 7.1    Male Never 18.833  7 SubSet2       E3
+## 7.2    Male Never 18.833  7 SubSet3       A4
+## 75.1 Female Never 17.750 75 SubSet3       B9
+## 75.2 Female Never 17.750 75 SubSet3      E11
 ```
 
 ***experDesign*** also provides several small utilities to make it easier to design the experiment in batches.
