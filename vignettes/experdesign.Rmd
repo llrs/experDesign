@@ -191,6 +191,18 @@ samples <- extreme_cases(survey, size = 10)
 survey[samples, ]
 ```
 
+You can also test a given index with `check_index()`:
+
+```{r check_index}
+check_index(unbalanced, i)
+```
+
+Each row has information about how accurate is a given variable to the samples available (on this case `unbalanced`). 
+Some variables are distributed more randomly than others on this index.
+
+If we are not satisfied we could `design()` a new index increasing the iterations to obtain a potentially better distribution. 
+If you want a good stratified randomization you should increase the iterations used 10 fold. 
+
 # SessionInfo
 
 ```{r sessioninfo}

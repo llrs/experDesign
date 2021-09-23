@@ -89,6 +89,9 @@ qcSubset <- function(index, size, each = FALSE) {
 #' Check index distribution on batches
 #'
 #' Report the statistics for each subset and variable compared to the original.
+#'
+#' The closer the values are to 0, the less difference is with the original
+#' distribution, so it is a better randomization.
 #' @inheritParams design
 #' @inheritParams qcSubset
 #' @return A matrix with the differences with the original data.

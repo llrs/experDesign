@@ -9,3 +9,5 @@ docs/
 docs
 *.docx
 paper*.md
+/doc/
+/Meta/
