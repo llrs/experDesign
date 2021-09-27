@@ -9,10 +9,6 @@
 status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-project.org/package=experDesign)
 [![R build
 status](https://github.com/llrs/experDesign/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/experDesign/actions?workflow=R-CMD-check)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/llrs/experDesign?branch=master&svg=true)](https://ci.appveyor.com/project/llrs/experDesign)
-[![Travis build
-status](https://travis-ci.org/llrs/experDesign.svg?branch=master)](https://travis-ci.org/llrs/experDesign)
 [![Coverage
 status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
 [![Lifecycle:
@@ -95,33 +91,32 @@ head(survey[, keep])
 #> 4   Male Right Never 20.333
 #> 5   Male Right Never 23.667
 #> 6 Female Right Never 21.000
-
 # Looking for groups at most of 70 samples.
 index <- design(pheno = survey, size_subset = 70, omit = omit)
 index
 #> $SubSet1
-#>  [1]  14  16  29  30  33  37  39  49  51  52  57  68  72  73  74  76  77  78  82
-#> [20]  92  93 107 108 109 111 118 122 123 124 125 129 137 140 142 151 152 158 160
-#> [39] 162 164 165 168 170 181 182 183 184 191 193 195 214 218 221 222 223 224 228
-#> [58] 234 235 237
+#>  [1]   1   2   4   6  11  18  22  25  38  40  44  46  48  50  55  60  63  67  70
+#> [20]  85  91  92  99 100 103 105 110 116 120 126 129 134 141 144 145 149 160 165
+#> [39] 168 171 172 174 178 185 190 196 197 198 201 204 206 208 209 210 213 216 218
+#> [58] 228 231 232
 #> 
 #> $SubSet2
-#>  [1]   2   3   4  12  13  15  25  27  32  43  44  50  53  54  63  65  66  71  79
-#> [20]  83  84  85  86 101 102 106 116 121 131 135 136 138 139 144 147 149 153 157
-#> [39] 161 163 167 171 175 180 188 192 194 204 209 211 212 213 215 216 219 225 226
-#> [58] 227 229
+#>  [1]   7   9  12  13  15  17  23  30  43  47  49  58  62  64  66  69  71  73  76
+#> [20]  79  80  81  88  90  98 102 108 109 114 115 118 121 123 124 125 128 131 132
+#> [39] 139 146 148 151 153 155 159 164 169 175 177 181 182 183 194 211 217 222 225
+#> [58] 227 233
 #> 
 #> $SubSet3
-#>  [1]   1   5   7   8  11  17  20  21  22  23  24  31  34  38  40  41  45  48  55
-#> [20]  56  60  62  64  67  87  90  94 100 104 105 110 112 113 114 115 117 119 120
-#> [39] 126 128 145 155 156 159 166 169 172 178 179 185 187 196 199 200 202 203 210
-#> [58] 220 230
+#>  [1]   5   8  14  16  19  20  24  26  27  28  29  34  35  37  41  42  51  53  61
+#> [20]  72  74  75  78  83  87  89  95  96 104 107 113 117 119 122 133 140 143 150
+#> [39] 152 154 156 157 161 166 179 184 186 187 188 191 193 195 202 207 214 224 226
+#> [58] 230 237
 #> 
 #> $SubSet4
-#>  [1]   6   9  10  18  19  26  28  35  36  42  46  47  58  59  61  69  70  75  80
-#> [20]  81  88  89  91  95  96  97  98  99 103 127 130 132 133 134 141 143 146 148
-#> [39] 150 154 173 174 176 177 186 189 190 197 198 201 205 206 207 208 217 231 232
-#> [58] 233 236
+#>  [1]   3  10  21  31  32  33  36  39  45  52  54  56  57  59  65  68  77  82  84
+#> [20]  86  93  94  97 101 106 111 112 127 130 135 136 137 138 142 147 158 162 163
+#> [39] 167 170 173 176 180 189 192 199 200 203 205 212 215 219 220 221 223 229 234
+#> [58] 235 236
 ```
 
 We can transform then into a vector to append to the file or to pass to
@@ -129,7 +124,7 @@ the lab mate with:
 
 ``` r
 head(batch_names(index))
-#> [1] "SubSet3" "SubSet2" "SubSet2" "SubSet2" "SubSet3" "SubSet4"
+#> [1] "SubSet1" "SubSet1" "SubSet4" "SubSet1" "SubSet3" "SubSet1"
 ```
 
 # Previous work

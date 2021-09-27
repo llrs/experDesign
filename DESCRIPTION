@@ -32,5 +32,5 @@ VignetteBuilder:
 Encoding: UTF-8
 Language: en-US
 LazyData: false
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
