@@ -19,3 +19,6 @@ paper-rev2.md
 ^.*\.docx
 ^doc$
 ^Meta$
+flow_chart.png
+paper.Rmd
+paper.md
