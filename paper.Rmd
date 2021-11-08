@@ -1,13 +1,13 @@
 ---
 title: 'experDesign: stratifying samples into batches with minimal bias'
 output:
-  word_document:
-    keep_md: yes
-  md_document:
-    preserve_yaml: yes
-  pdf_document: default
   html_document:
     df_print: paged
+  word_document:
+    keep_md: yes
+  pdf_document: default
+  md_document:
+    preserve_yaml: yes
 date: "25th August 2021"
 affiliations:
 - name: Centro de Investigación Biomédica en Red, Enfermedades Hepáticas y Digestivas
@@ -31,8 +31,10 @@ tags:
 bibliography: paper.bib
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, error = TRUE, fig.width = 9)
+```{r setup}
+knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, 
+                      error = 0,
+                      fig.width = 9)
 ```
 
 # Summary
@@ -92,9 +94,10 @@ Here we briefly describe the currently available packages:
     It tests whether the random assignments made by it are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.
 
 For completeness a description and comparison of the usage of the different software packages currently available on CRAN and Bioconductor is presented below.
-First, we start with some real data obtained from a survey:
+First, we start with some real data obtained from a survey.
+This data set has three variables of interest; Sex, Smoke and Age are a mix of categorical and numeric variables.
 
-```{r example-data}
+```{r example-data, include = FALSE}
 data(survey, package = "MASS")
 survey$ID <- seq_len(nrow(survey))
 VoI <- c("Sex", "Smoke", "Age")
@@ -103,14 +106,12 @@ size_subset <- 96
 iterations <- 1000
 ```
 
-This data set has three variables of interest; Sex, Smoke and Age are a mix of categorical and numeric variables.
-
 ## OSAT
 
 OSAT provides templates for plates that hold 2, 4, 8 Illumina BeadChip chips, having 24, 48 or 96 wells.
 Moreover, it works for both numeric and categorical variables:
 
-```{r osat, fig.cap="Sample distributions with OSAT."}
+```{r osat, fig.cap="Sample, distributions with OSAT.", include = FALSE}
 library("ggplot2")
 theme_plots <- theme_minimal() + theme(text = element_text(size = 10))
 theme_set(theme_plots)
@@ -135,18 +136,15 @@ osat_smoke <- ggplot(osat_report) +
   geom_bar(aes(Smoke, fill = as.character(plates))) +
   facet_wrap(~plates) +
   labs(fill = "Batch")
-(osat_smoke/(osat_age + osat_sex + plot_layout(guides = 'collect'))) +
-  plot_annotation(title = "OSAT")
 ```
 
-OSAT returned one row less than the input provided.
-This row was deleted because it had an NA value for the Sex variable.
+OSAT might return less rows than the input provided because they might have NA value.
 
 ## anticlust
 
-anticlust does not handle all the variables, it only accepts numeric variables:
+anticlust does not handle all the variables, it only accepts numeric variables.
 
-```{r anticlust, error=TRUE, fig.cap="Sample distributions with anticlust."}
+```{r anticlust, fig.cap="Sample, distributions with anticlust.", include = FALSE}
 library("anticlust")
 anticlust_index <- anticlustering(
   survey[, VoI],
@@ -165,18 +163,18 @@ anticlust_index <- anticlustering(
 report_anticlust <- data.frame(Age = survey[, "Age"], 
                                batch = as.character(anticlust_index))
 library("ggplot2")
-ggplot(report_anticlust) + 
+anticlust <- ggplot(report_anticlust) + 
   geom_histogram(aes(Age, fill = batch)) +
   facet_wrap(~batch) +
-  labs(fill = "Batch", title = "anticlust")
+  labs(fill = "Batch")
 ```
 
 ## Omixer
 
 There is a bug in the Omixer that prevents it from working unless specific conditions are meet.
-This precluded any comparisons of Omixer with other tools using the same settings:
+This precluded any comparisons of Omixer with other tools using the same settings.
 
-```{r Omixer, error=TRUE}
+```{r Omixer, include = FALSE}
 library("Omixer")
 survey$ID <- seq_len(nrow(survey))
 Omixer_index <- omixerRand(survey, sampleId = "ID", 
@@ -201,6 +199,10 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
 
 ```
 
+```{r panel1, echo=FALSE, message=FALSE, warning=FALSE}
+(osat_smoke/(osat_age + osat_sex) / anticlust & plot_layout(guides = 'collect')
+```
+
 
 # Statement of need
 
@@ -222,9 +224,9 @@ Users can examine the following flowchart to decide what function(s) they need t
 ![Flow chart to decide which functions are needed](flow_chart.png){width="353"}
 
 If users want a design without replicates but the batches have some spatial distribution, we must use `design` to allocate the samples on each batch, followed by the `spatial` function to randomly distribute the samples homogeneously by position within each batch.
-See the example below:
+See the example in `inspect` and the vignette:
 
-```{r experDesign, fig.cap="Sample distributions with experDesign."}
+```{r experDesign, echo=FALSE, fig.cap="Sample, distributions with anticlust.", warning=FALSE, message=FALSE}
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = size_subset,
                   iterations = iterations, name = "")
@@ -248,13 +250,14 @@ experDesign_smoke <- ggplot(experDesign_report) +
   facet_wrap(~batch) +
   labs(fill = "Batch")
 (experDesign_smoke/(experDesign_age + 
-                      experDesign_sex + plot_layout(guides = 'collect'))) +
-  plot_annotation(title = "experDesign")
+                      experDesign_sex )) +
+  plot_annotation(title = "experDesign") +
+  plot_layout(guides = 'collect')
 ```
 
-The statistics of the index can be checked for multiple statistics, as shown in the following code:
+The statistics of the index can be checked for multiple statistics, as shown on the help pages of `evaluate_na`, `evaluate_entropy`, `evaluate_mad`, `evaluate_sd` and `evaluate_mean`.
 
-```{r evaluate}
+```{r evaluate, include = FALSE}
 evaluate_na(experDesign_index, survey[, VoI])
 evaluate_entropy(experDesign_index, survey[, VoI])
 evaluate_mad(experDesign_index, survey[, VoI])
@@ -273,18 +276,17 @@ ei <- evaluate_index(experDesign_index_spatial, survey[, VoI])
 ei[, , "G1"]
 ```
 
-We can also compare our results with the original distribution:
+We can also compare our results with the original distribution via `evaluate_orig`.
 
-```{r original}
+```{r original, include = FALSE}
 evaluate_orig(survey[, VoI])
 ```
 
 In addition to distributing the samples into batches, ***experDesign*** provides tools to add technical replicates.
 In order to choose them from the available samples, the function `extreme_cases` is provided.
 For easier usage, the `replicates` function designs an experiment with the desired number of replicates per batch.
-The rest of the workflow is similar to the above example:
 
-```{r controls}
+```{r controls, include = FALSE}
 extreme_cases(survey[, VoI], size = 5)
 replicates_index <- replicates(pheno = survey[, VoI], 
                                size_subset = size_subset, controls = 5, 
@@ -308,7 +310,7 @@ head(report_replicates_position[duplicated(report_replicates_position$ID), ])
 For instance, a function called `sizes_batches` helps calculate the number of samples in order to distribute them across the required batches.
 Furthermore, `optimum_batches` calculates the minimal number of batches required:
 
-```{r show-batches}
+```{r show-batches, include = FALSE}
 optimum_batches(size_data = 250, size_subset = 96)
 sizes_batches(size_data = 250, size_subset = 96, batches = 3)
 ```
