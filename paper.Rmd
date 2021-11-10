@@ -238,7 +238,7 @@ Users can examine the following flowchart to decide what function(s) they need t
 If users want a design without replicates but the batches have some spatial distribution, we must use `design` to allocate the samples on each batch, followed by the `spatial` function to randomly distribute the samples homogeneously by position within each batch.
 See the example in `inspect` and the vignette:
 
-```{r experDesign, echo=FALSE, fig.cap="Sample, distributions with anticlust.", warning=FALSE, message=FALSE}
+```{r experDesign, echo=FALSE, fig.cap="Sample, distributions with ***experDesign***.", warning=FALSE, message=FALSE}
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = size_subset,
                   iterations = iterations, name = "")
@@ -319,7 +319,8 @@ head(report_replicates_position[duplicated(report_replicates_position$ID), ])
 
 ***experDesign*** also provides several small utilities to make it easier to design the experiment in batches.
 For instance, a function called `sizes_batches` helps calculate the number of samples in order to distribute them across the required batches.
-Furthermore, `optimum_batches` calculates the minimal number of batches required:
+Furthermore, `optimum_batches` calculates the minimal number of batches required.
+Examples of all this methods can be found on the manual page of each function and on the vignette.
 
 ```{r show-batches, include = FALSE}
 optimum_batches(size_data = 250, size_subset = 96)
