@@ -17,7 +17,7 @@ authors:
   name: Azucena Salas
   orcid: 0000-0001-9747-2570
 bibliography: paper.bib
-date: 25th August 2021
+date: 11th November 2021
 output:
   html_document:
     df_print: paged
@@ -32,10 +32,6 @@ tags:
 - experiment design
 title: "experDesign: stratifying samples into batches with minimal bias"
 ---
-
-    knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, 
-                          error = 0, include = FALSE,
-                          fig.width = 9)
 
 # Summary
 
@@ -142,21 +138,28 @@ Age are a mix of categorical and numeric variables.
 
 OSAT provides templates for plates that hold 2, 4, 8 Illumina BeadChip
 chips, having 24, 48 or 96 wells. Moreover, it works for both numeric
-and categorical variables:
-
-OSAT returned one row less than the input provided. This row was deleted
-because it had an NA value for the Sex variable.
+and categorical variables but OSAT might return less rows than the input
+provided because they might have NA value.
 
 ## anticlust
 
-anticlust does not handle all the variables, it only accepts numeric
-variables:
+anticlust does not handle all types of variables, it only accepts
+numeric variables.
 
 ## Omixer
 
 There is a bug in the Omixer that prevents it from working unless
 specific conditions are meet. This precluded any comparisons of Omixer
-with other tools using the same settings:
+with other tools using the same settings.
+
+These methods results on this distributions:
+
+![Figure A: distribution of samples according to *OSAT*, Figure B
+according to *anticlust* on the variables used (1: Smoke, 2: Age, 3:
+Sex).](paper_files/figure-markdown_strict/panel1-1.png)
+
+On Figure 1, we can see that the distributions is fairly similar between
+these two packages.
 
 # Statement of need
 
@@ -198,12 +201,13 @@ each batch, followed by the `spatial` function to randomly distribute
 the samples homogeneously by position within each batch. See the example
 in `inspect` and the vignette:
 
+![Sample, distributions with
+anticlust.](paper_files/figure-markdown_strict/experDesign-1.png)
+
 The statistics of the index can be checked for multiple statistics, as
 shown on the help pages of `evaluate_na`, `evaluate_entropy`,
-`evaluate_mad`, `evaluate_sd` and `evaluate_mean`.
-
-We can also compare our results with the original distribution via
-`evaluate_orig`
+`evaluate_mad`, `evaluate_sd` and `evaluate_mean`. We can also compare
+our results with the original distribution via `evaluate_orig`.
 
 In addition to distributing the samples into batches, ***experDesign***
 provides tools to add technical replicates. In order to choose them from

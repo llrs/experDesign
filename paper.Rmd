@@ -1,14 +1,14 @@
 ---
 title: 'experDesign: stratifying samples into batches with minimal bias'
 output:
-  html_document:
-    df_print: paged
+  md_document:
+    preserve_yaml: yes
   word_document:
     keep_md: yes
   pdf_document: default
-  md_document:
-    preserve_yaml: yes
-date: "25th August 2021"
+  html_document:
+    df_print: paged
+date: "11th November 2021"
 affiliations:
 - name: Centro de Investigación Biomédica en Red, Enfermedades Hepáticas y Digestivas
   index: 1
@@ -31,10 +31,13 @@ tags:
 bibliography: paper.bib
 ---
 
-```{r setup}
-knitr::opts_chunk$set(collapse = TRUE, warning = TRUE, 
-                      error = 0,
-                      fig.width = 9)
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+	error = 0,
+	fig.width = 9,
+	warning = TRUE,
+	collapse = TRUE
+)
 ```
 
 # Summary
@@ -109,7 +112,7 @@ iterations <- 1000
 ## OSAT
 
 OSAT provides templates for plates that hold 2, 4, 8 Illumina BeadChip chips, having 24, 48 or 96 wells.
-Moreover, it works for both numeric and categorical variables:
+Moreover, it works for both numeric and categorical variables but OSAT might return less rows than the input provided because they might have NA value.
 
 ```{r osat, fig.cap="Sample, distributions with OSAT.", include = FALSE}
 library("ggplot2")
@@ -138,11 +141,11 @@ osat_smoke <- ggplot(osat_report) +
   labs(fill = "Batch")
 ```
 
-OSAT might return less rows than the input provided because they might have NA value.
+
 
 ## anticlust
 
-anticlust does not handle all the variables, it only accepts numeric variables.
+anticlust does not handle all types of variables, it only accepts numeric variables.
 
 ```{r anticlust, fig.cap="Sample, distributions with anticlust.", include = FALSE}
 library("anticlust")
@@ -198,10 +201,19 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 
 ```
+These methods results on this distributions:
 
-```{r panel1, echo=FALSE, message=FALSE, warning=FALSE}
-(osat_smoke/(osat_age + osat_sex) / anticlust & plot_layout(guides = 'collect')
+```{r panel1, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Figure A: distribution of  samples according to *OSAT*, Figure B according to *anticlust* on the variables used (1: Smoke, 2: Age, 3: Sex)."}
+osat_plot <- osat_smoke / (osat_age + osat_sex)
+osat_plot /anticlust + plot_layout(guides = 'collect') +
+  plot_annotation(tag_levels = list(c("A.1", "A.2", "A.3", "B.2")),
+                  title = "Existing solutions",
+                  subtitle = "OSAT and anticlust solutions") &
+  theme(plot.tag.position = c(0, 1),
+        plot.tag = element_text(size = 8, hjust = 0, vjust = 0))
 ```
+
+On Figure 1, we can see that the distributions is fairly similar between these two packages.
 
 
 # Statement of need
@@ -236,7 +248,7 @@ experDesign_index_spatial <- spatial(index = experDesign_index,
                                      rows = LETTERS[1:8], 
                                      columns = 1:12)
 experDesign_report <- inspect(experDesign_index, survey[, VoI])
-nrow(experDesign_report)
+# nrow(experDesign_report)
 experDesign_age <- ggplot(experDesign_report) + 
   geom_histogram(aes(Age, fill = batch)) +
   facet_wrap(~batch) +
@@ -255,7 +267,7 @@ experDesign_smoke <- ggplot(experDesign_report) +
   plot_layout(guides = 'collect')
 ```
 
-The statistics of the index can be checked for multiple statistics, as shown on the help pages of `evaluate_na`, `evaluate_entropy`, `evaluate_mad`, `evaluate_sd` and `evaluate_mean`.
+The statistics of the index can be checked for multiple statistics, as shown on the help pages of `evaluate_na`, `evaluate_entropy`, `evaluate_mad`, `evaluate_sd` and `evaluate_mean`. We can also compare our results with the original distribution via `evaluate_orig`.
 
 ```{r evaluate, include = FALSE}
 evaluate_na(experDesign_index, survey[, VoI])
@@ -276,7 +288,6 @@ ei <- evaluate_index(experDesign_index_spatial, survey[, VoI])
 ei[, , "G1"]
 ```
 
-We can also compare our results with the original distribution via `evaluate_orig`.
 
 ```{r original, include = FALSE}
 evaluate_orig(survey[, VoI])
