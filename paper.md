@@ -202,7 +202,7 @@ the samples homogeneously by position within each batch. See the example
 in `inspect` and the vignette:
 
 ![Sample, distributions with
-anticlust.](paper_files/figure-markdown_strict/experDesign-1.png)
+***experDesign***.](paper_files/figure-markdown_strict/experDesign-1.png)
 
 The statistics of the index can be checked for multiple statistics, as
 shown on the help pages of `evaluate_na`, `evaluate_entropy`,
@@ -219,7 +219,9 @@ desired number of replicates per batch.
 easier to design the experiment in batches. For instance, a function
 called `sizes_batches` helps calculate the number of samples in order to
 distribute them across the required batches. Furthermore,
-`optimum_batches` calculates the minimal number of batches required:
+`optimum_batches` calculates the minimal number of batches required.
+Examples of all this methods can be found on the manual page of each
+function and on the vignette.
 
 In conclusion ***experDesign*** offers a fast method for preparing a
 batched experiment. It can use as many numeric and categorical variables
