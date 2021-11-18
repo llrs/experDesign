@@ -88,13 +88,18 @@ There are certain tools that can minimize batch effects on the R language in mul
 Here we briefly describe the currently available packages:
 
 -   [*OSAT*](https://bioconductor.org/packages/OSAT/), at Bioconductor, first allocates the samples from each batch according to a variable; it then shuffles the samples from each batch in order to randomize the other variables [@yan2012].
-    This algorithm relies on categorical variables and cannot use numerical variables (e.g., those that are age- or time-related) unless they are treated as categorical variables.
+    This algorithm relies on categorical variables and cannot use numerical variables (e.g., those that are age- or time-related) unless they are treated as categorical variables.\
+    OSAT provides templates for plates that hold 2, 4, 8 Illumina BeadChip chips, having 24, 48 or 96 wells.
+    Moreover, it works for both numeric and categorical variables but OSAT might return less rows than the input provided because they might have NA value.
 
 -   [*anticlust*](https://cran.r-project.org/package=anticlust), at CRAN, divides the samples into similar groups, ensuring similarity by enforcing heterogeneity within groups [@papenberg2020].
-    Conceptually it is similar to the clustering method k-means.
+    Conceptually it is similar to the clustering method k-means.\
+    anticlust does not handle all types of variables, it only accepts numeric variables.
 
 -   Recently, [*Omixer*](https://bioconductor.org/packages/Omixer/), a new package, has been made available at Bioconductor [@sinke2021].
-    It tests whether the random assignments made by it are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.
+    It tests whether the random assignments made by it are homogeneous by transforming all variables to numeric values and using the Kendall's correlation when there are more than 5 samples; otherwise, it utilizes the Pearson's chi-squared test.\
+    There is a bug in the Omixer that prevents it from working unless specific conditions are meet.
+    This precluded any comparisons of Omixer with other tools using the same settings.
 
 For completeness a description and comparison of the usage of the different software packages currently available on CRAN and Bioconductor is presented below.
 First, we start with some real data obtained from a survey.
@@ -108,11 +113,6 @@ n_batch <- 3
 size_subset <- 96
 iterations <- 1000
 ```
-
-## OSAT
-
-OSAT provides templates for plates that hold 2, 4, 8 Illumina BeadChip chips, having 24, 48 or 96 wells.
-Moreover, it works for both numeric and categorical variables but OSAT might return less rows than the input provided because they might have NA value.
 
 ```{r osat, fig.cap="Sample, distributions with OSAT.", include = FALSE}
 library("ggplot2")
@@ -141,12 +141,6 @@ osat_smoke <- ggplot(osat_report) +
   labs(fill = "Batch")
 ```
 
-
-
-## anticlust
-
-anticlust does not handle all types of variables, it only accepts numeric variables.
-
 ```{r anticlust, fig.cap="Sample, distributions with anticlust.", include = FALSE}
 library("anticlust")
 anticlust_index <- anticlustering(
@@ -172,11 +166,6 @@ anticlust <- ggplot(report_anticlust) +
   labs(fill = "Batch")
 ```
 
-## Omixer
-
-There is a bug in the Omixer that prevents it from working unless specific conditions are meet.
-This precluded any comparisons of Omixer with other tools using the same settings.
-
 ```{r Omixer, include = FALSE}
 library("Omixer")
 survey$ID <- seq_len(nrow(survey))
@@ -201,20 +190,6 @@ Omixer_index <- omixerRand(survey, sampleId = "ID",
                            plateNum = n_batch, randVars = VoI, techVars = NULL)
 
 ```
-These methods results on this distributions:
-
-```{r panel1, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Figure A: distribution of  samples according to *OSAT*, Figure B according to *anticlust* on the variables used (1: Smoke, 2: Age, 3: Sex)."}
-osat_plot <- osat_smoke / (osat_age + osat_sex)
-osat_plot /anticlust + plot_layout(guides = 'collect') +
-  plot_annotation(tag_levels = list(c("A.1", "A.2", "A.3", "B.2")),
-                  title = "Existing solutions",
-                  subtitle = "OSAT and anticlust solutions") &
-  theme(plot.tag.position = c(0, 1),
-        plot.tag = element_text(size = 8, hjust = 0, vjust = 0))
-```
-
-On Figure 1, we can see that the distributions is fairly similar between these two packages.
-
 
 # Statement of need
 
@@ -238,7 +213,7 @@ Users can examine the following flowchart to decide what function(s) they need t
 If users want a design without replicates but the batches have some spatial distribution, we must use `design` to allocate the samples on each batch, followed by the `spatial` function to randomly distribute the samples homogeneously by position within each batch.
 See the example in `inspect` and the vignette:
 
-```{r experDesign, echo=FALSE, fig.cap="Sample, distributions with ***experDesign***.", warning=FALSE, message=FALSE}
+```{r experDesign, echo=FALSE, fig.cap="Example of distributions generated with ***experDesign***.", warning=FALSE, message=FALSE}
 library("experDesign")
 experDesign_index <- design(survey[, VoI], size_subset = size_subset,
                   iterations = iterations, name = "")
@@ -267,7 +242,10 @@ experDesign_smoke <- ggplot(experDesign_report) +
   plot_layout(guides = 'collect')
 ```
 
-The statistics of the index can be checked for multiple statistics, as shown on the help pages of `evaluate_na`, `evaluate_entropy`, `evaluate_mad`, `evaluate_sd` and `evaluate_mean`. We can also compare our results with the original distribution via `evaluate_orig`.
+On Figure 1 one can see that the distribution index generated by experDesign uses both numeric and categorical variables keeping also the samples with missing (NA) information.
+
+The statistics of the index can be checked for multiple statistics, as shown on the help pages of `evaluate_na`, `evaluate_entropy`, `evaluate_mad`, `evaluate_sd` and `evaluate_mean`.
+We can also compare our results with the original distribution via `evaluate_orig`.
 
 ```{r evaluate, include = FALSE}
 evaluate_na(experDesign_index, survey[, VoI])
@@ -287,7 +265,6 @@ evaluate_mean(experDesign_index_spatial, survey[, VoI])
 ei <- evaluate_index(experDesign_index_spatial, survey[, VoI])
 ei[, , "G1"]
 ```
-
 
 ```{r original, include = FALSE}
 evaluate_orig(survey[, VoI])
@@ -332,6 +309,6 @@ It can use as many numeric and categorical variables as needed to stratify the e
 
 # Acknowledgments
 
-We are grateful to Joe Moore for English-language assistance.
+We are grateful to Joe Moore for English-language assistance and we would like to thank reviewers and the editor for taking the time and effort necessary to review the manuscript.
 
 # References
