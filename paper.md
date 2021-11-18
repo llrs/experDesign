@@ -149,11 +149,12 @@ Current solutions for stratifying samples to reduce and control batch
 effect do not work for all cases. They are either specialized to a
 particular type of data, they omit some conditions that are usually met,
 or they only work under a specific subset of conditions. The new package
-***experDesign*** works with all data types and does not require a
-spatial distribution making it suitable for all kind of experiments.
-This package is intended for people needing a quick and easy solution
-that will provide reasonable suggestions on how to best distribute the
-samples for analysis.
+[***experDesign***](https://cran.r-project.org/package=experDesign "experDesign on CRAN")
+works with all data types and does not require a spatial distribution
+making it suitable for all kind of experiments. This package is intended
+for people needing a quick and easy solution that will provide
+reasonable suggestions on how to best distribute the samples for
+analysis.
 
 # Description
 
@@ -209,10 +210,11 @@ distribute them across the required batches. Furthermore,
 Examples of all this methods can be found on the manual page of each
 function and on the vignette.
 
-In conclusion ***experDesign*** offers a fast method for preparing a
-batched experiment. It can use as many numeric and categorical variables
-as needed to stratify the experimental design based on batches including
-spatial distributions.
+In conclusion
+[***experDesign***](https://cran.r-project.org/package=experDesign "experDesign pacakge")
+offers a fast method for preparing a batched experiment. It can use as
+many numeric and categorical variables as needed to stratify the
+experimental design based on batches including spatial distributions.
 
 # Acknowledgments
 
