@@ -1,12 +1,20 @@
 Package: experDesign
 Title: Design Experiments for Batches
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: 
-    person(given = "Lluís",
+    c(person(given = "Lluís",
            family = "Revilla Sancho",
            role = c("aut", "cre"),
            email = "lluis.revilla@gmail.com",
-           comment = c(ORCID = "0000-0001-9747-2570"))
+           comment = c(ORCID = "0000-0001-9747-2570")),
+       person(given = "Juanjo",
+           family = "Lozano",
+           role = "ths",
+           comment = c(ORCID = "0000-0001-7613-3908")),
+       person(given = "Azucena",
+           family = "Salas Martinez",
+           role = "ths",
+           comment = c(ORCID = "0000-0003-4572-2907")))
 Description: Distributes samples in batches while making batches homogeneous 
     according to their description. Allows for an arbitrary number of variables, 
     both numeric and categorical. For quality control it provides functions to 

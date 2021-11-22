@@ -19,6 +19,6 @@ paper-rev2.md
 ^.*\.docx
 ^doc$
 ^Meta$
-flow_chart.png
-paper.Rmd
-paper.md
+flow_chart.*
+paper.*
+paper_files/

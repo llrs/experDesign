@@ -1,4 +1,8 @@
-# experDesign (development version)
+# experDesign 0.1.1
+
+* Added thesis advisors on the description.
+
+* Update documentation
 
 # experDesign 0.1.0
 
