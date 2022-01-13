@@ -22,3 +22,4 @@ paper-rev2.md
 flow_chart.*
 paper.*
 paper_files/
+^paper.\.pdf
