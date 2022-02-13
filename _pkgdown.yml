@@ -2,7 +2,12 @@ url: https://experdesign.llrs.dev
 
 development:
   mode: auto
-
+template:
+  bootstrap: 5
+  opengraph:
+    twitter:
+      creator: "@Lluis_Revilla"
+      card: summary_large_image
 home:
   title: Design experiments for batches
   description: Distributes samples in batches while making batches homogeneous
