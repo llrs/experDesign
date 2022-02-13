@@ -8,18 +8,13 @@ template:
     twitter:
       creator: "@Lluis_Revilla"
       card: summary_large_image
+
 home:
   title: Design experiments for batches
   description: Distributes samples in batches while making batches homogeneous
     according to their description. Allows for an arbitrary number of variables,
     both numeric and categorical. For quality control it provides functions to
     subset a representative sample.
-
-template:
-  opengraph:
-    twitter:
-      creator: "@Lluis_Revilla"
-      card: summary_large_image
 
 reference:
   - title: "Main functions"
