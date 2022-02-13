@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://experdesign.llrs.dev/404.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/articles/experdesign.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/authors.html</loc>
+  </url>
+  <url>
     <loc>https://experdesign.llrs.dev/index.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/news/index.html</loc>
   </url>
   <url>
     <loc>https://experdesign.llrs.dev/reference/batch_names.html</loc>
@@ -52,6 +76,9 @@
     <loc>https://experdesign.llrs.dev/reference/extreme_cases.html</loc>
   </url>
   <url>
+    <loc>https://experdesign.llrs.dev/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://experdesign.llrs.dev/reference/inspect.html</loc>
   </url>
   <url>
@@ -68,8 +95,5 @@
   </url>
   <url>
     <loc>https://experdesign.llrs.dev/reference/use_index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/articles/experdesign.html</loc>
   </url>
 </urlset>

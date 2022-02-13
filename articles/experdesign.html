@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -34,18 +36,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">experDesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -67,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/llrs/experDesign/">
+  <a href="https://github.com/llrs/experDesign/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -86,20 +82,20 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>exprDesign</h1>
-                        <h4 class="author">Lluís Revilla Sancho</h4>
+                        <h4 data-toc-skip class="author">Lluís Revilla Sancho</h4>
             
-            <h4 class="date">2021-04-22</h4>
+            <h4 data-toc-skip class="date">2022-02-13</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/llrs/experDesign/blob/master/vignettes/experdesign.Rmd"><code>vignettes/experdesign.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/llrs/experDesign/blob/HEAD/vignettes/experdesign.Rmd" class="external-link"><code>vignettes/experdesign.Rmd</code></a></small>
       <div class="hidden name"><code>experdesign.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>This package was developed to help prepare some samples to be send to a facility. It assumes that you have collected the samples and the information but you still need to do the experiment in several batches due to technical or practical limitations. The question that tries to answer is:</p>
 <blockquote>
 <p>Which samples go with each batch?</p>
@@ -110,32 +106,32 @@
 <li>If the variable is numeric it tries to distribute evenly following the original distribution of values.</li>
 <li>If there are <code>NA</code> (not available values) it looks to distribute them randomly.</li>
 </ul>
-<p>Even with this measures you might end up with some batch effect due to: - Confounding variables not provided for their randomization on the batches Sometimes due to being unknown, impossible to measure. - Lack of <a href="https://en.wikipedia.org/wiki/Replication_(statistics)">replicates</a>(samples with the same conditions) If you can’t provide new replicates, aim to provide more technical replicates. Technical replicates mean reanalyzing the same sample twice or more, the more samples with technical replicates the more accurate your measures will be and easier to avoid or detect batch effects. - Processing If there is a change on the methodology, or you pause and resume later the sample collection there might be changes on the outcome due to external factors.</p>
+<p>Even with this measures you might end up with some batch effect due to: - Confounding variables not provided for their randomization on the batches Sometimes due to being unknown, impossible to measure. - Lack of <a href="https://en.wikipedia.org/wiki/Replication_(statistics)" class="external-link">replicates</a>(samples with the same conditions) If you can’t provide new replicates, aim to provide more technical replicates. Technical replicates mean reanalyzing the same sample twice or more, the more samples with technical replicates the more accurate your measures will be and easier to avoid or detect batch effects. - Processing If there is a change on the methodology, or you pause and resume later the sample collection there might be changes on the outcome due to external factors.</p>
 </div>
-<div id="previous-work" class="section level1">
-<h1 class="hasAnchor">
-<a href="#previous-work" class="anchor"></a>Previous work</h1>
+<div class="section level2">
+<h2 id="previous-work">Previous work<a class="anchor" aria-label="anchor" href="#previous-work"></a>
+</h2>
 <p>Before building this package I would like to give credit to those that made also efforts in this direction:</p>
-<p>The CRAN task View of <a href="https://CRAN.R-project.org/view=ExperimentalDesign">Experimental Design</a> includes many packages relevant for designing an experiment before collecting data, but none of them provides how to manage them once the samples are already collected.</p>
+<p>The CRAN task View of <a href="https://CRAN.R-project.org/view=ExperimentalDesign" class="external-link">Experimental Design</a> includes many packages relevant for designing an experiment before collecting data, but none of them provides how to manage them once the samples are already collected.</p>
 <p>Two packages allow to distribute the samples on batches:</p>
 <ul>
-<li><p>The <a href="https://bioconductor.org/packages/release/bioc/html/OSAT.html">OSAT</a> package handles categorical variables but not numeric data. It doesn’t work with our data.</p></li>
-<li><p>The <a href="https://github.com/m-Py/minDiff">minDiff</a> package reported in <a href="https://stats.stackexchange.com/a/326015/105234">Stats.SE</a>, handles both numeric and categorical data. But it can only optimize for two nominal criteria. It doesn’t work for our data.</p></li>
-<li><p>The <a href="https://bioconductor.org/packages/Omixer/">Omixer</a> package handles both numeric and categorical data (converting categorical variables to numeric). But both the same way either Pearson’s Chi-squared Test if there are few samples or Kendall’s correlation. It does allow to protect some spots from being used.</p></li>
+<li><p>The <a href="https://bioconductor.org/packages/release/bioc/html/OSAT.html" class="external-link">OSAT</a> package handles categorical variables but not numeric data. It doesn’t work with our data.</p></li>
+<li><p>The <a href="https://github.com/m-Py/minDiff" class="external-link">minDiff</a> package reported in <a href="https://stats.stackexchange.com/a/326015/105234" class="external-link">Stats.SE</a>, handles both numeric and categorical data. But it can only optimize for two nominal criteria. It doesn’t work for our data.</p></li>
+<li><p>The <a href="https://bioconductor.org/packages/Omixer/" class="external-link">Omixer</a> package handles both numeric and categorical data (converting categorical variables to numeric). But both the same way either Pearson’s Chi-squared Test if there are few samples or Kendall’s correlation. It does allow to protect some spots from being used.</p></li>
 </ul>
-<p>If you are still designing the experiment and do not have collected any data <a href="https://cran.r-project.org/package=DeclareDesign">DeclareDesign</a> might be relevant for you.</p>
-<p>Question in <a href="https://bioinformatics.stackexchange.com/q/4765/48">Bioinformatics.SE</a> I made before developing the package.</p>
+<p>If you are still designing the experiment and do not have collected any data <a href="https://cran.r-project.org/package=DeclareDesign" class="external-link">DeclareDesign</a> might be relevant for you.</p>
+<p>Question in <a href="https://bioinformatics.stackexchange.com/q/4765/48" class="external-link">Bioinformatics.SE</a> I made before developing the package.</p>
 </div>
-<div id="DoE" class="section level1">
-<h1 class="hasAnchor">
-<a href="#DoE" class="anchor"></a>Design of Experiment</h1>
+<div class="section level2">
+<h2 id="DoE">Design of Experiment<a class="anchor" aria-label="anchor" href="#DoE"></a>
+</h2>
 <p>Imagine you have some samples already collected and you want to distributed them in batches:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://experdesign.llrs.dev">"experDesign"</a></span><span class="op">)</span>
-<span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">80</span>, <span class="fl">5</span><span class="op">)</span>, 
-                        weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">50</span><span class="op">)</span>,
-                        sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Male"</span>,<span class="st">"Female"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="fl">15</span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://experdesign.llrs.dev">"experDesign"</a></span><span class="op">)</span>
+<span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">80</span>, <span class="fl">5</span><span class="op">)</span>, 
+                        weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">300</span>, <span class="fl">50</span><span class="op">)</span>,
+                        sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>,<span class="st">"Female"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="fl">15</span><span class="op">)</span>
 <span class="co">##    height weight  sex</span>
 <span class="co">## 1      60    100 Male</span>
 <span class="co">## 2      65    100 Male</span>
@@ -151,10 +147,10 @@
 <span class="co">## 12     65    200 Male</span>
 <span class="co">## 13     70    200 Male</span>
 <span class="co">## 14     75    200 Male</span>
-<span class="co">## 15     80    200 Male</span></pre></div>
+<span class="co">## 15     80    200 Male</span></code></pre></div>
 <p>If you block incorrectly and end up with a group in a single batch we will end up with batch effect. In order to avoid this <code><a href="../reference/design.html">design()</a></code> helps you assign each sample to a batch (in this case each batch has 24 samples at most). First we can explore the number of samples and the number of batches:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="va">size_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">size_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>
 <span class="va">size_batch</span> <span class="op">&lt;-</span> <span class="fl">24</span>
 <span class="op">(</span><span class="va">batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimum.html">optimum_batches</a></span><span class="op">(</span><span class="va">size_data</span>, <span class="va">size_batch</span><span class="op">)</span><span class="op">)</span>
 <span class="co">## [1] 3</span>
@@ -163,15 +159,15 @@
 <span class="co">## [1] 17</span>
 <span class="co"># The distribution of samples per batch</span>
 <span class="fu"><a href="../reference/optimum.html">sizes_batches</a></span><span class="op">(</span><span class="va">size_data</span>, <span class="va">size</span>, <span class="va">batches</span><span class="op">)</span>
-<span class="co">## [1] 17 17 16</span></pre></div>
+<span class="co">## [1] 17 17 16</span></code></pre></div>
 <p>Note that instead of using a whole batch and then leave a single sample on the third distributes all the samples in the three batches that will be needed.</p>
 </div>
-<div id="randomization" class="section level1">
-<h1 class="hasAnchor">
-<a href="#randomization" class="anchor"></a>Randomization</h1>
+<div class="section level2">
+<h2 id="randomization">Randomization<a class="anchor" aria-label="anchor" href="#randomization"></a>
+</h2>
 <p>We can directly look for the distribution of the samples given our max number of samples per batch:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">size_batch</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">size_batch</span><span class="op">)</span>
 <span class="co"># It is a list but we can convert it to a vector with:</span>
 <span class="fu"><a href="../reference/batch_names.html">batch_names</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
 <span class="co">##  [1] "SubSet2" "SubSet2" "SubSet1" "SubSet2" "SubSet1" "SubSet1" "SubSet1"</span>
@@ -181,16 +177,16 @@
 <span class="co">## [29] "SubSet3" "SubSet2" "SubSet1" "SubSet1" "SubSet1" "SubSet1" "SubSet3"</span>
 <span class="co">## [36] "SubSet1" "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet2"</span>
 <span class="co">## [43] "SubSet3" "SubSet3" "SubSet2" "SubSet3" "SubSet2" "SubSet1" "SubSet1"</span>
-<span class="co">## [50] "SubSet1"</span></pre></div>
+<span class="co">## [50] "SubSet1"</span></code></pre></div>
 <p>Naively one would either fill some batches fully or distribute them not evenly (the first 17 packages together, the next 17 and so on). This solution ensures that the data is randomized. For more random distribution you can increase the number of iterations performed to calculate this distribution.</p>
 </div>
-<div id="randomization-and-replicates" class="section level1">
-<h1 class="hasAnchor">
-<a href="#randomization-and-replicates" class="anchor"></a>Randomization and replicates</h1>
+<div class="section level2">
+<h2 id="randomization-and-replicates">Randomization and replicates<a class="anchor" aria-label="anchor" href="#randomization-and-replicates"></a>
+</h2>
 <p>If you need space for replicates to control for batch effect you can use:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/replicates.html">replicates</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">size_batch</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/replicates.html">replicates</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">size_batch</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span>
 <span class="co">## SubSet1 SubSet2 SubSet3 </span>
 <span class="co">##      21      21      18</span>
 <span class="va">r</span>
@@ -201,16 +197,16 @@
 <span class="co">##  [1]  4  5  7  8  9 10 13 15 18 21 22 25 26 32 33 34 36 37 38 39 47</span>
 <span class="co">## </span>
 <span class="co">## $SubSet3</span>
-<span class="co">##  [1]  1  2  6  9 10 11 12 14 19 23 24 29 32 33 34 43 46 50</span></pre></div>
+<span class="co">##  [1]  1  2  6  9 10 11 12 14 19 23 24 29 32 33 34 43 46 50</span></code></pre></div>
 <p>Which seeks as controls the most diverse values and adds them to the samples distribution. Note that if the sample is already present on that batch is not added again, that’s why the number of samples per batch is different from the design without replicates.</p>
 </div>
-<div id="layout" class="section level1">
-<h1 class="hasAnchor">
-<a href="#layout" class="anchor"></a>Layout</h1>
+<div class="section level2">
+<h2 id="layout">Layout<a class="anchor" aria-label="anchor" href="#layout"></a>
+</h2>
 <p>Lastly, we can see how these samples would be distributed in a layout of 6x4:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spatial.html">spatial</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">metadata</span>, rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, columns <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spatial.html">spatial</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">metadata</span>, rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, columns <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span>
 <span class="co">## $A1</span>
 <span class="co">## [1] 33 48 24</span>
 <span class="co">## </span>
@@ -227,36 +223,36 @@
 <span class="co">## [1] 28 10 50</span>
 <span class="co">## </span>
 <span class="co">## $F1</span>
-<span class="co">## [1]  4 13 29</span></pre></div>
+<span class="co">## [1]  4 13 29</span></code></pre></div>
 </div>
-<div id="report-for-easy-on-field-usage" class="section level1">
-<h1 class="hasAnchor">
-<a href="#report-for-easy-on-field-usage" class="anchor"></a>Report for easy on field usage</h1>
+<div class="section level2">
+<h2 id="report-for-easy-on-field-usage">Report for easy on field usage<a class="anchor" aria-label="anchor" href="#report-for-easy-on-field-usage"></a>
+</h2>
 <p>We can add the batches to the initial data with <code><a href="../reference/inspect.html">inspect()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">metadata</span><span class="op">)</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">metadata</span><span class="op">)</span>
 <span class="va">report2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">s</span>, <span class="va">report</span>, index_name <span class="op">=</span> <span class="st">"position"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">report2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">report2</span><span class="op">)</span>
 <span class="co">##   height weight  sex   batch position</span>
 <span class="co">## 1     60    100 Male SubSet3       C2</span>
 <span class="co">## 2     65    100 Male SubSet3       D2</span>
 <span class="co">## 3     70    100 Male SubSet1       D1</span>
 <span class="co">## 4     75    100 Male SubSet2       F1</span>
 <span class="co">## 5     80    100 Male SubSet2       C1</span>
-<span class="co">## 6     60    150 Male SubSet3       C4</span></pre></div>
+<span class="co">## 6     60    150 Male SubSet3       C4</span></code></pre></div>
 <p>And now we can see the batch and position of each sample</p>
 </div>
-<div id="unbalanced-setting" class="section level1">
-<h1 class="hasAnchor">
-<a href="#unbalanced-setting" class="anchor"></a>Unbalanced setting</h1>
+<div class="section level2">
+<h2 id="unbalanced-setting">Unbalanced setting<a class="anchor" aria-label="anchor" href="#unbalanced-setting"></a>
+</h2>
 <p>In the previous case the data was mostly balanced (check it out in the <code>orig</code> object) but let’s create an unbalanced dataset to check it.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">99</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">99</span>
 <span class="va">samples</span> <span class="op">&lt;-</span> <span class="fl">100</span>
-<span class="va">unbalanced</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Classroom <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">samples</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,
-                         Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="va">n</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="va">samples</span><span class="op">-</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>,
-                         Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">samples</span>, mean <span class="op">=</span> <span class="fl">25</span>, sd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
+<span class="va">unbalanced</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Classroom <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">samples</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,
+                         Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="va">n</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="va">samples</span><span class="op">-</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>,
+                         Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">samples</span>, mean <span class="op">=</span> <span class="fl">25</span>, sd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 <span class="co">## , , Age = 17.8386553280725</span>
 <span class="co">## </span>
 <span class="co">##          Sex</span>
@@ -290,13 +286,13 @@
 <span class="co">##          Sex</span>
 <span class="co">## Classroom F M</span>
 <span class="co">##         A 0 1</span>
-<span class="co">##         B 0 0</span></pre></div>
+<span class="co">##         B 0 0</span></code></pre></div>
 <p>In this dataset the classroom a single classroom has all the females (-49).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="fl">15</span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="fl">15</span><span class="op">)</span>
 
 <span class="co"># Mean entropy en each subset</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span><span class="op">)</span>
 <span class="co">##  Classroom        Sex        Age </span>
 <span class="co">## 0.95647606 0.05303319 0.00000000</span>
 <span class="co"># Original entropy on the dataset</span>
@@ -304,18 +300,18 @@
 <span class="co">##  Classroom        Sex        Age </span>
 <span class="co">## 1.00000000 0.08079314 0.00000000</span>
 <span class="co"># Dispersion of the entropy</span>
-<span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span>, <span class="fl">1</span>, <span class="va">sd</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span>, <span class="fl">1</span>, <span class="va">sd</span><span class="op">)</span>
 <span class="co">##  Classroom        Sex        Age </span>
-<span class="co">## 0.02936726 0.14031263 0.00000000</span></pre></div>
+<span class="co">## 0.02936726 0.14031263 0.00000000</span></code></pre></div>
 <p>We can see that in this simple case where a single variable has all the other cases we approximately reached the same entropy levels.</p>
 </div>
-<div id="quality-check" class="section level1">
-<h1 class="hasAnchor">
-<a href="#quality-check" class="anchor"></a>Quality check</h1>
+<div class="section level2">
+<h2 id="quality-check">Quality check<a class="anchor" aria-label="anchor" href="#quality-check"></a>
+</h2>
 <p>If you need a subset with the samples that are more diverse you can use the following function:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">survey</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span> 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">survey</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span>
 <span class="co">##      Sex Wr.Hnd NW.Hnd W.Hnd    Fold Pulse    Clap Exer Smoke Height      M.I</span>
 <span class="co">## 1 Female   18.5   18.0 Right  R on L    92    Left Some Never 173.00   Metric</span>
 <span class="co">## 2   Male   19.5   20.5  Left  R on L   104    Left None Regul 177.80 Imperial</span>
@@ -353,42 +349,57 @@
 <span class="co">## 121 17.500</span>
 <span class="co">## 154 70.417</span>
 <span class="co">## 170 17.333</span>
-<span class="co">## 225 19.917</span></pre></div>
+<span class="co">## 225 19.917</span></code></pre></div>
+<p>You can also test a given index with <code><a href="../reference/check_index.html">check_index()</a></code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/check_index.html">check_index</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="va">i</span><span class="op">)</span>
+<span class="co">##            subgroups</span>
+<span class="co">##                SubSet1    SubSet2     SubSet3    SubSet4    SubSet5    SubSet6</span>
+<span class="co">##   Classroom 0.03217261 0.01462103 0.009861847 0.02484257 0.02484257 0.02484257</span>
+<span class="co">##   Sex       0.16047517 0.16047517 0.160475171 0.16047517 0.16047517 0.23035719</span>
+<span class="co">##   Age       0.22558858 0.30829038 0.694147585 0.23040791 0.21351942 0.23255990</span>
+<span class="co">##            subgroups</span>
+<span class="co">##                 SubSet7</span>
+<span class="co">##   Classroom 0.004937892</span>
+<span class="co">##   Sex       0.160475171</span>
+<span class="co">##   Age       0.323870366</span></code></pre></div>
+<p>Each row has information about how accurate is a given variable to the samples available (on this case <code>unbalanced</code>). Some variables are distributed more randomly than others on this index.</p>
+<p>If we are not satisfied we could <code><a href="../reference/design.html">design()</a></code> a new index increasing the iterations to obtain a potentially better distribution. If you want a good stratified randomization you should increase the iterations used 10 fold.</p>
 </div>
-<div id="sessioninfo" class="section level1">
-<h1 class="hasAnchor">
-<a href="#sessioninfo" class="anchor"></a>SessionInfo</h1>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">## R version 4.0.2 (2020-06-22)</span>
+<div class="section level2">
+<h2 id="sessioninfo">SessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
+</h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">## R version 4.1.2 (2021-11-01)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">## Running under: Ubuntu 16.04.6 LTS</span>
+<span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
 <span class="co">## Matrix products: default</span>
-<span class="co">## BLAS:   /usr/lib/openblas-base/libblas.so.3</span>
-<span class="co">## LAPACK: /usr/lib/libopenblasp-r0.2.18.so</span>
+<span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0</span>
+<span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0</span>
 <span class="co">## </span>
 <span class="co">## locale:</span>
-<span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span>
+<span class="co">##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span>
+<span class="co">##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span>
+<span class="co">## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span>
 <span class="co">## </span>
 <span class="co">## attached base packages:</span>
 <span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">## [1] experDesign_0.1.0</span>
+<span class="co">## [1] experDesign_0.1.1</span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
-<span class="co">##  [1] digest_0.6.27     crayon_1.4.1      rprojroot_2.0.2   R6_2.5.0         </span>
-<span class="co">##  [5] magrittr_2.0.1    evaluate_0.14     stringi_1.5.3     rlang_0.4.10     </span>
-<span class="co">##  [9] fs_1.5.0          ragg_0.3.1        rmarkdown_2.7     pkgdown_1.6.1    </span>
-<span class="co">## [13] desc_1.3.0        tools_4.0.2       stringr_1.4.0     xfun_0.22        </span>
-<span class="co">## [17] yaml_2.2.1        compiler_4.0.2    systemfonts_0.3.1 cpp11_0.2.1      </span>
-<span class="co">## [21] memoise_1.1.0     htmltools_0.5.1.1 knitr_1.32</span></pre></div>
+<span class="co">##  [1] knitr_1.37        magrittr_2.0.2    R6_2.5.1          ragg_1.2.1       </span>
+<span class="co">##  [5] rlang_1.0.1       fastmap_1.1.0     stringr_1.4.0     tools_4.1.2      </span>
+<span class="co">##  [9] xfun_0.29         cli_3.1.1         jquerylib_0.1.4   htmltools_0.5.2  </span>
+<span class="co">## [13] systemfonts_1.0.4 yaml_2.2.2        digest_0.6.29     rprojroot_2.0.2  </span>
+<span class="co">## [17] pkgdown_2.0.2     crayon_1.4.2      textshaping_0.3.6 purrr_0.3.4      </span>
+<span class="co">## [21] sass_0.4.0        fs_1.5.2          memoise_2.0.1     cachem_1.0.6     </span>
+<span class="co">## [25] evaluate_0.14     rmarkdown_2.11    stringi_1.7.6     compiler_4.1.2   </span>
+<span class="co">## [29] bslib_0.3.1       desc_1.4.0        jsonlite_1.7.3</span></code></pre></div>
 </div>
   </div>
 
@@ -403,11 +414,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Lluís Revilla Sancho.</p>
+  <p></p>
+<p>Developed by Lluís Revilla Sancho.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -415,6 +428,8 @@
 
   
 
+
+  
 
   </body>
 </html>
