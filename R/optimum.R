@@ -115,7 +115,7 @@ internal_batches <- function(size_data, size_subset, batches) {
 }
 
 check_number <- function(x, name) {
-  if (length(x) != 1 || !is.numeric(x)) {
-    stop(name, " must be a single number.", call. = FALSE)
+  if (length(x) != 1 || !is.numeric(x) || x <= 1) {
+    stop(name, " must be a single number bigger than 1.", call. = FALSE)
   }
 }
