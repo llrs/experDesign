@@ -70,3 +70,75 @@ evaluate_independence <- function(i, pheno) {
     suppressWarnings(stats::chisq.test(table(batch, x))$p.value)
   }, numeric(1L))
 }
+
+
+#' Check experiment data
+#'
+#' In order to run a successful experiment a good design is needed even before measuring the data.
+#' This functions checks several heuristics for a good experiment and warns if they are not found.
+#' @param pheno Data.frame with the variables of each sample, one row one sample.
+#' @param na.omit Check the effects of missing values too.
+#' @return A logical value indicating if everything is alright or not.
+#' @export
+#' @examples
+#' rdata <- expand.grid(sex = c("M", "F"), class = c("lower", "median", "high"))
+#' rdata2 <- rbind(rdata, rdata)
+#' check_data(rdata2)
+#' \donttest{
+#' #Different warnings
+#' check_data(rdata)
+#' check_data(rdata[-c(1, 3), ])
+#' data(survey, package = "MASS")
+#' check_data(survey)
+#' }
+check_data <- function(pheno, na.omit = FALSE) {
+  stopifnot(is.data.frame(pheno))
+
+  data_status <- TRUE
+  num <- is_num(pheno)
+  cat <- is_cat(pheno)
+  # Check input data as factor, character or numbers (no data.frames or nested lists)
+  if (sum(num+cat) != ncol(pheno)) {
+    warning("There are some columns of unidentified type. ",
+            "Only accepts numeric or categorical values in a data.frame.")
+    data_status <- FALSE
+  }
+
+  # There should be at least one categorical column
+  if (sum(cat) == 0) {
+    warning("No categorical values were found; numeric values are not checked here.")
+    return(data_status)
+  }
+
+  pheno_o <- droplevels(pheno[, cat, drop = FALSE])
+
+  nas <- lapply(pheno_o, function(x){which(is.na(x))})
+  if (any(lengths(nas) >= 1)) {
+    warning("Some values are missing")
+    data_status <- if (!na.omit) FALSE
+  }
+  # Check if one variable has only one category
+  l_unique <- lapply(pheno_o, table)
+  # Omit variable names
+  if (any(lengths(l_unique) == nrow(pheno_o))) {
+    warning("There is a variable with as many categories as samples. ",
+            "Are these the sample names?")
+  }
+  if (sum(lengths(l_unique) == nrow(pheno_o)) > 1) {
+    warning("Multiple variables with as many categories as rows. ")
+    data_status <- FALSE
+  }
+
+  if (any(vapply(l_unique, function(x) {any(x == 1)}, FUN.VALUE = logical(1L)))) {
+    warning("There is a category with just one sample.")
+    data_status <- FALSE
+  }
+  # Check if the combinations of categories has only one replicate
+  p <- apply(pheno_o, 1, paste0, collapse = "")
+  tp <- table(p)
+  if (sum(cat) > 1 && any(tp == 1)) {
+    warning("There is a combination of categories with no replicates; i.e. just one sample.")
+    data_status <- FALSE
+  }
+  data_status
+}
