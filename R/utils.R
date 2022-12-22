@@ -10,11 +10,11 @@ is_num <- function(x, ...) {
 
 is_cat <- function(x, ...) {
   if (is.null(ncol(x))) {
-    is.character(x) || is.factor(x)
+    is.character(x) || is.factor(x) || methods::is(x, "Date")
   } else if (ncol(x) == 1) {
-    apply(x, 2, function(x){is.character(x) || is.factor(x)})
+    apply(x, 2, function(y){is.character(y) || is.factor(y) || methods::is(y, "Date")})
   } else {
-    vapply(x, function(x){is.character(x) || is.factor(x)}, logical(1L))
+    vapply(x, function(y){is.character(y) || is.factor(y) || methods::is(y, "Date")}, logical(1L))
   }
 }
 

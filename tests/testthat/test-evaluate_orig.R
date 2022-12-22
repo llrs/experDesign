@@ -8,7 +8,7 @@ test_that("works", {
   expect_error(e <- evaluate_orig(m), "is not TRUE")
 
   colnames(m) <- "Age"
-  e <- evaluate_orig( m)
+  e <- evaluate_orig(m)
   expect_equal(e["na", "Age"], 5L)
   expect_equal(e["entropy", "Age"], 0)
   expect_equal(e["mean", "Age"], mean(m[, 1], na.rm = TRUE))

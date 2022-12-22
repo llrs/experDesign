@@ -19,7 +19,7 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
   # Calculate batches
   pheno_o <- omit(pheno, omit)
 
-  original_pheno <- evaluate_orig(pheno_o)
+  original_pheno <- .evaluate_orig(pheno_o)
 
   # Find the numeric values
   dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
@@ -107,12 +107,15 @@ check_index <- function(pheno, index, omit = NULL) {
   batches <- length(index)
 
   pheno_o <- omit(pheno, omit)
+  if (!.check_data(pheno_o)) {
+    warning("There might be some problems with the data use check_data().")
+  }
   num <- is_num(pheno_o)
   # Numbers are evaluated 4 times, and categories only 3
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
 
-  original_pheno <- evaluate_orig(pheno_o)
+  original_pheno <- .evaluate_orig(pheno_o)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
   subsets <- evaluate_index(index, pheno_o)

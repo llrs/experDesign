@@ -53,7 +53,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   batches <- length(index)
   pheno_o <- omit(pheno, omit)
 
-  original_pheno <- evaluate_orig(pheno_o)
+  original_pheno <- .evaluate_orig(pheno_o)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
   # Find the numeric values

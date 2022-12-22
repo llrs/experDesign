@@ -78,7 +78,7 @@ evaluate_independence <- function(i, pheno) {
 #' This functions checks several heuristics for a good experiment and warns if they are not found.
 #' @param pheno Data.frame with the variables of each sample, one row one sample.
 #' @param na.omit Check the effects of missing values too.
-#' @return A logical value indicating if everything is alright or not.
+#' @return A logical value indicating if everything is alright (TRUE) or not (FALSE).
 #' @export
 #' @examples
 #' rdata <- expand.grid(sex = c("M", "F"), class = c("lower", "median", "high"))
@@ -92,21 +92,29 @@ evaluate_independence <- function(i, pheno) {
 #' check_data(survey)
 #' }
 check_data <- function(pheno, na.omit = FALSE) {
-  stopifnot(is.data.frame(pheno))
+  stopifnot(is.data.frame(pheno) || is.matrix(pheno))
+  .check_data(pheno = pheno, na.omit = na.omit, verbose = TRUE)
+}
+
+.check_data <- function(pheno, na.omit, verbose = FALSE) {
 
   data_status <- TRUE
   num <- is_num(pheno)
   cat <- is_cat(pheno)
   # Check input data as factor, character or numbers (no data.frames or nested lists)
   if (sum(num+cat) != ncol(pheno)) {
-    warning("There are some columns of unidentified type. ",
-            "Only accepts numeric or categorical values in a data.frame.")
+    if (verbose){
+      warning("There are some columns of unidentified type. ",
+              "Only accepts numeric or categorical values in a data.frame.", call. = FALSE)
+    }
     data_status <- FALSE
   }
 
   # There should be at least one categorical column
   if (sum(cat) == 0) {
-    warning("No categorical values were found; numeric values are not checked here.")
+    if (verbose) {
+      warning("No categorical values were found; numeric values are not checked here.", call. = FALSE)
+    }
     return(data_status)
   }
 
@@ -114,30 +122,40 @@ check_data <- function(pheno, na.omit = FALSE) {
 
   nas <- lapply(pheno_o, function(x){which(is.na(x))})
   if (any(lengths(nas) >= 1)) {
-    warning("Some values are missing")
+    if (verbose) {
+      warning("Some values are missing", call. = FALSE)
+    }
     data_status <- if (!na.omit) FALSE
   }
   # Check if one variable has only one category
   l_unique <- lapply(pheno_o, table)
   # Omit variable names
   if (any(lengths(l_unique) == nrow(pheno_o))) {
-    warning("There is a variable with as many categories as samples. ",
-            "Are these the sample names?")
+    if (verbose) {
+      warning("There is a variable with as many categories as samples. ",
+              "Are these the sample names?", call. = FALSE)
+    }
   }
   if (sum(lengths(l_unique) == nrow(pheno_o)) > 1) {
-    warning("Multiple variables with as many categories as rows. ")
+    if (verbose) {
+      warning("Multiple variables with as many categories as rows.", call. = FALSE)
+    }
     data_status <- FALSE
   }
 
   if (any(vapply(l_unique, function(x) {any(x == 1)}, FUN.VALUE = logical(1L)))) {
-    warning("There is a category with just one sample.")
+    if (verbose) {
+      warning("There is a category with just one sample.", call. = FALSE)
+    }
     data_status <- FALSE
   }
   # Check if the combinations of categories has only one replicate
-  p <- apply(pheno_o, 1, paste0, collapse = "")
-  tp <- table(p)
-  if (sum(cat) > 1 && any(tp == 1)) {
-    warning("There is a combination of categories with no replicates; i.e. just one sample.")
+  texts <- apply(pheno_o, 1, paste0, collapse = "")
+  texts_freq <- table(texts)
+  if (sum(cat) > 1 && any(texts_freq == 1)) {
+    if (verbose) {
+      warning("There is a combination of categories with no replicates; i.e. just one sample.", call. = FALSE)
+    }
     data_status <- FALSE
   }
   data_status

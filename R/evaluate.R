@@ -30,7 +30,13 @@ insert <- function(matrix, vector, name) {
 #' data(survey, package = "MASS")
 #' evaluate_orig(survey[, c("Sex", "Age", "Smoke")])
 evaluate_orig <- function(pheno) {
+  if (!.check_data(pheno)) {
+    warning("There might be some problems with the data use check_data().")
+  }
+  .evaluate_orig(pheno)
+}
 
+.evaluate_orig <- function(pheno) {
   stopifnot(!is.null(colnames(pheno)))
   original <- summary_num(pheno)
 
