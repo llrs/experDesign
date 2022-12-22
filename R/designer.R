@@ -39,6 +39,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
   }
 
   pheno_o <- omit(pheno, omit)
+  check_data(pheno_o)
 
   original_pheno <- evaluate_orig(pheno_o)
   original_pheno["na", ] <- original_pheno["na", ]/batches

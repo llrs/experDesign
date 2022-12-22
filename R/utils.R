@@ -8,6 +8,16 @@ is_num <- function(x, ...) {
   }
 }
 
+is_cat <- function(x, ...) {
+  if (is.null(ncol(x))) {
+    is.character(x) || is.factor(x)
+  } else if (ncol(x) == 1) {
+    apply(x, 2, function(x){is.character(x) || is.factor(x)})
+  } else {
+    vapply(x, function(x){is.character(x) || is.factor(x)}, logical(1L))
+  }
+}
+
 
 omit <- function(pheno, omit){
   # Omit columns
