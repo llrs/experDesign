@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Design Experiments for Batches
-Version: 0.1.1.9001
+Version: 0.1.1.9002
 Authors@R: 
     c(person(given = "Lluís",
            family = "Revilla Sancho",
