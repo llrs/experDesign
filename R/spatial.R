@@ -53,7 +53,8 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   batches <- length(index)
   pheno_o <- omit(pheno, omit)
 
-  original_pheno <- .evaluate_orig(pheno_o)
+  num <- is_num(pheno_o)
+  original_pheno <- .evaluate_orig(pheno_o, num)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
   # Find the numeric values
@@ -62,7 +63,6 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
     warning("The dates will be treat as categories")
   }
 
-  num <- is_num(pheno_o)
   # Numbers are evaluated 4 times, and categories only 3
   # check this on evaluate_index
   eval_n <- ifelse(num, 4, 3)
@@ -79,7 +79,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = position)
 
-    subsets <- evaluate_index(i, pheno_o)
+    subsets <- .evaluate_index(i, pheno_o, num)
     # Evaluate the differences between the subsets and the originals
     differences <- abs(sweep(subsets, c(1, 2), original_pheno))
     # Add the independence of the categorical values

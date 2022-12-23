@@ -168,13 +168,13 @@ In this dataset the classroom a single classroom has all the females (`r 50 -n`)
 
 ```{r unbalanced_design}
 i <- design(unbalanced, 15)
-
+evaluation <- evaluate_index(i, unbalanced)
 # Mean entropy en each subset
-rowMeans(evaluate_index(i, unbalanced)["entropy", , ])
+rowMeans(evaluation["entropy", , ])
 # Original entropy on the dataset
 evaluate_orig(unbalanced)["entropy", ]
 # Dispersion of the entropy
-apply(evaluate_index(i, unbalanced)["entropy", , ], 1, sd)
+apply(evaluation["entropy", , ], 1, sd)
 ```
 
 We can see that in this simple case where a single variable has all the other cases we approximately reached the same entropy levels. 

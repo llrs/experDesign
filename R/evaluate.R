@@ -33,37 +33,16 @@ evaluate_orig <- function(pheno) {
   if (!.check_data(pheno)) {
     warning("There might be some problems with the data use check_data().")
   }
-  .evaluate_orig(pheno)
+  num <- is_num(pheno)
+  .evaluate_orig(pheno, num)
 }
 
-.evaluate_orig <- function(pheno) {
+.evaluate_orig <- function(pheno, num) {
   stopifnot(!is.null(colnames(pheno)))
-  original <- summary_num(pheno)
+  original <- empty_res(pheno, num)
+  original <- insert(original, colSums(is.na(pheno)), "na")
 
-  na_orig <- colSums(is.na(pheno))
-  original <- insert(original, na_orig, "na")
-
-  num <- is_num(pheno)
-
-  # Numeric data
-  if (sum(num) >= 1) {
-    pheno_num <- pheno[, num, drop = FALSE]
-
-    subset_num <- apply(pheno_num, 2, function(y) {
-      c("sd" = sd(y, na.rm = TRUE),
-        "mean" = mean(y, na.rm = TRUE),
-        "mad" = mad(y, na.rm = TRUE))
-    })
-    original <- insert(original, subset_num, c("sd", "mean", "mad"))
-  }
-  # Categorical data
-  if (sum(!num) >= 1) {
-    pheno_cat <- pheno[, !num, drop = FALSE]
-    entropy_orig <- apply(pheno_cat, 2, entropy)
-    original <- insert(original, entropy_orig, "entropy")
-  }
-
-  original
+  ev_subset(x = seq_len(nrow(pheno)), pheno = pheno, numeric = num, diff = original)
 }
 
 #' Evaluates a data.frame
@@ -83,42 +62,55 @@ evaluate_orig <- function(pheno) {
 #' ev_index <- evaluate_index(index, survey[, c("Sex", "Smoke")])
 #' ev_index["entropy", , ]
 evaluate_index <- function(i, pheno) {
-  if (!(is.matrix(pheno) || is.data.frame(pheno))) {
-    stop("Please provide a matrix or a data.frame")
+  if (!.check_data(pheno)) {
+    warning("There might be some problems with the data use check_data().", call. = FALSE)
   }
-  num <- is_num(pheno)
+  .evaluate_index(i, pheno, is_num(pheno))
 
-  diff <- summary_num(pheno)
-  ev_subset <- function(x){
+}
 
-    subset_na <- na_orig <- colSums(is.na(pheno[x, , drop = FALSE]))
-    diff1 <- insert(diff, subset_na, "na")
 
-    # Look for eval_n <- ifelse(num, 4, 3) if any change happens on numeric
-    # or categorical tests.
-    if (sum(num) >= 1) {
-      pheno_num <- pheno[x, num, drop = FALSE]
-      subset_num <- apply(pheno_num, 2, function(y) {
-        c("sd" = sd(y, na.rm = TRUE),
-          "mean" = mean(y, na.rm = TRUE),
-          "mad" = mad(y, na.rm = TRUE))
-      })
-      diff1 <- insert(diff1, subset_num, c("sd", "mean", "mad"))
-    }
-
-    if (sum(!num) >= 1) {
-      pheno_cat <- droplevels(pheno[x, !num, drop = FALSE])
-      subset_entropy <- apply(pheno_cat, 2, entropy)
-      diff1 <- insert(diff1, subset_entropy, "entropy")
-    }
-
-    diff1
+.evaluate_index <- function(i, pheno, num) {
+  d <- empty_res(pheno, num)
+  if (sum(!num) > 1) {
+    d <- cbind(d, mix_cat = rep(0, nrow(d)))
   }
 
-  out <- sapply(i, ev_subset, simplify = "array")
+  out <- sapply(i, ev_subset, pheno = pheno, numeric = num, diff = d, simplify = "array")
 
-  dimnames(out) <- list("stat" = rownames(diff),
+  dimnames(out) <- list("stat" = rownames(d),
                         "variables" = colnames(pheno),
                         "subgroups" = names(i))
   out
+
+}
+
+ev_subset <- function(x, pheno, numeric, diff){
+
+  subset_na <- na_orig <- colSums(is.na(pheno[x, , drop = FALSE]))
+  diff1 <- insert(diff, subset_na, "na")
+
+  # Look for eval_n <- ifelse(num, 4, 3) if any change happens on numeric
+  # or categorical tests.
+  if (sum(numeric) >= 1) {
+    pheno_num <- pheno[x, numeric, drop = FALSE]
+    subset_num <- apply(pheno_num, 2, function(y) {
+      c("sd" = sd(y, na.rm = TRUE),
+        "mean" = mean(y, na.rm = TRUE),
+        "mad" = mad(y, na.rm = TRUE))
+    })
+    diff1 <- insert(diff1, subset_num, c("sd", "mean", "mad"))
+  }
+
+  if (sum(!numeric) >= 1) {
+    pheno_cat <- droplevels(pheno[x, !numeric, drop = FALSE])
+    if (sum(!numeric) > 1) {
+      pheno_cat$mix_cat <- apply(pheno_cat, 1, paste0, collapse = "")
+    }
+
+    subset_entropy <- apply(pheno_cat, 2, entropy)
+    diff1 <- insert(diff1, subset_entropy, "entropy")
+  }
+
+  diff1
 }

@@ -45,7 +45,7 @@ position_name <- function(rows, columns) {
   positions
 }
 
-summary_num <- function(pheno) {
+empty_res <- function(pheno, num) {
   if (is.null(ncol(pheno))) {
     ncol <- 1
     column <- "variable"
@@ -53,8 +53,14 @@ summary_num <- function(pheno) {
     ncol <- ncol(pheno)
     column <- colnames(pheno)
   }
+  if (sum(!num) > 2) {
+    ncol <- ncol +1
+    column <- c(column, "mix_cat")
+  }
+
+
   diff <- matrix(0, ncol = ncol, nrow = 5)
-  rownames(diff) <- c("mean", "sd", "mad", "na", "entropy")
+  rownames(diff) <- c("mean", "sd", "mad", "na", "entropy", "independence")
   colnames(diff) <- column
   diff
 }
