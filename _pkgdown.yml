@@ -1,5 +1,9 @@
 url: https://experdesign.llrs.dev
 
+authors:
+  Lluís Revilla Sancho:
+    href: https://llrs.dev
+
 development:
   mode: auto
 template:
@@ -19,6 +23,7 @@ home:
 reference:
   - title: "Main functions"
   - contents:
+    - check_data
     - design
     - replicates
     - spatial

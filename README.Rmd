@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-project.org/package=experDesign)
-[![R build status](https://github.com/llrs/experDesign/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/experDesign/actions?workflow=R-CMD-check)
+[![R-CMD-check](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml)
 [![Coverage status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.03358/status.svg)](https://doi.org/10.21105/joss.03358) 
 [![DOI](https://zenodo.org/badge/142569201.svg)](https://zenodo.org/badge/latestdoi/142569201)
-
 
 <!-- badges: end -->
 
@@ -29,6 +29,7 @@ The goal of experDesign is to help you decide which samples go in which batch,
 reducing the potential batch bias before performing an experiment.
 It provides three main functions :
 
+* `check_data()`: Check if there are any problems with the data.
 * `design()`: Randomize the samples according to their variables.
 * `replicates()`: Selects some samples for replicates and randomizes the samples.
 * `spatial()`: Randomize the samples on a spatial grid.
@@ -59,6 +60,15 @@ head(survey)
 
 The dataset has numeric, categorical values and some `NA`'s value.
 
+We can check some issues from an experimental point of view via `check_data()`:
+
+```{r check, warning=TRUE}
+check_data(survey)
+```
+
+As you can see with the warnings we get a collections of problems.
+In general, try to have at least 3 replicates for each condition and try to have all the data of each variable. 
+
 # Picking samples for each batch
 
 Imagine that we can only work in groups of 70, and we want to randomize by Sex, 
@@ -83,8 +93,6 @@ We can transform then into a vector to append to the file or to pass to the lab 
 ```{r batch_names}
 head(batch_names(index))
 ```
-
-
 
 # Previous work
 
