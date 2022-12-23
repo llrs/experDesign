@@ -96,7 +96,7 @@ check_data <- function(pheno, na.omit = FALSE) {
   .check_data(pheno = pheno, na.omit = na.omit, verbose = TRUE)
 }
 
-.check_data <- function(pheno, na.omit, verbose = FALSE) {
+.check_data <- function(pheno, na.omit = FALSE, verbose = FALSE) {
 
   data_status <- TRUE
   num <- is_num(pheno)
@@ -123,7 +123,7 @@ check_data <- function(pheno, na.omit = FALSE) {
   nas <- lapply(pheno_o, function(x){which(is.na(x))})
   if (any(lengths(nas) >= 1)) {
     if (verbose) {
-      warning("Some values are missing", call. = FALSE)
+      warning("Some values are missing.", call. = FALSE)
     }
     data_status <- if (!na.omit) FALSE
   }

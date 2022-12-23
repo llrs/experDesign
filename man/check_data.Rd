@@ -12,7 +12,7 @@ check_data(pheno, na.omit = FALSE)
 \item{na.omit}{Check the effects of missing values too.}
 }
 \value{
-A logical value indicating if everything is alright or not.
+A logical value indicating if everything is alright (TRUE) or not (FALSE).
 }
 \description{
 In order to run a successful experiment a good design is needed even before measuring the data.

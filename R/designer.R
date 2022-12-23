@@ -24,6 +24,12 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is.numeric(iterations) && is.finite(iterations))
   stopifnot(is.character(name))
+  .design(pheno, size_subset, omit, iterations, name, check = TRUE)
+}
+
+
+.design <- function(pheno, size_subset, omit = NULL, iterations = 500,
+                    name = "SubSet", check = FALSE) {
   opt <- Inf
 
   # Calculate batches
@@ -39,8 +45,8 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
   }
 
   pheno_o <- omit(pheno, omit)
-  if (!.check_data(pheno_o)) {
-    warning("There might be some problems with the data use check_data().")
+  if (check && !.check_data(pheno_o)) {
+    warning("There might be some problems with the data use check_data().", call. = FALSE)
   }
 
   original_pheno <- .evaluate_orig(pheno_o)
@@ -49,7 +55,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
   # Find the numeric values
   dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
   if (any(dates)) {
-    warning("The dates will be treat as categories")
+    warning("The dates will be treat as categories", call. = FALSE)
   }
 
   num <- is_num(pheno_o)
@@ -78,6 +84,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
   }
   val
 }
+
 
 #' Design a batch experiment with experimental controls
 #'
@@ -111,7 +118,7 @@ replicates <- function(pheno, size_subset, controls, omit = NULL,
   }
   size_subset <- size_subset - controls
   values <- extreme_cases(pheno = pheno, size = controls, omit = omit)
-  batches <- design(pheno, size_subset, omit = omit, iterations = iterations)
+  batches <- .design(pheno, size_subset, omit = omit, iterations = iterations)
 
   for (b in seq_along(batches)) {
     val <- c(batches[[b]], values[!values %in% batches[[b]]])

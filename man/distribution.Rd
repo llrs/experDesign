@@ -22,7 +22,8 @@ Aimed for categorical variables.
 \examples{
 data(survey, package = "MASS")
 columns <- c("Sex", "Age", "Smoke")
-index <- design(pheno = survey[, columns], size_subset = 70,
+nas <- c(137, 70) # Omit rows with NA to avoid warnings in design
+index <- design(pheno = survey[-nas, columns], size_subset = 70,
                 iterations = 10)
 batches <- inspect(index, survey[, columns])
 distribution(batches, "Sex")
