@@ -1,5 +1,7 @@
 # experDesign (development version)
 
+* Add a function to check the input data `check_data()`.
+
 # experDesign 0.1.1
 
 * Added thesis advisors on the description.
