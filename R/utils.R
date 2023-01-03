@@ -53,13 +53,13 @@ empty_res <- function(pheno, num) {
     ncol <- ncol(pheno)
     column <- colnames(pheno)
   }
-  if (sum(!num) > 2) {
+  if (sum(!num) > 1) {
     ncol <- ncol +1
     column <- c(column, "mix_cat")
   }
 
 
-  diff <- matrix(0, ncol = ncol, nrow = 5)
+  diff <- matrix(0, ncol = ncol, nrow = 6)
   rownames(diff) <- c("mean", "sd", "mad", "na", "entropy", "independence")
   colnames(diff) <- column
   diff
@@ -79,13 +79,26 @@ valid_sizes <- function(size_data, size_subset, batches){
 
 mean_difference <- function(differences, subset_ind, eval_n) {
   # Calculate the score for each subset by variable
-  apply(differences, 3, function(x) {
-    x <- rbind(x, "ind" = 0)
-    x <- insert(x, subset_ind, name = "ind")
-    colSums(x, na.rm = TRUE)/eval_n
-  })
+  apply(differences, 3, function(x, eval, indep) {
+    x <- rbind(x, "independence" = 0)
+    x <- insert(x, indep, name = "independence")
+    colSums(x, na.rm = TRUE)/eval
+  }, eval = eval_n, indep = subset_ind)
 }
 
 release_bullets <- function(){
   c("Update codemeta.json with: `codemetar::write_codemeta()`")
+}
+
+
+# Numbers are evaluated 4 times (mean, sd, mad, na),
+# and categories only 3:  na, entropy, independence.
+# check this on evaluate_index
+evaluations <- function(num, eval_cat = 4, eval_num = 3) {
+  eval_n <- ifelse(num, eval_cat, eval_num)
+  # Add one more number for when multiple categories are present
+  if (sum(!num) > 1) {
+    eval_n <- c(eval_n, eval_cat)
+  }
+  eval_n
 }

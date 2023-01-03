@@ -59,9 +59,8 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
     warning("The dates will be treat as categories", call. = FALSE)
   }
 
-  # Numbers are evaluated 4 times, and categories only 3
-  # check this on evaluate_index
-  eval_n <- ifelse(num, 4, 3)
+  eval_n <- evaluations(num)
+
   size_batches <- internal_batches(size_data, size_subset, batches)
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = name)

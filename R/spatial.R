@@ -63,9 +63,8 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
     warning("The dates will be treat as categories")
   }
 
-  # Numbers are evaluated 4 times, and categories only 3
-  # check this on evaluate_index
-  eval_n <- ifelse(num, 4, 3)
+
+  eval_n <- evaluations(num)
 
   # Use index to duplicate samples in case the index comes from replicates.
   pheno_o <- pheno_o[unlist(index), ]

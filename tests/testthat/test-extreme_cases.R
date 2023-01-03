@@ -13,7 +13,7 @@ test_that("check_index works", {
   nas <- c(137, 70)
   index <- create_subset(size_data = nrow(surv)-length(nas), n = 2)
   out <- check_index(surv[-nas, c("Sex", "Smoke", "Age")], index)
-  expect_equal(dim(out), c(3L, 2L))
+  expect_equal(dim(out), c(4L, 2L))
 
   i2 <- design(surv[-nas, c("Sex", "Smoke", "Age")], size_subset = 119, iterations = 100)
   o2 <- check_index(surv[-nas, c("Sex", "Smoke", "Age")], i2)

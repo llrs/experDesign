@@ -7,9 +7,10 @@ evaluate_helper <- function(x, original_x){
 }
 
 # To insert a vector or a matrix inside another matrix
-insert <- function(matrix, vector, name) {
+insert <- function(matrix, vector, name = NULL) {
   if (is.matrix(vector)) {
     nam <- colnames(vector)
+    name <- rownames(vector)
   } else {
     nam <- names(vector)
   }
@@ -40,7 +41,6 @@ evaluate_orig <- function(pheno) {
 .evaluate_orig <- function(pheno, num) {
   stopifnot(!is.null(colnames(pheno)))
   original <- empty_res(pheno, num)
-  original <- insert(original, colSums(is.na(pheno)), "na")
 
   ev_subset(x = seq_len(nrow(pheno)), pheno = pheno, numeric = num, diff = original)
 }
@@ -73,13 +73,15 @@ evaluate_index <- function(i, pheno) {
 .evaluate_index <- function(i, pheno, num) {
   d <- empty_res(pheno, num)
   if (sum(!num) > 1) {
-    d <- cbind(d, mix_cat = rep(0, nrow(d)))
+    variables <- c(colnames(pheno), "mix_cat")
+  } else {
+    variables <- colnames(pheno)
   }
 
   out <- sapply(i, ev_subset, pheno = pheno, numeric = num, diff = d, simplify = "array")
 
   dimnames(out) <- list("stat" = rownames(d),
-                        "variables" = colnames(pheno),
+                        "variables" = variables,
                         "subgroups" = names(i))
   out
 
@@ -88,18 +90,22 @@ evaluate_index <- function(i, pheno) {
 ev_subset <- function(x, pheno, numeric, diff){
 
   subset_na <- na_orig <- colSums(is.na(pheno[x, , drop = FALSE]))
+  subset_na <- t(as.matrix(subset_na))
+  rownames(subset_na) <- "na"
   diff1 <- insert(diff, subset_na, "na")
 
-  # Look for eval_n <- ifelse(num, 4, 3) if any change happens on numeric
-  # or categorical tests.
+  # Change the defaults of evaluations if any change happens on numeric
+  # or categorical tests (there are more tests or less) than
+  # 4 and 3 for categorical and numerical respectively.
   if (sum(numeric) >= 1) {
+    #
     pheno_num <- pheno[x, numeric, drop = FALSE]
     subset_num <- apply(pheno_num, 2, function(y) {
       c("sd" = sd(y, na.rm = TRUE),
         "mean" = mean(y, na.rm = TRUE),
         "mad" = mad(y, na.rm = TRUE))
     })
-    diff1 <- insert(diff1, subset_num, c("sd", "mean", "mad"))
+    diff1 <- insert(diff1, subset_num)
   }
 
   if (sum(!numeric) >= 1) {

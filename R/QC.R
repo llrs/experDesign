@@ -111,9 +111,7 @@ check_index <- function(pheno, index, omit = NULL) {
     warning("There might be some problems with the data use check_data().")
   }
   num <- is_num(pheno_o)
-  # Numbers are evaluated 4 times, and categories only 3
-  # check this on evaluate_index
-  eval_n <- ifelse(num, 4, 3)
+  eval_n <- evaluations(num)
 
   original_pheno <- .evaluate_orig(pheno_o, num)
   original_pheno["na", ] <- original_pheno["na", ]/batches
@@ -125,11 +123,5 @@ check_index <- function(pheno, index, omit = NULL) {
   subset_ind <- evaluate_independence(index, pheno_o)
 
   # Calculate the score for each subset by variable
-  meanDiff <- apply(differences, 3, function(x) {
-
-    x <- rbind(x, "ind" = 0)
-    x <- insert(x, subset_ind, name = "ind")
-    colSums(x, na.rm = TRUE)/eval_n
-  })
-  meanDiff
+  mean_difference(differences, subset_ind, eval_n)
 }
