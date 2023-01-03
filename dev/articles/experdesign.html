@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Lluís Revilla
 Sancho</h4>
             
-            <h4 data-toc-skip class="date">2022-12-23</h4>
+            <h4 data-toc-skip class="date">2023-01-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/llrs/experDesign/blob/HEAD/vignettes/experdesign.Rmd" class="external-link"><code>vignettes/experdesign.Rmd</code></a></small>
       <div class="d-none name"><code>experdesign.Rmd</code></div>
@@ -341,21 +341,22 @@ check it.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="co">## Warning: There might be some problems with the data use check_data().</span></span>
-<span></span>
+<span><span class="va">evaluation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span></span>
+<span><span class="co">## Warning: There might be some problems with the data use check_data().</span></span>
 <span><span class="co"># Mean entropy en each subset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">##  Classroom        Sex        Age </span></span>
-<span><span class="co">## 0.95647606 0.05303319 0.00000000</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="va">evaluation</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
+<span><span class="co">## 0.95647606 0.05303319 0.00000000 0.93013920</span></span>
 <span><span class="co"># Original entropy on the dataset</span></span>
 <span><span class="fu"><a href="../reference/evaluate_orig.html">evaluate_orig</a></span><span class="op">(</span><span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, <span class="op">]</span></span>
 <span><span class="co">## Warning in evaluate_orig(unbalanced): There might be some problems with the data</span></span>
 <span><span class="co">## use check_data().</span></span>
-<span><span class="co">##  Classroom        Sex        Age </span></span>
-<span><span class="co">## 1.00000000 0.08079314 0.00000000</span></span>
+<span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
+<span><span class="co">## 1.00000000 0.08079314 0.00000000 0.67554928</span></span>
 <span><span class="co"># Dispersion of the entropy</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span>, <span class="fl">1</span>, <span class="va">sd</span><span class="op">)</span></span>
-<span><span class="co">##  Classroom        Sex        Age </span></span>
-<span><span class="co">## 0.02936726 0.14031263 0.00000000</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">evaluation</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span>, <span class="fl">1</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
+<span><span class="co">## 0.02936726 0.14031263 0.00000000 0.08193151</span></span></code></pre></div>
 <p>We can see that in this simple case where a single variable has all
 the other cases we approximately reached the same entropy levels.</p>
 </div>
@@ -415,11 +416,13 @@ use the following function:</p>
 <span><span class="co">##   Classroom 0.03217261 0.01462103 0.009861847 0.02484257 0.02484257 0.02484257</span></span>
 <span><span class="co">##   Sex       0.16047517 0.16047517 0.160475171 0.16047517 0.16047517 0.23035719</span></span>
 <span><span class="co">##   Age       0.22558858 0.30829038 0.694147585 0.23040791 0.21351942 0.23255990</span></span>
+<span><span class="co">##   mix_cat   0.06068664 0.07385033 0.077419715 0.06618417 0.06618417 0.02009466</span></span>
 <span><span class="co">##            subgroups</span></span>
 <span><span class="co">##                 SubSet7</span></span>
 <span><span class="co">##   Classroom 0.004937892</span></span>
 <span><span class="co">##   Sex       0.160475171</span></span>
-<span><span class="co">##   Age       0.323870366</span></span></code></pre></div>
+<span><span class="co">##   Age       0.323870366</span></span>
+<span><span class="co">##   mix_cat   0.081112681</span></span></code></pre></div>
 <p>Each row has information about how accurate is a given variable to
 the samples available (on this case <code>unbalanced</code>). Some
 variables are distributed more randomly than others on this index.</p>
@@ -456,7 +459,7 @@ iterations used 10 fold.</p>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] knitr_1.41        magrittr_2.0.3    R6_2.5.1          ragg_1.2.4       </span></span>
 <span><span class="co">##  [5] rlang_1.0.6       fastmap_1.1.0     stringr_1.5.0     tools_4.2.2      </span></span>
-<span><span class="co">##  [9] xfun_0.35         cli_3.5.0         jquerylib_0.1.4   systemfonts_1.0.4</span></span>
+<span><span class="co">##  [9] xfun_0.36         cli_3.5.0         jquerylib_0.1.4   systemfonts_1.0.4</span></span>
 <span><span class="co">## [13] htmltools_0.5.4   yaml_2.3.6        digest_0.6.31     rprojroot_2.0.3  </span></span>
 <span><span class="co">## [17] lifecycle_1.0.3   pkgdown_2.0.7     textshaping_0.3.6 purrr_1.0.0      </span></span>
 <span><span class="co">## [21] sass_0.4.4        vctrs_0.5.1       fs_1.5.2          memoise_2.0.1    </span></span>
