@@ -4,6 +4,8 @@
 
 * Simplify the internal coherence of checks.
 
+* Use all categories combined (column `mix_cat`) for comparing the batches
+
 # experDesign 0.1.1
 
 * Added thesis advisors on the description.
