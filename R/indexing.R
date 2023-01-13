@@ -34,19 +34,21 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSe
 
 # The workhorse function without any check
 create_index <- function(size_data, size_batches, n, name = "SubSet") {
+  # The size of each batch
+  i <- distribute_samples(size_data, size_batches)
+  names(i) <- id2batch_names(name, n)
+  i
+}
 
+id2batch_names <- function(name, n) {
   if (length(name) != 1 && length(name) != n) {
     stop("Provide a single character or a vector the same size of the batches.",
          call. = FALSE)
-  } else if (length(name) == 1) {
+  }
+  if (length(name) == 1) {
     name <- paste0(name, seq_len(n))
   }
-
-  # The size of each batch
-  i <- distribute_samples(size_data, size_batches)
-  names(i) <- name
-  i
-
+  name
 }
 
 distribute_samples <- function(size_data, size_subsets) {
@@ -71,11 +73,20 @@ distribute_samples <- function(size_data, size_subsets) {
 #' @examples
 #' plates <- c("P1", "P2", "P1", "P2", "P2", "P3", "P1", "P3", "P1", "P1")
 #' use_index(plates)
-use_index <- function(x){
-  split(seq_along(x), x)
+use_index <- function(x) {
+  stopifnot(is.character(x))
+  if (anyNA(x)) {
+    warning("NAs present in the index. Some samples weren't assigned to a batch?")
+  }
+  .use_index(x)
 }
 
-#
+.use_index <- function(x) {
+  factors <- x
+  factors[is.na(x)] <- "NA"
+  split(seq_along(x), factors)
+}
+
 #' Name the batch
 #'
 #' Given an index return the name of the batches the samples are in
