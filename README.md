@@ -7,6 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-project.org/package=experDesign)
+[![cran
+checks](https://badges.cranchecks.info/worst/experDesign.svg)](https://cran.r-project.org/web/checks/check_results_experDesign.html)
 [![R-CMD-check](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml)
 [![Coverage
 status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
@@ -22,12 +24,12 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 The goal of experDesign is to help you decide which samples go in which
 batch, reducing the potential batch bias before performing an
-experiment. It provides three main functions :
+experiment. It provides four main functions :
 
 - `check_data()`: Check if there are any problems with the data.
 - `design()`: Randomize the samples according to their variables.
 - `replicates()`: Selects some samples for replicates and randomizes the
-  samples.
+  samples (highly recommended).
 - `spatial()`: Randomize the samples on a spatial grid.
 
 ## Installation
@@ -47,7 +49,7 @@ You can install the development version from
 devtools::install_github("llrs/experDesign")
 ```
 
-## Example
+# Example
 
 We can use the survey dataset for the examples:
 
@@ -73,6 +75,8 @@ head(survey)
 
 The dataset has numeric, categorical values and some `NA`’s value.
 
+## Checking initial data
+
 We can check some issues from an experimental point of view via
 `check_data()`:
 
@@ -88,13 +92,19 @@ As you can see with the warnings we get a collections of problems. In
 general, try to have at least 3 replicates for each condition and try to
 have all the data of each variable.
 
-# Picking samples for each batch
+## Picking samples for each batch
 
 Imagine that we can only work in groups of 70, and we want to randomize
-by Sex, Smoke, Age, and by writing hand.  
-There are 1.6543999^{61} combinations some of them would be have in a
-single experiment all the right handed students. We could measure all
-these combinations but we can try to find an optimum value.
+by Sex, Smoke, Age, and by hand.  
+There are 1.6543999^{61} combinations of samples per batch in a this
+experiment. However, in some of those combinations all the right handed
+students are in the same batch making it impossible to compare the right
+handed students with the others and draw conclusions from it.
+
+We could check all the combinations to select those that allow us to do
+this comparison. But as this would be too long with `experDesign` we can
+try to find the combination with the best design by comparing each
+combination with the original according to multiple statistics.
 
 ``` r
 # To reduce the variables used:
@@ -110,41 +120,52 @@ head(survey[, keep])
 #> 5   Male Right Never 23.667
 #> 6 Female Right Never 21.000
 
+# Set a seed for reproducibility
+set.seed(87732135)
 # Looking for groups at most of 70 samples.
-index <- design(pheno = survey, size_subset = 70, omit = omit)
+index <- design(pheno = survey, size_subset = 70, omit = omit, iterations = 100)
 #> Warning: There might be some problems with the data use check_data().
 index
 #> $SubSet1
-#>  [1]   1   7  13  22  23  25  28  29  33  40  46  47  51  52  54  60  73  74  80
-#> [20]  84  95 108 109 116 123 129 131 132 134 136 140 141 150 151 159 161 163 164
-#> [39] 171 175 178 180 181 182 186 187 190 197 199 200 205 207 209 210 215 216 224
-#> [58] 226 227 235
+#>  [1]   3   9  10  14  16  21  23  24  25  30  44  46  56  57  59  62  63  68  69
+#> [20]  70  73  80  81  85  90  94  95  97 101 103 104 105 106 111 113 119 123 125
+#> [39] 139 143 151 155 164 168 174 177 178 188 190 191 200 202 210 216 224 228 229
+#> [58] 232 234 237
 #> 
 #> $SubSet2
-#>  [1]   4   5  14  26  27  30  31  32  37  39  41  44  48  55  59  61  62  66  68
-#> [20]  71  72  75  81  86  90  94  96 100 102 103 106 107 110 113 115 117 125 137
-#> [39] 144 145 148 152 156 158 167 168 169 170 177 183 193 198 202 206 213 217 218
-#> [58] 223 232
+#>  [1]   5   6  11  18  19  22  31  34  37  38  39  40  41  47  49  53  54  55  58
+#> [20]  60  65  66  71  74  84  91  96 100 108 124 126 127 133 134 144 145 148 158
+#> [39] 159 160 161 162 166 169 180 185 186 193 198 199 203 204 205 208 214 215 226
+#> [58] 231 235
 #> 
 #> $SubSet3
-#>  [1]   2   3   9  10  12  16  17  19  20  34  38  45  49  50  53  63  64  67  69
-#> [20]  76  79  87  88  89  93  97  98 101 104 105 111 112 119 120 124 130 133 138
-#> [39] 143 146 154 160 162 165 184 185 188 192 203 204 211 214 219 221 230 231 233
-#> [58] 234 237
+#>  [1]   1   2  13  15  26  27  36  42  48  50  51  52  61  64  67  72  76  77  78
+#> [20]  86  92  98 102 107 110 115 117 118 120 121 130 136 138 140 141 142 147 156
+#> [39] 167 171 173 176 184 189 194 196 197 206 209 211 212 217 218 219 221 222 227
+#> [58] 230 233
 #> 
 #> $SubSet4
-#>  [1]   6   8  11  15  18  21  24  35  36  42  43  56  57  58  65  70  77  78  82
-#> [20]  83  85  91  92  99 114 118 121 122 126 127 128 135 139 142 147 149 153 155
-#> [39] 157 166 172 173 174 176 179 189 191 194 195 196 201 208 212 220 222 225 228
-#> [58] 229 236
+#>  [1]   4   7   8  12  17  20  28  29  32  33  35  43  45  75  79  82  83  87  88
+#> [20]  89  93  99 109 112 114 116 122 128 129 131 132 135 137 146 149 150 152 153
+#> [39] 154 157 163 165 170 172 175 179 181 182 183 187 192 195 201 207 213 220 223
+#> [58] 225 236
 ```
 
 We can transform then into a vector to append to the file or to pass to
-the lab mate with:
+a colleague with:
 
 ``` r
 head(batch_names(index))
-#> [1] "SubSet1" "SubSet3" "SubSet3" "SubSet2" "SubSet2" "SubSet4"
+#> [1] "SubSet3" "SubSet3" "SubSet1" "SubSet4" "SubSet2" "SubSet2"
+# Or via inspect() to keep it in a matrix format:
+head(inspect(index, survey[, keep]))
+#>      Sex W.Hnd Smoke    Age   batch
+#> 1 Female Right Never 18.250 SubSet3
+#> 2   Male  Left Regul 17.583 SubSet3
+#> 3   Male Right Occas 16.917 SubSet1
+#> 4   Male Right Never 20.333 SubSet4
+#> 5   Male Right Never 23.667 SubSet2
+#> 6 Female Right Never 21.000 SubSet2
 ```
 
 # Previous work
