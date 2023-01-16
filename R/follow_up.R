@@ -13,7 +13,7 @@
 #'
 #' @examples
 follow_up <- function(original, follow_up, old_new = "batch") {
-  stopifnot(is.character(old_new))
+  stopifnot(is.character(old_new) & length(old_new) == 1)
   if (!.check_data(original)) {
     warning("There might be some problems with the original data use check_data().")
   }
@@ -68,47 +68,76 @@ follow_up <- function(original, follow_up, old_new = "batch") {
 follow_up2 <- function(all_data, batch_column = "batch", ...) {
   stopifnot(is.character(batch_column), length(batch_column) == 1)
   if (!anyNA(all_data[[batch_column]])) {
-    stop("Seems that there is no new data: All the ", old_new ," column is already filled up.")
-  }
-
-  check_data(all_data[, setdiff(colnames(all_data), batch_column)])
-  num <- is_num(all_data)
-  n_unique <- sapply(all_data[, !num], function(x){length(unique(x))})
-  which_s <- n_unique == nrow(all_data)
-  if (sum(which_s) > 1) {
-    warning("Multiple samples were identified")
+    stop("Seems that there is no new data: All the ", batch_column ," column is already filled up.")
   }
 
   new_data <- all_data[is.na(all_data[[batch_column]]), ]
   old_data <- all_data[!is.na(all_data[[batch_column]]), ]
   old_index <- use_index(old_data[[batch_column]])
-  # FIXME
-  all_data2 <- all_data
-  all_data2[!is.na(all_data2[[batch_column]])] <- "old"
-  all_data2[is.na(all_data2[[batch_column]])] <- "new"
 
-  if (missing(size_subset)) {
-    size_subset <- max(lengths(old_index))
+  args <- list(...)
+
+  if (!"size_subset" %in% names(args)) {
+    args$size_subset <- max(lengths(old_index))
   }
-  if (missing(iterations)) {
-    iterations <- 500
+  if (!"iterations" %in% names(args)) {
+    #Set the same as the default for design
+    args$iterations <- formals(design)$iterations
   }
-  if (missing(omit)) {
-    omit <- batch_column
+  if (!"omit" %in% names(args)) {
+    args$omit <- batch_column
+    omit <- NULL
   } else {
-    omit <- c(batch_column, omit)
+    omit <- args$omit
+    args$omit <- c(batch_column, args$omit)
   }
-  if (missing(name)) {
-    name <- "NewSubset"
+  if (!"name" %in% names(args)) {
+    args$name <- "NewSubset"
+  }
+  all_data2 <- all_data
+  all_data2[!is.na(all_data2[[batch_column]]), batch_column] <- "old"
+  all_data2[is.na(all_data2[[batch_column]]), batch_column] <- "new"
+
+  num <- is_num(all_data)
+  n_unique <- sapply(all_data[, !num], function(x){length(unique(x))})
+  which_s <- n_unique == nrow(all_data)
+  if (sum(which_s) > 1) {
+    warning("Multiple samples  were identified")
   }
 
-  check_index(all_data, use_index(all_data2[[batch_column]]))
+  colnames <- colnames(all_data)
+  # Check all data but omitting batch name
+  check_all <- .check_data(all_data[, setdiff(colnames, args$omit)],
+                             verbose = FALSE)
+  # Check all data but knowing that there is an old an new category
+  check_cmbn <- .check_data(all_data2[, setdiff(colnames, omit)],
+                            verbose = FALSE)
+  # Check new data
+  check_new <- .check_data(new_data[, setdiff(colnames, args$omit)],
+                           verbose = FALSE)
+  if (!check_all) {
+    warning("There are some problems with the data.", call. = FALSE)
+  }
+  if (check_all && !check_cmbn) {
+    warning("There are some problems with the addition of the new samples.",
+            call. = FALSE)
+  }
+  if (!check_cmbn) {
+    warning("There are some problems with the new samples and the batches.",
+            call. = FALSE)
+  }
+  if (!check_new) {
+    warning("There are some problems with the new data.", call. = FALSE)
+  }
 
+  new_index <- .design(new_data, size_subset = args$size_subset, omit = args$omit,
+         iterations = args$iterations, name = args$name, check = FALSE)
 
-  new_index <- design(new_data, size_subset = size_subset, omit = omit,
-         iterations = iterations, name = name)
-
-  new_index
+  w_new <- which(is.na(all_data[[batch_column]]))
+  w_old <- which(!is.na(all_data[[batch_column]]))
+  position_old_new <- c(w_old, w_new)
+  batches <- c(old_data[[batch_column]], batch_names(new_index))
+  batches[position_old_new]
 }
 
 check_followup <- function(all_data, old_new = "batch") {
