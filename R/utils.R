@@ -74,7 +74,9 @@ valid_sizes <- function(size_data, size_subset, batches){
   FALSE
 }
 
-
+is_logical <- function(x){
+  isTRUE(x) || isFALSE(x)
+}
 
 
 mean_difference <- function(differences, subset_ind, eval_n) {
