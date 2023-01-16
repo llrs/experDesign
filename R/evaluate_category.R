@@ -92,18 +92,18 @@ evaluate_independence <- function(i, pheno) {
 #' check_data(survey)
 #' }
 check_data <- function(pheno, na.omit = FALSE) {
-  stopifnot(is.data.frame(pheno) || is.matrix(pheno))
+  stopifnot(is.data.frame(pheno) || is.matrix(pheno), is_logical(na.omit))
   .check_data(pheno = pheno, na.omit = na.omit, verbose = TRUE)
 }
 
 .check_data <- function(pheno, na.omit = FALSE, verbose = FALSE) {
-
+  stopifnot(is_logical(verbose))
   data_status <- TRUE
   num <- is_num(pheno)
   cat <- is_cat(pheno)
   # Check input data as factor, character or numbers (no data.frames or nested lists)
-  if (sum(num+cat) != ncol(pheno)) {
-    if (verbose){
+  if (sum(num + cat) != ncol(pheno)) {
+    if (verbose) {
       warning("There are some columns of unidentified type. ",
               "Only accepts numeric or categorical values in a data.frame.", call. = FALSE)
     }
@@ -113,9 +113,23 @@ check_data <- function(pheno, na.omit = FALSE) {
   # There should be at least one categorical column
   if (sum(cat) == 0) {
     if (verbose) {
-      warning("No categorical values were found; numeric values are not checked here.", call. = FALSE)
+      warning("No categorical values were found; numeric values are not checked here.",
+              call. = FALSE)
     }
     return(data_status)
+  }
+
+  pairwise_colusion <- combn(names(pheno)[cat], 2, FUN = function(x) {
+    y <- table(pheno[, x], useNA = if (!na.omit) "ifany")
+    any(y == 0)
+  })
+
+  if (any(pairwise_colusion)) {
+    if (isTRUE(verbose)) {
+      warning("Two categorical variables don't have all the combinations.",
+              call. = FALSE)
+    }
+    data_status <- FALSE
   }
 
   pheno_o <- droplevels(pheno[, cat, drop = FALSE])
