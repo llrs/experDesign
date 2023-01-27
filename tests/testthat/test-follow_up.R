@@ -10,7 +10,13 @@ test_that("follow_up2 works", {
   old_n <- 118
   # old vs new
   survey$batch <- c(rep("old", old_n), rep(NA, nrow(survey) - old_n))
-  expect_snapshot(fu1 <- follow_up2(survey))
+  expect_warning(
+    expect_warning(
+      expect_warning(
+        fu1 <- follow_up2(survey),
+        "with the data."),
+      "with the new samples"),
+    "some problems with the new data.")
 
   # old vs new with counfounding effects
   survey$batch <- ifelse(survey$Clap %in% "Right", "old", NA)

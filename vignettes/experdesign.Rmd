@@ -203,6 +203,48 @@ Some variables are distributed more randomly than others on this index.
 If we are not satisfied we could `design()` a new index increasing the iterations to obtain a potentially better distribution. 
 If you want a good stratified randomization you should increase the iterations used 10 fold. 
 
+# Internals
+
+
+We could check all the combinations to select those that allow us to do this comparison.
+But as this would be too long with `experDesign` we can try to find the combination with the best design by comparing each combination with the original according to multiple statistics.
+
+```{r internal, fig.show='hold'}
+# To reduce the variables used:
+omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
+(keep <- colnames(survey)[!colnames(survey) %in% omit])
+head(survey[, keep])
+
+# Set a seed for reproducibility
+# Looking for groups at most of 70 samples.
+index <-  create_subset(nrow(survey), size_subset = 70)
+index
+```
+
+We can measure how does this index does:
+
+```{r check_index1}
+score_index1 <- check_index(survey[, keep], index)
+score_index1
+```
+These values come from calculating the difference between the original data and the samples for each subset for the median, mean, mad, NA, entropy and independence (`chisq.test()` p.value).
+
+On themselves these values have no meaning, but internally they are used to compare with other possible index:
+
+```{r design2, warning=FALSE}
+index2 <- create_subset(nrow(survey), size_subset = 70)
+```
+
+Then it compares to the previous index
+
+```{r check_index2}
+score_index2 <- check_index(survey[, keep], index2)
+sum(rowMeans(abs(score_index2-score_index1)))
+```
+If this score is lower than the previous one the new index is kept.
+
+This is done similarly for the spatial search, which adds two new categorical variables with the position of the samples before calculating any statitics.
+
 # SessionInfo
 
 ```{r sessioninfo}
