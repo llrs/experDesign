@@ -10,7 +10,7 @@ follow_up2(all_data, batch_column = "batch", ...)
 \item{all_data}{A \code{data.frame} with all the data about the samples.
 Each row is a sample.}
 
-\item{batch_column}{The name of the column of all_data with the batches used.
+\item{batch_column}{The name of the column of \code{all_data} with the batches used.
 If NA it is interpreted as a new data, if not empty it is considered a batch.}
 
 \item{...}{
@@ -30,7 +30,24 @@ A \code{data.frame} with the \code{batch_column} filled with the new batches nee
 Design experiment with all the data new and old together.
 }
 \details{
-If the batch_column is empty the samples are considered new.
+If the \code{batch_column} is empty the samples are considered new.
+If the \code{size_subset} is missing, it will be estimated from the previous batch
+Similarly, iterations and name will be guessed or inferred from the samples.
+}
+\examples{
+data(survey, package = "MASS")
+# Create the first batch
+first_batch_n <- 118
+variables <- c("Sex", "Smoke", "Age")
+survey1 <- survey[seq_len(first_batch_n), variables]
+index1 <- design(survey1, size_subset = 50, iterations = 50)
+r_survey <- inspect(index1, survey1)
+# Create the second batch with "new" students
+survey2 <- survey[seq(from = first_batch_n +1, to = nrow(survey)), variables]
+survey2$batch <- NA
+# Prepare the follow up
+all_classroom <- rbind(r_survey, survey2)
+follow_up2(all_classroom, size_subset = 50, iterations = 50)
 }
 \seealso{
 \code{follow_up()}

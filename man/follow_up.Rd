@@ -4,7 +4,7 @@
 \alias{follow_up}
 \title{Follow up experiments}
 \usage{
-follow_up(original, follow_up, old_new = "batch")
+follow_up(original, follow_up, old_new = "batch", iterations = 500)
 }
 \arguments{
 \item{original}{A \code{data.frame} with the information of the samples used originally.}
@@ -14,10 +14,18 @@ follow_up(original, follow_up, old_new = "batch")
 \item{old_new}{Name of the column where the batch status will be stored. If
 it matches the name of a column in original it will be used to find previous
 batches.}
+
+\item{iterations}{Numeric value of iterations that will be performed.}
 }
 \description{
 If an experiment was carried out with some samples and you want to continue
 with some other samples later on.
+}
+\examples{
+data(survey, package = "MASS")
+survey1 <- survey[1:118, ]
+survey2 <- survey[119:nrow(survey), ]
+fu <- follow_up(survey1, survey2, iterations = 10)
 }
 \seealso{
 follow_up2()

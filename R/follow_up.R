@@ -7,18 +7,23 @@
 #' @param old_new Name of the column where the batch status will be stored. If
 #' it matches the name of a column in original it will be used to find previous
 #' batches.
+#' @inheritParams design
 #' @seealso follow_up2()
 #' @return
 #' @export
-#'
 #' @examples
-follow_up <- function(original, follow_up, old_new = "batch") {
+#' data(survey, package = "MASS")
+#' survey1 <- survey[1:118, ]
+#' survey2 <- survey[119:nrow(survey), ]
+#' fu <- follow_up(survey1, survey2, iterations = 10)
+follow_up <- function(original, follow_up, old_new = "batch", iterations = 500) {
   stopifnot(is.character(old_new) & length(old_new) == 1)
+  stopifnot(is.data.frame(original))
   if (!.check_data(original)) {
     warning("There might be some problems with the original data use check_data().")
   }
 
-  stopifnot(!is.data.frame(follow_up))
+  stopifnot(is.data.frame(follow_up))
   match_columns <- intersect(colnames(original), colnames(follow_up))
 
   if (length(match_columns) == 0) {
