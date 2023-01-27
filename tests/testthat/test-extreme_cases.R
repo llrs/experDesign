@@ -1,5 +1,3 @@
-context("test-extreme_cases")
-
 test_that("extreme_cases works", {
   set.seed(456)
   surv <- MASS::survey

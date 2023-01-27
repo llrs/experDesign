@@ -1,6 +1,4 @@
-context("evaluate_mean")
-
-test_that("works", {
+test_that("evaluate_mean works", {
   set.seed(46)
   samples <- 10
   m <- matrix(rnorm(samples), nrow = samples)

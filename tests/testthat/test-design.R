@@ -17,7 +17,7 @@ test_that("design works with previous batches", {
   samples <- data.frame(L = letters[1:25], Age = rnorm(25),
                         type = sample(LETTERS[1:5], 25, TRUE))
   i0 <-  c("A" = 13, "B" = 12)
-  i <- expect_warning(design(samples, size_subset = i0, iterations = 10),
+  expect_warning(i <- design(samples, size_subset = i0, iterations = 10),
                  "some problems")
   expect_equal(lengths(i), i0)
 })

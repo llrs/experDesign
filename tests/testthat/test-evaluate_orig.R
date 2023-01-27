@@ -1,6 +1,4 @@
-context("evaluate_orig")
-
-test_that("works", {
+test_that("evaluate_orig works", {
   set.seed(42)
   samples <- 10
   m <- matrix(rnorm(samples), nrow = samples)

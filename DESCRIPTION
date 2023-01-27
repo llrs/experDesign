@@ -30,7 +30,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     covr,
     MASS,
     spelling
@@ -41,3 +41,4 @@ Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

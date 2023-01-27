@@ -1,6 +1,4 @@
-context("insert")
-
-test_that("works", {
+test_that("insert works", {
   m <- matrix(0, ncol = 2, nrow = 2,
               dimnames = list(LETTERS[1:2], letters[1:2]))
   vec <- c("a" = 1)

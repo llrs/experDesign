@@ -1,6 +1,4 @@
-context("evaluate_mad")
-
-test_that("works", {
+test_that("evaluate_mad works", {
   set.seed(48)
   samples <- 10
   m <- matrix(rnorm(samples), nrow = samples)

@@ -1,5 +1,3 @@
-context("create_subset")
-
 test_that("works", {
   i <- create_subset(100, 50, 2)
   expect_length(i, 2)

@@ -1,6 +1,4 @@
-context("evaluate_na")
-
-test_that("works", {
+test_that("evaluate_na works", {
   set.seed(42)
   samples <- 10
   m <- matrix(rnorm(samples), nrow = samples)

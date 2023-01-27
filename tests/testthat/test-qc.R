@@ -1,12 +1,10 @@
-context("qcSubset")
-
-test_that("all", {
+test_that("qcSubset all", {
   index <- create_subset(100, 50, 2)
   QC_samples <- qcSubset(index, 10)
   expect_length(QC_samples, 10)
 })
 
-test_that("by batch", {
+test_that("qcSubset by batch", {
   index <- create_subset(100, 50, 2)
   QC_samples <- qcSubset(index, 10, TRUE)
   expect_length(QC_samples, 2)
