@@ -20,9 +20,9 @@
 #' index
 design <- function(pheno, size_subset, omit = NULL, iterations = 500,
                    name = "SubSet") {
-  stopifnot(is.numeric(size_subset) && is.finite(size_subset))
+  stopifnot(is.numeric(size_subset) && all(is.finite(size_subset)) && !any(is.na(size_subset)))
   stopifnot(length(dim(pheno)) == 2)
-  stopifnot(is.numeric(iterations) && is.finite(iterations))
+  stopifnot(is.numeric(iterations) && is.finite(iterations) && !any(is.na(size_subset)))
   stopifnot(is.character(name))
   .design(pheno, size_subset, omit, iterations, name, check = TRUE)
 }
@@ -34,12 +34,23 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   # Calculate batches
   size_data <- nrow(pheno)
-  if (size_subset >= size_data) {
+  if (length(size_subset) == 1 && size_subset >= size_data) {
     stop("All the data can be done in one batch.", call. = FALSE)
   }
-  batches <- optimum_batches(size_data, size_subset)
 
-  if (!valid_sizes(size_data, size_subset, batches)) {
+  if (length(size_subset) != 1 && sum(size_subset) == nrow(pheno)) {
+    size_batches <- size_subset
+    batches <- length(size_subset)
+  } else {
+    batches <- optimum_batches(size_data, size_subset)
+    size_batches <- internal_batches(size_data, size_subset, batches)
+  }
+
+  if (length(names(size_subset)) != 0) {
+    name <- names(size_subset)
+  }
+
+  if (length(size_subset) == 1 && !valid_sizes(size_data, size_subset, batches)) {
     stop("Please provide a higher number of batches or more samples per batch.",
          call. = FALSE)
   }
@@ -61,7 +72,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   eval_n <- evaluations(num)
 
-  size_batches <- internal_batches(size_data, size_subset, batches)
+
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = name)
 
