@@ -119,17 +119,19 @@ check_data <- function(pheno, na.omit = FALSE) {
     return(data_status)
   }
 
-  pairwise_colusion <- combn(names(pheno)[cat], 2, FUN = function(x) {
-    y <- table(pheno[, x], useNA = if (!na.omit) "ifany")
-    any(y == 0)
-  })
+  if (sum(cat) >= 2) {
+    pairwise_colusion <- combn(names(pheno)[cat], 2, FUN = function(x) {
+      y <- table(pheno[, x], useNA = if (!na.omit) "ifany")
+      any(y == 0)
+    })
 
-  if (any(pairwise_colusion)) {
-    if (isTRUE(verbose)) {
-      warning("Two categorical variables don't have all the combinations.",
-              call. = FALSE)
+    if (any(pairwise_colusion)) {
+      if (isTRUE(verbose)) {
+        warning("Two categorical variables don't have all combinations.",
+                call. = FALSE)
+      }
+      data_status <- FALSE
     }
-    data_status <- FALSE
   }
 
   pheno_o <- droplevels(pheno[, cat, drop = FALSE])
