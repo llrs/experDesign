@@ -4,18 +4,33 @@
 \alias{follow_up}
 \title{Follow up experiments}
 \usage{
-follow_up(original, follow_up, old_new = "batch", iterations = 500)
+follow_up(
+  original,
+  follow_up,
+  size_subset,
+  omit = NULL,
+  old_new = "batch",
+  iterations = 500
+)
 }
 \arguments{
 \item{original}{A \code{data.frame} with the information of the samples used originally.}
 
 \item{follow_up}{A \code{data.frame} with the information of the new samples.}
 
+\item{size_subset}{Numeric value of the number of sample per batch.}
+
+\item{omit}{Name of the columns of the \code{pheno} that will be omitted.}
+
 \item{old_new}{Name of the column where the batch status will be stored. If
 it matches the name of a column in original it will be used to find previous
 batches.}
 
 \item{iterations}{Numeric value of iterations that will be performed.}
+}
+\value{
+A \code{data.frame} with the common columns of data, a new column
+\code{old_new}, and a batch column filled with the new batches needed.
 }
 \description{
 If an experiment was carried out with some samples and you want to continue
@@ -28,5 +43,5 @@ survey2 <- survey[119:nrow(survey), ]
 fu <- follow_up(survey1, survey2, iterations = 10)
 }
 \seealso{
-follow_up2()
+\code{\link[=follow_up2]{follow_up2()}}
 }

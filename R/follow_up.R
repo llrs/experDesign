@@ -17,10 +17,12 @@
 #' survey1 <- survey[1:118, ]
 #' survey2 <- survey[119:nrow(survey), ]
 #' fu <- follow_up(survey1, survey2, iterations = 10)
-follow_up <- function(original, follow_up, size_subset, omit = NULL, old_new = "batch", iterations = 500) {
+follow_up <- function(original, follow_up, size_subset, omit = NULL,
+                      old_new = "batch", iterations = 500) {
   stopifnot(is.character(old_new) & length(old_new) == 1)
   stopifnot(is.null(omit) || is.character(omit))
   stopifnot(is.data.frame(original))
+  stopifnot(!old_new %in% colnames(original), !old_new %in% colnames(follow_up))
 
   omit <- setdiff(omit, old_new)
   stopifnot(is.data.frame(follow_up))
@@ -38,32 +40,11 @@ follow_up <- function(original, follow_up, size_subset, omit = NULL, old_new = "
   follow_up[[old_new]] <- "new"
   full <- rbind(original[, mc], follow_up[, mc])
   full_b <- rbind(original[, c(match_columns, old_new)],
-                follow_up[, c(match_columns, old_new)])
+                  follow_up[, c(match_columns, old_new)])
 
-  # Check all data but omitting batch name
-  check_all <- .check_data(full, verbose = FALSE)
-  # Check all data but knowing that there is an old an new category
-  check_cmbn <- .check_data(full_b, verbose = FALSE)
-  # Check data
-  check_new <- .check_data(follow_up[, match_columns], verbose = FALSE)
-  check_old <- .check_data(original[, match_columns], verbose = FALSE)
-  if (!check_all) {
-    warning("There are some problems with the data.", call. = FALSE)
-  }
-  if (check_all && !check_cmbn) {
-    warning("There are some problems with the addition of the new samples.",
-            call. = FALSE)
-  }
-  if (!check_cmbn) {
-    warning("There are some problems with the new samples and the batches.",
-            call. = FALSE)
-  }
-  if (!check_new) {
-    warning("There are some problems with the new data.", call. = FALSE)
-  }
-  if (!check_old) {
-    warning("There are some problems with the old data.", call. = FALSE)
-  }
+  .check_followup(full, full_b,
+                  new_data = follow_up[, match_columns],
+                  old_data = original[, match_columns])
 
   d <- .design(full_b, size_subset = size_subset, iterations = iterations, check = FALSE)
   inspect(d, full_b, omit = omit)
@@ -140,32 +121,13 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
   }
 
   colnames <- colnames(all_data)
-  # Check all data but omitting batch name
-  check_all <- .check_data(all_data[, setdiff(colnames, args$omit)],
-                             verbose = FALSE)
-  # Check all data but knowing that there is an old an new category
-  check_cmbn <- .check_data(all_data2[, setdiff(colnames, omit)],
-                            verbose = FALSE)
-  # Check new data
-  check_new <- .check_data(new_data[, setdiff(colnames, args$omit)],
-                           verbose = FALSE)
-  if (!check_all) {
-    warning("There are some problems with the data.", call. = FALSE)
-  }
-  if (check_all && !check_cmbn) {
-    warning("There are some problems with the addition of the new samples.",
-            call. = FALSE)
-  }
-  if (!check_cmbn) {
-    warning("There are some problems with the new samples and the batches.",
-            call. = FALSE)
-  }
-  if (!check_new) {
-    warning("There are some problems with the new data.", call. = FALSE)
-  }
+  .check_followup(all_data[, setdiff(colnames, args$omit)],
+                  all_data2[, setdiff(colnames, omit)],
+                  new_data[, setdiff(colnames, args$omit)],
+                  old_data[, setdiff(colnames, args$omit)])
 
   new_index <- .design(new_data, size_subset = args$size_subset, omit = args$omit,
-         iterations = args$iterations, name = args$name, check = FALSE)
+                       iterations = args$iterations, name = args$name, check = FALSE)
 
   w_new <- which(is.na(all_data[[batch_column]]))
   w_old <- which(!is.na(all_data[[batch_column]]))
@@ -174,6 +136,114 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
   batches[position_old_new]
 }
 
-check_followup <- function(all_data, old_new = "batch") {
+#' Check the data for a follow up experiment.
+#'
+#' Sometimes some samples are collected and analyzed, later another batch of
+#' samples is analyzed.
+#' This function tries to detect if there are problems with the data or when
+#'  the data is combined in a single analysis.
+#' To know specific problems with the data you need to use check_data()
+#' @param column The name of the column where the old data has the batch
+#' information, or whether the data is new or not (`NA`) in the case of all_data.
+#' @param old_data,new_data A data.frame with the old and new data respectively.
+#' @inheritParams follow_up
+#' @inheritParams follow_up2
+#' @seealso `check_data()`
+#' @export
+#' @return Called by its side effects of warnings, but returns a logical value
+#' if there are some issues (FALSE) or not (TRUE)
+#' @examples
+#' data(survey, package = "MASS")
+#' survey1 <- survey[1:118, ]
+#' survey2 <- survey[119:nrow(survey), ]
+#' valid_followup(survey1, survey2)
+#' survey$batch <- NA
+#' survey$batch[1:118]  <- "old"
+#' valid_followup(all_data = survey)
+valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
+                           omit = NULL, column = "batch") {
+  valid_column <- !is.null(column) && length(column) == 1
 
+  if (!is.null(old_data) && !is.null(new_data) && valid_column) {
+    omit <- setdiff(omit, column)
+    stopifnot(is.data.frame(new_data))
+    stopifnot(is.data.frame(old_data))
+    match_columns <- intersect(colnames(old_data), colnames(new_data))
+    mc <- setdiff(match_columns, omit)
+
+    if (length(match_columns) == 0) {
+      stop("No shared column between the two data.frames")
+    }
+    if (column %in% colnames(old_data)) {
+      warning("There is already a follow up study, use follow_up2.", call. = FALSE)
+    }
+
+    old_data[[column]] <- "old"
+    new_data[[column]] <- "new"
+    new_data <- new_data[, match_columns]
+    old_data <- old_data[, match_columns]
+
+    all_data <- rbind(old_data[, mc], new_data[, mc])
+    all_data2 <- rbind(old_data[, c(match_columns, column)],
+                       new_data[, c(match_columns, column)])
+
+
+  } else if (!is.null(all_data) && valid_column) {
+    all_data <- all_data[, setdiff(colnames(all_data), omit)]
+    all_data2 <- all_data
+    all_data2[!is.na(all_data2[[column]]), column] <- "old"
+    all_data2[is.na(all_data2[[column]]), column] <- "new"
+    new_data <- all_data[is.na(all_data2[[column]]), ]
+    old_data <- all_data[!is.na(all_data2[[column]]), ]
+  } else {
+    stop("Unexpected input", call. = FALSE)
+  }
+
+  .check_followup(all_data, all_data2, new_data, old_data)
+}
+
+.check_followup <- function(all_data, all_data2, new_data, old_data, verbose = TRUE) {
+
+  # Check all data but omitting batch name
+  check_all <- .check_data(all_data, verbose = FALSE)
+  # Check all data but knowing that there is an old an new category
+  check_cmbn <- .check_data(all_data2, verbose = FALSE)
+  # Check data
+  check_new <- .check_data(new_data, verbose = FALSE)
+  check_old <- .check_data(old_data, verbose = FALSE)
+  ok <- TRUE
+  if (!check_all) {
+    if (verbose){
+      warning("There are some problems with the data.", call. = FALSE)
+    }
+    ok <- FALSE
+  }
+  if (check_all && !check_cmbn) {
+    if (verbose) {
+      warning("There are some problems with the addition of the new samples.",
+              call. = FALSE)
+    }
+    ok <- FALSE
+  }
+  if (!check_cmbn) {
+    if (verbose) {
+      warning("There are some problems with the new samples and the batches.",
+              call. = FALSE)
+    }
+    ok <- FALSE
+  }
+  if (!check_new) {
+    if (verbose ) {
+      warning("There are some problems with the new data.", call. = FALSE)
+    }
+    ok <- FALSE
+  }
+  if (!check_old) {
+    if (verbose) {
+      warning("There are some problems with the old data.", call. = FALSE)
+    }
+    ok <- FALSE
+  }
+
+  ok
 }

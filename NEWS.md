@@ -1,4 +1,4 @@
-# experDesign (development version)
+# experDesign 0.1.2
 
 * Add a function to check the input data `check_data()`.
 
