@@ -8,13 +8,22 @@ is_num <- function(x, ...) {
   }
 }
 
+is_date <- function(y) {
+  methods::is(y, "Date") || inherits(y, "POSIXt")
+}
+
+f_check <- function(y){
+  is_char <- is.character(y) || is.factor(y)
+  is_char || is_date(y)
+}
+
 is_cat <- function(x, ...) {
   if (is.null(ncol(x))) {
-    is.character(x) || is.factor(x) || methods::is(x, "Date")
+    f_check(x)
   } else if (ncol(x) == 1) {
-    apply(x, 2, function(y){is.character(y) || is.factor(y) || methods::is(y, "Date")})
+    apply(x, 2, f_check)
   } else {
-    vapply(x, function(y){is.character(y) || is.factor(y) || methods::is(y, "Date")}, logical(1L))
+    vapply(x, f_check, logical(1L))
   }
 }
 

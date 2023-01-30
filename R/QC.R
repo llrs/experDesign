@@ -22,7 +22,7 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
   original_pheno <- .evaluate_orig(pheno_o, num = num)
 
   # Find the numeric values
-  dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
+  dates <- vapply(pheno_o, is_date, logical(1L))
   if (any(dates)) {
     warning("The dates will be treat as categories")
   }

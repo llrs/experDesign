@@ -58,7 +58,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
   # Find the numeric values
-  dates <- vapply(pheno_o, function(x){methods::is(x, "Date")}, logical(1L))
+  dates <- vapply(pheno_o, is_date, logical(1L))
   if (any(dates)) {
     warning("The dates will be treat as categories")
   }
