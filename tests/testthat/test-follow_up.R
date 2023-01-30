@@ -2,7 +2,16 @@ test_that("follow_up works", {
   data(survey, package = "MASS")
   survey1 <- survey[1:118, ]
   survey2 <- survey[119:nrow(survey), ]
-  expect_warning(fu <- follow_up(survey1, survey2, iterations = 10))
+    expect_warning(
+      expect_warning(
+        expect_warning(
+          expect_warning(
+            fu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10)
+        )
+      )
+    )
+  )
+  expect_s3_class(fu, "data.frame")
 })
 
 test_that("follow_up2 works", {

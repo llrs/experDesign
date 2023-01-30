@@ -8,36 +8,65 @@
 #' it matches the name of a column in original it will be used to find previous
 #' batches.
 #' @inheritParams design
-#' @seealso follow_up2()
-#' @return
+#' @seealso [`follow_up2()`]
+#' @return  A `data.frame` with the common columns of data, a new column
+#' `old_new`, and a batch column filled with the new batches needed.
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
 #' survey1 <- survey[1:118, ]
 #' survey2 <- survey[119:nrow(survey), ]
 #' fu <- follow_up(survey1, survey2, iterations = 10)
-follow_up <- function(original, follow_up, old_new = "batch", iterations = 500) {
+follow_up <- function(original, follow_up, size_subset, omit = NULL, old_new = "batch", iterations = 500) {
   stopifnot(is.character(old_new) & length(old_new) == 1)
+  stopifnot(is.null(omit) || is.character(omit))
   stopifnot(is.data.frame(original))
-  if (!.check_data(original)) {
-    warning("There might be some problems with the original data use check_data().")
-  }
 
+  omit <- setdiff(omit, old_new)
   stopifnot(is.data.frame(follow_up))
   match_columns <- intersect(colnames(original), colnames(follow_up))
+  mc <- setdiff(match_columns, omit)
 
   if (length(match_columns) == 0) {
     stop("No shared column between the two data.frames")
   }
   if (old_new %in% colnames(original)) {
-    warning("There is already a follow up study, use follow_up2.")
+    warning("There is already a follow up study, use follow_up2.", call. = FALSE)
   }
 
   original[[old_new]] <- "old"
   follow_up[[old_new]] <- "new"
+  full <- rbind(original[, mc], follow_up[, mc])
+  full_b <- rbind(original[, c(match_columns, old_new)],
+                follow_up[, c(match_columns, old_new)])
 
+  # Check all data but omitting batch name
+  check_all <- .check_data(full, verbose = FALSE)
+  # Check all data but knowing that there is an old an new category
+  check_cmbn <- .check_data(full_b, verbose = FALSE)
+  # Check data
+  check_new <- .check_data(follow_up[, match_columns], verbose = FALSE)
+  check_old <- .check_data(original[, match_columns], verbose = FALSE)
+  if (!check_all) {
+    warning("There are some problems with the data.", call. = FALSE)
+  }
+  if (check_all && !check_cmbn) {
+    warning("There are some problems with the addition of the new samples.",
+            call. = FALSE)
+  }
+  if (!check_cmbn) {
+    warning("There are some problems with the new samples and the batches.",
+            call. = FALSE)
+  }
+  if (!check_new) {
+    warning("There are some problems with the new data.", call. = FALSE)
+  }
+  if (!check_old) {
+    warning("There are some problems with the old data.", call. = FALSE)
+  }
 
-
+  d <- .design(full_b, size_subset = size_subset, iterations = iterations, check = FALSE)
+  inspect(d, full_b, omit = omit)
 }
 
 #' Follow up experiments in batches
