@@ -32,7 +32,8 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
   size_batches <- internal_batches(nSamples, size, 1)
   for (x in seq_len(iterations)) {
     i <- create_index(nSamples, size_batches, 1)
-
+    # Can't use .check_index because there we want to control just some variables.
+    # Double check this!
     subsets <- .evaluate_index(i, pheno_o, num)
     # Evaluate the differences between the subsets and the originals
     differences <- drop(abs(sweep(subsets, c(1, 2), original_pheno)))
@@ -112,16 +113,20 @@ check_index <- function(pheno, index, omit = NULL) {
   }
   num <- is_num(pheno_o)
   eval_n <- evaluations(num)
-
   original_pheno <- .evaluate_orig(pheno_o, num)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
+  .check_index(index, pheno_o, num, eval_n, original_pheno)
+}
+
+
+.check_index <- function(index, pheno_o, num, eval_n, eval_orig) {
+
   subsets <- .evaluate_index(index, pheno_o, num)
   # Evaluate the differences between the subsets and the originals
-  differences <- abs(sweep(subsets, c(1, 2), original_pheno))
+  differences <- abs(sweep(subsets, c(1, 2), eval_orig))
   # Add the independence of the categorical values
   subset_ind <- evaluate_independence(index, pheno_o)
-
   # Calculate the score for each subset by variable
   mean_difference(differences, subset_ind, eval_n)
 }

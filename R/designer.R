@@ -75,14 +75,9 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = name)
-
-    subsets <- .evaluate_index(i, pheno_o, num)
-    # Evaluate the differences between the subsets and the originals
-    differences <- abs(sweep(subsets, c(1, 2), original_pheno))
-    # Add the independence of the categorical values
-    subset_ind <- evaluate_independence(i, pheno_o)
-    # Calculate the score for each subset by variable
-    meanDiff <- mean_difference(differences, subset_ind, eval_n)
+    # This is mostly equivalent to check_index (I should reduce the duplication and inconsistencies)
+    # TODO
+    meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
 

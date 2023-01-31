@@ -77,14 +77,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   size_batches <- internal_batches(size_data, size_subset, batches)
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = position)
-
-    subsets <- .evaluate_index(i, pheno_o, num)
-    # Evaluate the differences between the subsets and the originals
-    differences <- abs(sweep(subsets, c(1, 2), original_pheno))
-    # Add the independence of the categorical values
-    subset_ind <- evaluate_independence(i, pheno_o)
-    # Calculate the score for each subset by variable
-    meanDiff <- mean_difference(differences, subset_ind, eval_n)
+    meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
 
