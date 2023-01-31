@@ -20,4 +20,18 @@ test_that("design works with previous batches", {
   expect_warning(i <- design(samples, size_subset = i0, iterations = 10),
                  "some problems")
   expect_equal(lengths(i), i0)
+
+  # Unamed size_subsets but multiple names
+  i1 <- i0
+  names(i1) <- NULL
+  expect_warning(i <- design(samples, size_subset = i1,
+                             iterations = 10, name = names(i0)))
+  expect_equal(lengths(i), i0)
+
+  # Unamed size_subsets but multiple names
+  i1 <- i0
+  names(i1) <- NULL
+  expect_error(expect_warning(design(samples, size_subset = i1,
+                                     iterations = 10, name = LETTERS[1:3])))
+
 })
