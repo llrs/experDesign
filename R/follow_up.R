@@ -178,16 +178,11 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
       warning("There is already a follow up study, use follow_up2.", call. = FALSE)
     }
 
-    old_data[[column]] <- "old"
-    new_data[[column]] <- "new"
-    new_data <- new_data[, match_columns]
-    old_data <- old_data[, match_columns]
 
     all_data <- rbind(old_data[, mc], new_data[, mc])
-    all_data2 <- rbind(old_data[, c(match_columns, column)],
-                       new_data[, c(match_columns, column)])
-
-
+    all_data2 <- rbind(old_data[, mc], new_data[, mc])
+    all_data2[[column]] <- c(rep("old", nrow(old_data)),
+                             rep("new", nrow(new_data)))
   } else if (!is.null(all_data) && valid_column) {
     all_data <- all_data[, setdiff(colnames(all_data), omit)]
     all_data2 <- all_data
@@ -206,7 +201,7 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
 
   # Check all data but omitting batch name
   check_all <- .check_data(all_data, verbose = FALSE)
-  # Check all data but knowing that there is an old an new category
+  # Check all data but knowing that there is an old and new category
   check_cmbn <- .check_data(all_data2, verbose = FALSE)
   # Check data
   check_new <- .check_data(new_data, verbose = FALSE)
