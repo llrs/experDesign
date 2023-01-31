@@ -40,6 +40,12 @@ reference:
     desc: "Evaluate metrics to distribute the samples"
   - contents:
     - starts_with("evaluate_")
+  - title: "Follow up"
+    desc: "Extending an experiment with new samples"
+  - contents:
+    - follow_up
+    - follow_up2
+    - valid_followup
   - title: "Other"
   - contents:
     - create_subset
