@@ -95,7 +95,7 @@ check_data <- function(pheno, na.omit = FALSE) {
   stopifnot(is.data.frame(pheno) || is.matrix(pheno), is_logical(na.omit))
   .check_data(pheno = pheno, na.omit = na.omit, verbose = TRUE)
 }
-
+#' @importFrom utils combn
 .check_data <- function(pheno, na.omit = FALSE, verbose = FALSE) {
   stopifnot(is_logical(verbose))
   data_status <- TRUE

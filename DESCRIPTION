@@ -1,24 +1,18 @@
 Package: experDesign
 Title: Design Experiments for Batches
 Version: 0.1.2
-Authors@R: 
-    c(person(given = "Lluís",
-           family = "Revilla Sancho",
-           role = c("aut", "cre"),
-           email = "lluis.revilla@gmail.com",
+Authors@R: c(
+    person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9747-2570")),
-       person(given = "Juanjo",
-           family = "Lozano",
-           role = "ths",
+    person("Juanjo", "Lozano", role = "ths",
            comment = c(ORCID = "0000-0001-7613-3908")),
-       person(given = "Azucena",
-           family = "Salas Martinez",
-           role = "ths",
-           comment = c(ORCID = "0000-0003-4572-2907")))
-Description: Distributes samples in batches while making batches homogeneous 
-    according to their description. Allows for an arbitrary number of variables, 
-    both numeric and categorical. For quality control it provides functions to 
-    subset a representative sample.
+    person("Azucena", "Salas Martinez", role = "ths",
+           comment = c(ORCID = "0000-0003-4572-2907"))
+  )
+Description: Distributes samples in batches while making batches
+    homogeneous according to their description. Allows for an arbitrary
+    number of variables, both numeric and categorical. For quality control
+    it provides functions to subset a representative sample.
 License: MIT + file LICENSE
 URL: https://experdesign.llrs.dev, https://github.com/llrs/experDesign/
 BugReports: https://github.com/llrs/experDesign/issues
@@ -26,19 +20,19 @@ Depends:
     R (>= 3.5.0)
 Imports: 
     methods,
-    stats
+    stats,
+    utils
 Suggests: 
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0),
     covr,
+    knitr,
     MASS,
-    spelling
-biocViews:
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
-Config/testthat/edition: 3
+RoxygenNote: 7.2.3
