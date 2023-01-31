@@ -197,12 +197,12 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
   .check_followup(all_data, all_data2, new_data, old_data)
 }
 
-.check_followup <- function(all_data, all_data2, new_data, old_data, verbose = TRUE) {
+.check_followup <- function(all_data, all_data_batch, new_data, old_data, verbose = TRUE) {
 
   # Check all data but omitting batch name
   check_all <- .check_data(all_data, verbose = FALSE)
   # Check all data but knowing that there is an old and new category
-  check_cmbn <- .check_data(all_data2, verbose = FALSE)
+  check_cmbn <- .check_data(all_data_batch, verbose = FALSE)
   # Check data
   check_new <- .check_data(new_data, verbose = FALSE)
   check_old <- .check_data(old_data, verbose = FALSE)
