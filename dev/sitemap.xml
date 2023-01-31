@@ -76,6 +76,12 @@
     <loc>https://experdesign.llrs.dev/dev/reference/extreme_cases.html</loc>
   </url>
   <url>
+    <loc>https://experdesign.llrs.dev/dev/reference/follow_up.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/dev/reference/follow_up2.html</loc>
+  </url>
+  <url>
     <loc>https://experdesign.llrs.dev/dev/reference/index.html</loc>
   </url>
   <url>
@@ -95,5 +101,8 @@
   </url>
   <url>
     <loc>https://experdesign.llrs.dev/dev/reference/use_index.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/dev/reference/valid_followup.html</loc>
   </url>
 </urlset>
