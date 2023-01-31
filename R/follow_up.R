@@ -82,8 +82,13 @@ follow_up <- function(original, follow_up, size_subset, omit = NULL,
 #' follow_up2(all_classroom, size_subset = 50, iterations = 50)
 follow_up2 <- function(all_data, batch_column = "batch", ...) {
   stopifnot(is.character(batch_column), length(batch_column) == 1)
+  if (!batch_column %in% colnames(all_data)) {
+    stop("There isn't a batch column with name '", batch_column, "'")
+  }
+
   if (!anyNA(all_data[[batch_column]])) {
-    stop("Seems that there is no new data: All the ", batch_column ," column is already filled up.")
+    stop("Seems that there is no new data: All the ", batch_column,
+         " column is already filled up.")
   }
 
   new_data <- all_data[is.na(all_data[[batch_column]]), ]
