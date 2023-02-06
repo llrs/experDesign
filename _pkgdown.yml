@@ -49,6 +49,7 @@ reference:
   - title: "Other"
   - contents:
     - create_subset
+    - compare_index
     - entropy
     - qcSubset
     - extreme_cases
