@@ -1,10 +1,12 @@
-# experDesign 0.1.2
+# experDesign (development version)
 
 * Add a function to check the input data `check_data()`.
 
 * Simplify the internal coherence of checks.
 
 * Use all categories combined (column `mix_cat`) for comparing the batches
+
+* Add new function `compare_index()`
 
 # experDesign 0.1.1
 
