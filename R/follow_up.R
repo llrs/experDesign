@@ -8,7 +8,7 @@
 #' it matches the name of a column in original it will be used to find previous
 #' batches.
 #' @inheritParams design
-#' @seealso [`follow_up2()`]
+#' @seealso [follow_up2()]
 #' @return  A `data.frame` with the common columns of data, a new column
 #' `old_new`, and a batch column filled with the new batches needed.
 #' @export
@@ -62,7 +62,7 @@ follow_up <- function(original, follow_up, size_subset, omit = NULL,
 #' @param batch_column The name of the column of `all_data` with the batches used.
 #' If NA it is interpreted as a new data, if not empty it is considered a batch.
 #' @inheritDotParams design -pheno
-#' @seealso `follow_up()`
+#' @seealso [follow_up()]
 #' @return A `data.frame` with the `batch_column` filled with the new batches needed.
 #' @export
 #'
@@ -153,10 +153,10 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
 #' @param old_data,new_data A data.frame with the old and new data respectively.
 #' @inheritParams follow_up
 #' @inheritParams follow_up2
-#' @seealso `check_data()`
+#' @seealso [check_data()]
 #' @export
 #' @return Called by its side effects of warnings, but returns a logical value
-#' if there are some issues (FALSE) or not (TRUE)
+#' if there are some issues (`FALSE`) or not (`TRUE`)
 #' @examples
 #' data(survey, package = "MASS")
 #' survey1 <- survey[1:118, ]

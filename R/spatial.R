@@ -1,11 +1,11 @@
 #' Distribute the sample on the plate
 #'
-#' This function assumes that to process the batch the samples are distributes in
-#' a plate. Sometimes you know in advance the
+#' This function assumes that to process the batch the samples are distributed in
+#' a plate with a grid scheme.
 #' @inheritParams design
 #' @param index A list with the samples on each subgroup, as provided from
-#' `design()` or `replicates()`.
-#' @param remove_positions Character, name of positions.
+#' [design()] or [replicates()].
+#' @param remove_positions Character, name of positions to be avoided in the grid.
 #' @param rows Character, name of the rows to be used.
 #' @param columns Character, name of the rows to be used.
 #' @return The indices of which samples go with which batch.

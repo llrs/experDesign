@@ -25,7 +25,7 @@ information, or whether the data is new or not (\code{NA}) in the case of all_da
 }
 \value{
 Called by its side effects of warnings, but returns a logical value
-if there are some issues (FALSE) or not (TRUE)
+if there are some issues (\code{FALSE}) or not (\code{TRUE})
 }
 \description{
 Sometimes some samples are collected and analyzed, later another batch of
@@ -44,5 +44,5 @@ survey$batch[1:118]  <- "old"
 valid_followup(all_data = survey)
 }
 \seealso{
-\code{check_data()}
+\code{\link[=check_data]{check_data()}}
 }

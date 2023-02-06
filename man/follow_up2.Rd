@@ -50,5 +50,5 @@ all_classroom <- rbind(r_survey, survey2)
 follow_up2(all_classroom, size_subset = 50, iterations = 50)
 }
 \seealso{
-\code{follow_up()}
+\code{\link[=follow_up]{follow_up()}}
 }
