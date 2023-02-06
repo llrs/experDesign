@@ -86,8 +86,17 @@ metadata <- expand.grid(height = seq(60, 80, 5),
 head(metadata, 15)
 ```
 
-If you block incorrectly and end up with a group in a single batch we will end up with batch effect.
-In order to avoid this `design()` helps you assign each sample to a batch (in this case each batch has 24 samples at most). First we can explore the number of samples and the number of batches:
+First we can check the data to see if there are any concerns regarding the categories:
+
+```{r check_data}
+check_data(metadata)
+```
+
+There are none confounding variables in this artifical dataset (see the examples, and you'll find some).
+However, if you block incorrectly and end up with a group in a single batch we will end up with batch effect.
+
+In order to avoid this `design()` helps you assign each sample to a batch (in this case each batch has 24 samples at most). 
+First we can explore the number of samples and the number of batches:
 
 ```{r size}
 size_data <- nrow(metadata)
@@ -106,9 +115,9 @@ Note that instead of using a whole batch and then leave a single sample on the t
 We can directly look for the distribution of the samples given our max number of samples per batch:
 
 ```{r design}
-d <- design(metadata, size_batch)
+desi <- design(metadata, size_batch)
 # It is a list but we can convert it to a vector with:
-batch_names(d)
+batch_names(desi)
 ```
 
 Naively one would either fill some batches fully or distribute them not evenly 
@@ -120,9 +129,9 @@ that the data is randomized. For more random distribution you can increase the n
 If you need space for replicates to control for batch effect you can use:
 
 ```{r replicates}
-r <- replicates(metadata, size_batch, 5)
-lengths(r)
-r
+repli <- replicates(metadata, size_batch, 5)
+lengths(repli)
+repli
 ```
 
 Which seeks as controls the most diverse values and adds them to the samples 
@@ -130,11 +139,11 @@ distribution. Note that if the sample is already present on that batch is not ad
 
 # Layout
 
-Lastly, we can see how these samples would be distributed in a layout of 6x4:
+We can analyze how these samples would be distributed in a layout of 6x4:
 
 ```{r spatial}
-s <- spatial(r, metadata, rows = LETTERS[1:6], columns = 1:4)
-head(s)
+spati <- spatial(repli, metadata, rows = LETTERS[1:6], columns = 1:4)
+head(spati)
 ```
 
 # Report for easy on field usage
@@ -142,13 +151,24 @@ head(s)
 We can add the batches to the initial data with `inspect()`:
 
 ```{r report}
-report <- inspect(r, metadata)
-report2 <- inspect(s, report, index_name = "position")
+report <- inspect(repli, metadata)
+report2 <- inspect(spati, report, index_name = "position")
 head(report2)
 ```
 
 And now we can see the batch and position of each sample
 
+
+# Compare indices
+
+If you have two indices you can also compare them:
+
+```{r compare_index}
+desi2 <- create_subset(nrow(metadata), size_batch)
+compare_index(metadata, desi, desi2)
+```
+
+As many of the variables for multiple subsets are negative it shows that `desi` is better.
 
 # Unbalanced setting
 
@@ -161,10 +181,11 @@ samples <- 100
 unbalanced <- data.frame(Classroom = rep(c("A", "B"), each = samples/2),
                          Sex = c(rep("M", n), rep("F", samples-n)),
                          Age = rnorm(samples, mean = 25, sd = 3))
-table(unbalanced)[, , 1:5]
+table(unbalanced[, 1:2])
 ```
 
-In this dataset the classroom a single classroom has all the females (`r 50 -n`).
+In this dataset there is only one female, resulting in a classroom full of males.
+Age is independent of the sex or classroom.
 
 ```{r unbalanced_design}
 i <- design(unbalanced, 15)
@@ -241,9 +262,10 @@ Then it compares to the previous index
 score_index2 <- check_index(survey[, keep], index2)
 sum(rowMeans(abs(score_index2-score_index1)))
 ```
+
 If this score is lower than the previous one the new index is kept.
 
-This is done similarly for the spatial search, which adds two new categorical variables with the position of the samples before calculating any statitics.
+This is done similarly for the spatial search, which adds two new categorical variables with the position of the samples before calculating any statistics.
 
 # SessionInfo
 
