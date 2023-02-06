@@ -103,3 +103,54 @@ batch_names <- function(i) {
   names <- rep(names(i), lengths(i))
   names[order(unlist(i, use.names = FALSE))]
 }
+
+#' Compares two indexes
+#'
+#' Compare the distribution of samples with two different batches.
+#' @param index1,index2 A list with the index for each sample, the name of the
+#' column in `pheno` with the batch subset or the character .
+#' @param pheno A data.frame of the samples with the characteristics to normalize.
+#' @returns A matrix with the variables and the columns of of each batch.
+#' Negative values indicate `index1` was better.
+#' @export
+#' @seealso [check_index()]
+#' @examples
+#' index1 <- create_subset(50, 24)
+#' index2 <- batch_names(create_subset(50, 24))
+#' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
+#'                          sex = c("Male","Female"))
+#' compare_index(metadata, index1, index2)
+compare_index <- function(pheno, index1, index2) {
+  if (is.character(index1) && !index1 %in% colnames(pheno)) {
+    index1 <- use_index(index1)
+  } else if (is.character(index1) && index1 %in% colnames(pheno)) {
+    index1 <- use_index(pheno[[index1]])
+  }
+  if (is.character(index2) && !index2 %in% colnames(pheno)) {
+    index2 <- use_index(index2)
+  } else if (is.character(index2) && index2 %in% colnames(pheno)) {
+    index2 <- use_index(pheno[[index2]])
+  }
+  if (sum(lengths(index1)) != nrow(pheno)) {
+    stop("Indices do not match the number of samples in pheno.")
+  }
+  if (sum(lengths(index1)) != sum(lengths(index2))) {
+    stop("Indices don't seem from the same data, their numbers are not equivalent.")
+  }
+  if (length(index1) != length(index2)) {
+    stop("Different number of batches in the indices.")
+  }
+
+  batches <- length(index1)
+  num <- is_num(pheno)
+  eval_n <- evaluations(num)
+
+  original_pheno <- .evaluate_orig(pheno, num)
+  original_pheno["na", ] <- original_pheno["na", ]/batches
+
+  ci1 <- .check_index(index1, pheno, num, eval_n, original_pheno)
+  ci2 <- .check_index(index2, pheno, num, eval_n, original_pheno)
+
+  ci1 - ci2
+
+}

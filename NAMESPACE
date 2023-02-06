@@ -3,6 +3,7 @@
 export(batch_names)
 export(check_data)
 export(check_index)
+export(compare_index)
 export(create_subset)
 export(design)
 export(distribution)
