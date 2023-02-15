@@ -111,25 +111,24 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
-  stopifnot(is.numeric(size_subset) && all(is.finite(size_subset)) && !any(is.na(size_subset)))
+  stopifnot(is.numeric(size_subset) && length(size_subset) == 1 && is.finite(size_subset) && !is.na(size_subset))
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is.numeric(iterations) && is.finite(iterations))
 
   size_data <- nrow(pheno)
-  if (sum(size_subset) >= size_data) {
+  if (size_subset >= size_data) {
     stop("All the data can be done in one batch.", call. = FALSE)
   }
-  if (sum(size_subset) < controls) {
+  if (size_subset < controls) {
     stop("The controls are technical controls for the batches.\n\t",
          "They cannot be above the number of samples per batch.", call. = FALSE)
   }
-  size_subset <- sum(size_subset) - controls
+  size_subset <- size_subset - controls
   values <- extreme_cases(pheno = pheno, size = controls, omit = omit)
   batches <- .design(pheno, size_subset, omit = omit, iterations = iterations)
 
   for (b in seq_along(batches)) {
-    val <- c(batches[[b]], values[!values %in% batches[[b]]])
-    batches[[b]] <- sort(val)
+    batches[[b]] <- sort(union(values, batches[[b]]))
   }
   batches
 }
