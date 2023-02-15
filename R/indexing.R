@@ -121,16 +121,26 @@ batch_names <- function(i) {
 #'                          sex = c("Male","Female"))
 #' compare_index(metadata, index1, index2)
 compare_index <- function(pheno, index1, index2) {
-  if (is.character(index1) && !index1 %in% colnames(pheno)) {
+  if (is.character(index1) && length(index1) == nrow(pheno)) {
     index1 <- use_index(index1)
-  } else if (is.character(index1) && index1 %in% colnames(pheno)) {
+  } else if (is.character(index1) && length(index1) == 1 && index1 %in% colnames(pheno)) {
+    index0 <- index1
     index1 <- use_index(pheno[[index1]])
+    pheno <- pheno[, !colnames(pheno) %in% index0]
+  } else if (is.character(index1)) {
+    stop("index1 is not present")
   }
-  if (is.character(index2) && !index2 %in% colnames(pheno)) {
+
+  if (is.character(index2) && length(index2) == nrow(pheno)) {
     index2 <- use_index(index2)
-  } else if (is.character(index2) && index2 %in% colnames(pheno)) {
+  } else if (is.character(index2) && length(index2) == 1 && index2 %in% colnames(pheno)) {
+    index0 <- index2
     index2 <- use_index(pheno[[index2]])
+    pheno <- pheno[, !colnames(pheno) %in% index0]
+  } else if (is.character(index1)) {
+    stop("index2 is not present")
   }
+
   if (sum(lengths(index1)) != nrow(pheno)) {
     stop("Indices do not match the number of samples in pheno.")
   }
