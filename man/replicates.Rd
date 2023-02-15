@@ -26,6 +26,9 @@ To ensure that the batches are comparable some samples are processed in each
 batch. This function allows to take into account that effect.
 It uses the most different samples as controls as defined with \code{\link[=extreme_cases]{extreme_cases()}}.
 }
+\details{
+To control for variance replicates are important, see for example \url{https://www.nature.com/articles/nmeth.3091}.
+}
 \examples{
 samples <- data.frame(L = letters[1:25], Age = rnorm(25),
                       type = sample(LETTERS[1:5], 25, TRUE))

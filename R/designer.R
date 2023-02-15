@@ -96,10 +96,12 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #' To ensure that the batches are comparable some samples are processed in each
 #' batch. This function allows to take into account that effect.
 #' It uses the most different samples as controls as defined with [extreme_cases()].
+#'
+#' To control for variance replicates are important, see for example <https://www.nature.com/articles/nmeth.3091>.
 #' @inheritParams design
 #' @param controls The numeric value of the amount of technical controls per
 #' batch.
-#' @return A index with some samples duplicated in the batches
+#' @return A index with some samples duplicated in the batches.
 #' @seealso [design()], [extreme_cases()].
 #' @export
 #' @examples
@@ -109,19 +111,19 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
-  stopifnot(is.numeric(size_subset) && is.finite(size_subset))
+  stopifnot(is.numeric(size_subset) && all(is.finite(size_subset)) && !any(is.na(size_subset)))
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is.numeric(iterations) && is.finite(iterations))
 
   size_data <- nrow(pheno)
-  if (size_subset >= size_data) {
+  if (sum(size_subset) >= size_data) {
     stop("All the data can be done in one batch.", call. = FALSE)
   }
-  if (size_subset < controls) {
+  if (sum(size_subset) < controls) {
     stop("The controls are technical controls for the batches.\n\t",
          "They cannot be above the number of samples per batch.", call. = FALSE)
   }
-  size_subset <- size_subset - controls
+  size_subset <- sum(size_subset) - controls
   values <- extreme_cases(pheno = pheno, size = controls, omit = omit)
   batches <- .design(pheno, size_subset, omit = omit, iterations = iterations)
 

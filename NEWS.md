@@ -4,9 +4,9 @@
 
 * Simplify the internal coherence of checks.
 
-* Use all categories combined (column `mix_cat`) for comparing the batches
+* Use all categories combined (column `mix_cat`) for comparing the batches.
 
-* Add new function `compare_index()`
+* Add new function `compare_index()` to compare different indexes per batch.
 
 # experDesign 0.1.1
 
