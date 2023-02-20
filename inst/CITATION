@@ -1,0 +1,21 @@
+citHeader("To cite experDesign in publications use:")
+citation(auto = meta)
+bibentry(
+  bibtype  = "Article",
+  title    = "experDesign: stratifying samples into batches with minimal bias",
+  doi = "https://doi.org/10.21105/joss.03358",
+  author   = c(
+    person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9747-2570")),
+    person("Juanjo", "Lozano", role = "ths",
+           comment = c(ORCID = "0000-0001-7613-3908")),
+    person("Azucena", "Salas Martinez", role = "ths",
+           comment = c(ORCID = "0000-0003-4572-2907"))
+  ),
+  journal  = "Journal of Open Source Software",
+  year     = 2021,
+  volume   = 6,
+  number   = 67,
+  pages    = 6,
+  url      = "https://joss.theoj.org/papers/10.21105/joss.03358",
+)

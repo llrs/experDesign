@@ -19,7 +19,7 @@ batch.}
 \item{iterations}{Numeric value of iterations that will be performed.}
 }
 \value{
-A index with some samples duplicated in the batches
+A index with some samples duplicated in the batches.
 }
 \description{
 To ensure that the batches are comparable some samples are processed in each
