@@ -92,7 +92,7 @@ First we can check the data to see if there are any concerns regarding the categ
 check_data(metadata)
 ```
 
-There are none confounding variables in this artifical dataset (see the examples, and you'll find some).
+There are none confounding variables in this artificial dataset (see the examples, and you'll find some).
 However, if you block incorrectly and end up with a group in a single batch we will end up with batch effect.
 
 In order to avoid this `design()` helps you assign each sample to a batch (in this case each batch has 24 samples at most). 

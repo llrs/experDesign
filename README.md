@@ -7,7 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-project.org/package=experDesign)
-[![cran
+[![CRAN
 checks](https://badges.cranchecks.info/worst/experDesign.svg)](https://cran.r-project.org/web/checks/check_results_experDesign.html)
 [![R-CMD-check](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml)
 [![Coverage
@@ -22,9 +22,11 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 <!-- badges: end -->
 
-The goal of experDesign is to help you decide which samples go in which
-batch, reducing the potential batch bias before performing an
-experiment. It provides four main functions :
+The goal of experDesign is to help you manage your samples before an
+experiment but after they are collected. For example, checking for
+common problems in the data, and help reduce or even prevent batch bias
+before performing an experiment, or measure once it is already done It
+provides four main functions:
 
 - `check_data()`: Check if there are any problems with the data.
 - `design()`: Randomize the samples according to their variables.
@@ -41,15 +43,19 @@ To install the latest version on
 install.packages("experDesign")
 ```
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+<div class="pkgdown-devel">
+
+You can install the development version of pkgdown from
+[GitHub](https://github.com/llrs/experDesign) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("llrs/experDesign")
 ```
 
-# Example
+</div>
+
+## Example
 
 We can use the survey dataset for the examples:
 
@@ -73,15 +79,16 @@ head(survey)
 #> 6 21.000
 ```
 
-The dataset has numeric, categorical values and some `NA`’s value.
+The dataset has numeric, categorical values and `NA` values.
 
-## Checking initial data
+### Checking initial data
 
 We can check some issues from an experimental point of view via
 `check_data()`:
 
 ``` r
 check_data(survey)
+#> Warning: Two categorical variables don't have all combinations.
 #> Warning: Some values are missing.
 #> Warning: There is a combination of categories with no replicates; i.e. just one
 #> sample.
@@ -92,7 +99,7 @@ As you can see with the warnings we get a collections of problems. In
 general, try to have at least 3 replicates for each condition and try to
 have all the data of each variable.
 
-## Picking samples for each batch
+### Picking samples for each batch
 
 Imagine that we can only work in groups of 70, and we want to randomize
 by Sex, Smoke, Age, and by hand.  

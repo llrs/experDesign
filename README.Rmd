@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-project.org/package=experDesign)
-[![cran checks](https://badges.cranchecks.info/worst/experDesign.svg)](https://cran.r-project.org/web/checks/check_results_experDesign.html)
+[![CRAN checks](https://badges.cranchecks.info/worst/experDesign.svg)](https://cran.r-project.org/web/checks/check_results_experDesign.html)
 [![R-CMD-check](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml)
 [![Coverage status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
@@ -42,12 +42,17 @@ To install the latest version on [CRAN](https://CRAN.R-project.org/package=exper
 ```r
 install.packages("experDesign")
 ```
-You can install the development version from [GitHub](https://github.com/) with:
+
+
+::: {.pkgdown-devel}
+You can install the development version of pkgdown from [GitHub](https://github.com/llrs/experDesign) with:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("llrs/experDesign")
 ```
+:::
+
 
 ## Example
 
@@ -59,7 +64,7 @@ data(survey, package = "MASS")
 head(survey)
 ```
 
-The dataset has numeric, categorical values and some `NA`'s value.
+The dataset has numeric, categorical values and `NA` values.
 
 ### Checking initial data
 
