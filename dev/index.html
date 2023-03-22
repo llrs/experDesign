@@ -30,7 +30,7 @@
     
     <a class="navbar-brand me-2" href="index.html">experDesign</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.90004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.90005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The goal of experDesign is to help you decide which samples go in which batch, reducing the potential batch bias before performing an experiment. It provides four main functions :</p>
+<p>The goal of experDesign is to help you manage your samples before an experiment but after they are collected. For example, checking for common problems in the data, and help reduce or even prevent batch bias before performing an experiment, or measure once it is already done It provides four main functions:</p>
 <ul>
 <li>
 <code><a href="reference/check_data.html">check_data()</a></code>: Check if there are any problems with the data.</li>
@@ -93,15 +93,16 @@
 <p>To install the latest version on <a href="https://CRAN.R-project.org/package=experDesign" class="external-link">CRAN</a> use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"experDesign"</span><span class="op">)</span></span></code></pre></div>
-<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="pkgdown-devel">
+<p>You can install the development version of pkgdown from <a href="https://github.com/llrs/experDesign" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"llrs/experDesign"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h1>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>We can use the survey dataset for the examples:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://experdesign.llrs.dev">"experDesign"</a></span><span class="op">)</span></span>
@@ -121,22 +122,23 @@
 <span><span class="co">#&gt; 4 20.333</span></span>
 <span><span class="co">#&gt; 5 23.667</span></span>
 <span><span class="co">#&gt; 6 21.000</span></span></code></pre></div>
-<p>The dataset has numeric, categorical values and some <code>NA</code>’s value.</p>
-<div class="section level2">
-<h2 id="checking-initial-data">Checking initial data<a class="anchor" aria-label="anchor" href="#checking-initial-data"></a>
-</h2>
+<p>The dataset has numeric, categorical values and <code>NA</code> values.</p>
+<div class="section level3">
+<h3 id="checking-initial-data">Checking initial data<a class="anchor" aria-label="anchor" href="#checking-initial-data"></a>
+</h3>
 <p>We can check some issues from an experimental point of view via <code><a href="reference/check_data.html">check_data()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/check_data.html">check_data</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Two categorical variables don't have all combinations.</span></span>
 <span><span class="co">#&gt; Warning: Some values are missing.</span></span>
 <span><span class="co">#&gt; Warning: There is a combination of categories with no replicates; i.e. just one</span></span>
 <span><span class="co">#&gt; sample.</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <p>As you can see with the warnings we get a collections of problems. In general, try to have at least 3 replicates for each condition and try to have all the data of each variable.</p>
 </div>
-<div class="section level2">
-<h2 id="picking-samples-for-each-batch">Picking samples for each batch<a class="anchor" aria-label="anchor" href="#picking-samples-for-each-batch"></a>
-</h2>
+<div class="section level3">
+<h3 id="picking-samples-for-each-batch">Picking samples for each batch<a class="anchor" aria-label="anchor" href="#picking-samples-for-each-batch"></a>
+</h3>
 <p>Imagine that we can only work in groups of 70, and we want to randomize by Sex, Smoke, Age, and by hand.<br>
 There are 1.6543999^{61} combinations of samples per batch in a this experiment. However, in some of those combinations all the right handed students are in the same batch making it impossible to compare the right handed students with the others and draw conclusions from it.</p>
 <p>We could check all the combinations to select those that allow us to do this comparison. But as this would be too long with <code>experDesign</code> we can try to find the combination with the best design by comparing each combination with the original according to multiple statistics.</p>
@@ -196,6 +198,7 @@ There are 1.6543999^{61} combinations of samples per batch in a this experiment.
 <span><span class="co">#&gt; 4   Male Right Never 20.333 SubSet4</span></span>
 <span><span class="co">#&gt; 5   Male Right Never 23.667 SubSet2</span></span>
 <span><span class="co">#&gt; 6 Female Right Never 21.000 SubSet2</span></span></code></pre></div>
+</div>
 </div>
 </div>
 <div class="section level1">
@@ -261,7 +264,7 @@ There are 1.6543999^{61} combinations of samples per batch in a this experiment.
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=experDesign" class="external-link"><img src="https://www.r-pkg.org/badges/version/experDesign" alt="CRAN status"></a></li>
-<li><a href="https://cran.r-project.org/web/checks/check_results_experDesign.html" class="external-link"><img src="https://badges.cranchecks.info/worst/experDesign.svg" alt="cran checks"></a></li>
+<li><a href="https://cran.r-project.org/web/checks/check_results_experDesign.html" class="external-link"><img src="https://badges.cranchecks.info/worst/experDesign.svg" alt="CRAN checks"></a></li>
 <li><a href="https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/github/llrs/experDesign?branch=master" class="external-link"><img src="https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
