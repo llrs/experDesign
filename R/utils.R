@@ -87,6 +87,15 @@ is_logical <- function(x){
   isTRUE(x) || isFALSE(x)
 }
 
+is_numeric <- function(x) {
+  all(x > 0 & as.integer(x) == x & is.finite(x) & !is.na(x))
+}
+
+check_number <- function(x, name) {
+  if (length(x) != 1 || !is_numeric(x) || x <= 1) {
+    stop(sQuote(name, FALSE), " must be a single number bigger than 1.", call. = FALSE)
+  }
+}
 
 mean_difference <- function(differences, subset_ind, eval_n) {
   # Calculate the score for each subset by variable

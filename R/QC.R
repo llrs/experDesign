@@ -67,11 +67,11 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
 #' QC_samplesBatch <- qcSubset(index, 10, TRUE)
 qcSubset <- function(index, size, each = FALSE) {
 
-  if (!is.logical(each)) {
+  if (!is_logical(each)) {
     stop("each should be either TRUE or FALSE")
   }
 
-  if (!is.numeric(size)) {
+  if (!is_numeric(size)) {
     stop("size should be a numeric value")
   }
 

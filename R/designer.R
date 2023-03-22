@@ -20,9 +20,9 @@
 #' index
 design <- function(pheno, size_subset, omit = NULL, iterations = 500,
                    name = "SubSet") {
-  stopifnot(is.numeric(size_subset) && all(is.finite(size_subset)) && !any(is.na(size_subset)))
+  stopifnot(is_numeric(size_subset))
   stopifnot(length(dim(pheno)) == 2)
-  stopifnot(is.numeric(iterations) && is.finite(iterations) && !any(is.na(size_subset)))
+  stopifnot(is_numeric(iterations) && is_numeric(size_subset))
   stopifnot(is.character(name))
   .design(pheno, size_subset, omit, iterations, name, check = TRUE)
 }
@@ -111,9 +111,9 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
                        iterations = 500){
-  stopifnot(is.numeric(size_subset) && length(size_subset) == 1 && is.finite(size_subset) && !is.na(size_subset))
+  stopifnot(is_numeric(size_subset) && length(size_subset) == 1)
   stopifnot(length(dim(pheno)) == 2)
-  stopifnot(is.numeric(iterations) && is.finite(iterations))
+  stopifnot(is_numeric(iterations))
 
   size_data <- nrow(pheno)
   if (size_subset >= size_data) {

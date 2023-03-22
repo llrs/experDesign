@@ -20,7 +20,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
          columns = 1:10, iterations = 500) {
 
   stopifnot(length(dim(pheno)) == 2)
-  stopifnot(is.numeric(iterations) && is.finite(iterations))
+  stopifnot(is_numeric(iterations))
 
   nrow <- length(rows)
   ncol <- length(columns)

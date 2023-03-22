@@ -51,9 +51,6 @@ sizes_batches <- function(size_data, size_subset, batches) {
   check_number(size_data, "size_data")
   check_number(size_subset, "size_subset")
   check_number(batches, "batches")
-  if (batches == 1) {
-    stop("There should be more than one batch.", call. = FALSE)
-  }
   if  (size_subset*batches < size_data) {
     stop("batches or size_subset is too small to fit all the samples.",
          call. = FALSE)
@@ -114,8 +111,3 @@ internal_batches <- function(size_data, size_subset, batches) {
   sort(out, decreasing = TRUE)
 }
 
-check_number <- function(x, name) {
-  if (length(x) != 1 || !is.numeric(x) || x <= 1) {
-    stop(name, " must be a single number bigger than 1.", call. = FALSE)
-  }
-}
