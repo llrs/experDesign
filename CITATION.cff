@@ -8,7 +8,7 @@ message: 'To cite package "experDesign" in publications use:'
 type: software
 license: MIT
 title: 'experDesign: Design Experiments for Batches'
-version: 0.1.0.90004
+version: 0.1.0.90005
 abstract: Distributes samples in batches while making batches homogeneous according
   to their description. Allows for an arbitrary number of variables, both numeric
   and categorical. For quality control it provides functions to subset a representative
