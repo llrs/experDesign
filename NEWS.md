@@ -1,18 +1,18 @@
 # experDesign (development version)
 
-* Add a function to check the input data `check_data()`.
+* New `follow_up()` and `follow_up2()` to continue an experiment safely (#22). 
 
-* Simplify the internal coherence of checks.
+* New `check_data()` to check the input data (#37).
+
+* New `compare_index()` to compare different indexes per batch.
 
 * Use all categories combined (column `mix_cat`) for comparing the batches.
 
-* Add new function `compare_index()` to compare different indexes per batch.
+* Increased the internal coherence of checks.
 
-# experDesign 0.1.1
+* Added thesis advisers on the description.
 
-* Added thesis advisors on the description.
-
-* Update documentation
+* Update documentation.
 
 # experDesign 0.1.0
 
