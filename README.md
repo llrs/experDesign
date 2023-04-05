@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-projec
 checks](https://badges.cranchecks.info/worst/experDesign.svg)](https://cran.r-project.org/web/checks/check_results_experDesign.html)
 [![R-CMD-check](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml)
 [![Coverage
-status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/experDesign?branch=master)
+status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://app.codecov.io/github/llrs/experDesign)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable
