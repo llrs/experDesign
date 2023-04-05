@@ -1,4 +1,4 @@
-# experDesign (development version)
+# experDesign 0.2.0
 
 * New `follow_up()` and `follow_up2()` to continue an experiment safely (#22). 
 
