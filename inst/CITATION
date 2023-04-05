@@ -3,7 +3,7 @@ citation(auto = meta)
 bibentry(
   bibtype  = "Article",
   title    = "experDesign: stratifying samples into batches with minimal bias",
-  doi = "https://doi.org/10.21105/joss.03358",
+  doi = "10.21105/joss.03358",
   author   = c(
     person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9747-2570")),
