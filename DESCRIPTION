@@ -1,6 +1,6 @@
 Package: experDesign
 Title: Design Experiments for Batches
-Version: 0.1.0.90005
+Version: 0.1.1.90005
 Authors@R: c(
     person("Lluís", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9747-2570")),
