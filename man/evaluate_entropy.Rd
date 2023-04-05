@@ -23,7 +23,7 @@ and thus omitted.
 \examples{
 data(survey, package = "MASS")
 index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 50)
+                iterations = 10)
 # Note that numeric columns will be omitted:
 evaluate_entropy(index, survey[, c("Sex", "Smoke", "Age")])
 }

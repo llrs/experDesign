@@ -13,7 +13,7 @@
 #' @examples
 #' data(survey, package = "MASS")
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 50)
+#'                 iterations = 10)
 #' # Note that numeric columns will be omitted:
 #' evaluate_entropy(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_entropy <- function(i, pheno) {
@@ -54,7 +54,7 @@ evaluate_entropy <- function(i, pheno) {
 #' @examples
 #' data(survey, package = "MASS")
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 50)
+#'                 iterations = 10)
 #' # Note that numeric columns will be omitted:
 #' evaluate_independence(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_independence <- function(i, pheno) {

@@ -21,7 +21,7 @@ Looks for the standard deviation of the numeric values
 \examples{
 data(survey, package = "MASS")
 index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 50)
+                iterations = 10)
 # Note that categorical columns will be omitted:
 evaluate_sd(index, survey[, c("Sex", "Smoke", "Age")])
 }

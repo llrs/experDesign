@@ -16,7 +16,7 @@
 #' @examples
 #' data(survey, package = "MASS")
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 50)
+#'                 iterations = 10)
 #' index
 design <- function(pheno, size_subset, omit = NULL, iterations = 500,
                    name = "SubSet") {

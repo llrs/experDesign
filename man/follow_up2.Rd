@@ -40,14 +40,14 @@ data(survey, package = "MASS")
 first_batch_n <- 118
 variables <- c("Sex", "Smoke", "Age")
 survey1 <- survey[seq_len(first_batch_n), variables]
-index1 <- design(survey1, size_subset = 50, iterations = 50)
+index1 <- design(survey1, size_subset = 50, iterations = 10)
 r_survey <- inspect(index1, survey1)
 # Create the second batch with "new" students
 survey2 <- survey[seq(from = first_batch_n +1, to = nrow(survey)), variables]
 survey2$batch <- NA
 # Prepare the follow up
 all_classroom <- rbind(r_survey, survey2)
-follow_up2(all_classroom, size_subset = 50, iterations = 50)
+follow_up2(all_classroom, size_subset = 50, iterations = 10)
 }
 \seealso{
 \code{\link[=follow_up]{follow_up()}}

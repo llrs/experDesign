@@ -72,14 +72,14 @@ follow_up <- function(original, follow_up, size_subset, omit = NULL,
 #' first_batch_n <- 118
 #' variables <- c("Sex", "Smoke", "Age")
 #' survey1 <- survey[seq_len(first_batch_n), variables]
-#' index1 <- design(survey1, size_subset = 50, iterations = 50)
+#' index1 <- design(survey1, size_subset = 50, iterations = 10)
 #' r_survey <- inspect(index1, survey1)
 #' # Create the second batch with "new" students
 #' survey2 <- survey[seq(from = first_batch_n +1, to = nrow(survey)), variables]
 #' survey2$batch <- NA
 #' # Prepare the follow up
 #' all_classroom <- rbind(r_survey, survey2)
-#' follow_up2(all_classroom, size_subset = 50, iterations = 50)
+#' follow_up2(all_classroom, size_subset = 50, iterations = 10)
 follow_up2 <- function(all_data, batch_column = "batch", ...) {
   stopifnot(is.character(batch_column), length(batch_column) == 1)
   if (!batch_column %in% colnames(all_data)) {

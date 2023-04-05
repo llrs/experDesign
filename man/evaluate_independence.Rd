@@ -21,7 +21,7 @@ Looks the independence between the categories and the batches.
 \examples{
 data(survey, package = "MASS")
 index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 50)
+                iterations = 10)
 # Note that numeric columns will be omitted:
 evaluate_independence(index, survey[, c("Sex", "Smoke", "Age")])
 }

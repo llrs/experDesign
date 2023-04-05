@@ -21,7 +21,7 @@ Looks for the median absolute deviation values in each subgroup.
 \examples{
 data(survey, package = "MASS")
 index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 50)
+                iterations = 10)
 # Note that categorical columns will be omitted:
 evaluate_mad(index, survey[, c("Sex", "Smoke", "Age")])
 }

@@ -12,7 +12,7 @@
 #' @examples
 #' data(survey, package = "MASS")
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 50)
+#'                 iterations = 10)
 #' # Note that categorical columns will be omitted:
 #' evaluate_sd(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_sd <- function(i, pheno){
@@ -39,7 +39,7 @@ evaluate_sd <- function(i, pheno){
 #' @examples
 #' data(survey, package = "MASS")
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 50)
+#'                 iterations = 10)
 #' # Note that categorical columns will be omitted:
 #' evaluate_mean(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_mean <- function(i, pheno) {
@@ -69,7 +69,7 @@ evaluate_mean <- function(i, pheno) {
 #' @examples
 #' data(survey, package = "MASS")
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 50)
+#'                 iterations = 10)
 #' # Note that categorical columns will be omitted:
 #' evaluate_mad(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_mad <- function(i, pheno) {
