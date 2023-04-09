@@ -13,6 +13,11 @@ template:
       creator: "@Lluis_Revilla"
       card: summary_large_image
 
+news:
+  releases:
+    - text: "experDesign 0.2.0"
+      href: https://llrs.dev/post/2023/04/09/experdesign-follow-up/
+
 home:
   title: Design experiments for batches
   description: Distributes samples in batches while making batches homogeneous
