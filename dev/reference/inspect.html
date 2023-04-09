@@ -27,8 +27,14 @@
     <a class="dropdown-item" href="../articles/experdesign.html">exprDesign</a>
   </div>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://llrs.dev/post/2023/04/09/experdesign-follow-up/">experDesign 0.2.0</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../news/index.html">Changelog</a>
+  </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -95,11 +101,11 @@
 <span class="r-in"><span><span class="va">batches</span> <span class="op">&lt;-</span> <span class="fu">inspect</span><span class="op">(</span><span class="va">index</span>, <span class="va">survey</span><span class="op">[</span>, <span class="va">columns</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">batches</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Sex    Age Smoke   batch</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Female 18.250 Never SubSet1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Female 18.250 Never SubSet3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   Male 17.583 Regul SubSet2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   Male 16.917 Occas SubSet2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Male 20.333 Never SubSet4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Male 23.667 Never SubSet1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Male 20.333 Never SubSet1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Male 23.667 Never SubSet4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 Female 21.000 Never SubSet3</span>
 </code></pre></div>
     </div>

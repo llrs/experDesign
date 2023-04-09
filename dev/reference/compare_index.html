@@ -27,8 +27,14 @@
     <a class="dropdown-item" href="../articles/experdesign.html">exprDesign</a>
   </div>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://llrs.dev/post/2023/04/09/experdesign-follow-up/">experDesign 0.2.0</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../news/index.html">Changelog</a>
+  </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -91,10 +97,10 @@ Negative values indicate <code>index1</code> was better.</p>
 <span class="r-in"><span>                         sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>,<span class="st">"Female"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">compare_index</span><span class="op">(</span><span class="va">metadata</span>, <span class="va">index1</span>, <span class="va">index2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         subgroups</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              SubSet1     SubSet2     SubSet3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   height -0.90194298 -0.09788108 -0.96201184</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   weight  1.75900613  3.93874413  1.04082287</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sex     0.03627413  0.04985761  0.05655251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             SubSet1   SubSet2    SubSet3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   height  0.2782789 0.1506881 -1.1343769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   weight -0.7397965 0.2485858 13.2702418</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sex     0.1636311 0.1569362  0.1484424</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
