@@ -31,7 +31,13 @@
     <loc>https://experdesign.llrs.dev/reference/batch_names.html</loc>
   </url>
   <url>
+    <loc>https://experdesign.llrs.dev/reference/check_data.html</loc>
+  </url>
+  <url>
     <loc>https://experdesign.llrs.dev/reference/check_index.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/reference/compare_index.html</loc>
   </url>
   <url>
     <loc>https://experdesign.llrs.dev/reference/create_subset.html</loc>
@@ -76,6 +82,12 @@
     <loc>https://experdesign.llrs.dev/reference/extreme_cases.html</loc>
   </url>
   <url>
+    <loc>https://experdesign.llrs.dev/reference/follow_up.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/reference/follow_up2.html</loc>
+  </url>
+  <url>
     <loc>https://experdesign.llrs.dev/reference/index.html</loc>
   </url>
   <url>
@@ -95,5 +107,8 @@
   </url>
   <url>
     <loc>https://experdesign.llrs.dev/reference/use_index.html</loc>
+  </url>
+  <url>
+    <loc>https://experdesign.llrs.dev/reference/valid_followup.html</loc>
   </url>
 </urlset>
