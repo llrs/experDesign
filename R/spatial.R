@@ -37,7 +37,6 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
          call. = FALSE)
   }
 
-  plate <- matrix(nrow = nrow, ncol = ncol, dimnames = list(rows, columns))
   positions <- position_name(rows, columns)
   if (any(!remove_positions %in% positions$name)) {
     stop("Unrecognized position to remove.",
@@ -71,12 +70,19 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   old_rows <- round(as.numeric(rownames(pheno_o)))
   rownames(pheno_o) <- NULL
   new_rows <- as.numeric(rownames(pheno_o))
-  size_data <- sum(lengths(index))
-  size_subset <- batches
   batches <- length(position)
-  size_batches <- internal_batches(size_data, size_subset, batches)
-  for (x in seq_len(iterations)) {
-    i <- create_index(size_data, size_batches, batches, name = position)
+  # size_batches <- internal_batches(size_data, size_subset, batches)
+  i0 <- 0L
+  while (iterations > 0L) {
+    i <- create_index4index(index, batches, position)
+    # i <- create_index(size_data, size_batches, batches, name = position)
+    i0 <- i0 + 1L
+    message("Try ", i0, " iterations ", iterations)
+    if (!any(table(spatial = batch_names(i), batch = batch_names(index)) > 1L)) {
+      iterations <- iterations - 1
+    } else {
+      next
+    }
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))

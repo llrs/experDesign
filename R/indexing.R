@@ -40,6 +40,17 @@ create_index <- function(size_data, size_batches, n, name = "SubSet") {
   i
 }
 
+# Shuffle sample within index to improve positioning
+create_index4index <- function(index, n, name) {
+  i <- vector("list", length = n)
+  names(i) <- id2batch_names(name, n)
+  for (id in seq_along(index)){
+    s <- sample(index[[id]])
+    names(i)[s]
+  }
+  i
+}
+
 id2batch_names <- function(name, n) {
   if (length(name) != 1 && length(name) != n) {
     stop("Provide a single character or a vector the same size of the batches.",
@@ -126,7 +137,7 @@ compare_index <- function(pheno, index1, index2) {
   } else if (is.character(index1) && length(index1) == 1 && index1 %in% colnames(pheno)) {
     index0 <- index1
     index1 <- use_index(pheno[[index1]])
-    pheno <- pheno[, !colnames(pheno) %in% index0]
+    pheno <- pheno[, !colnames(pheno) %in% index0, drop = FALSE]
   } else if (is.character(index1)) {
     stop("index1 is not present")
   }
@@ -136,7 +147,7 @@ compare_index <- function(pheno, index1, index2) {
   } else if (is.character(index2) && length(index2) == 1 && index2 %in% colnames(pheno)) {
     index0 <- index2
     index2 <- use_index(pheno[[index2]])
-    pheno <- pheno[, !colnames(pheno) %in% index0]
+    pheno <- pheno[, !colnames(pheno) %in% index0, drop = FALSE]
   } else if (is.character(index1)) {
     stop("index2 is not present")
   }
@@ -156,7 +167,7 @@ compare_index <- function(pheno, index1, index2) {
   eval_n <- evaluations(num)
 
   original_pheno <- .evaluate_orig(pheno, num)
-  original_pheno["na", ] <- original_pheno["na", ]/batches
+  original_pheno["na", , drop = FALSE] <- original_pheno["na", , drop = FALSE]/batches
 
   ci1 <- .check_index(index1, pheno, num, eval_n, original_pheno)
   ci2 <- .check_index(index2, pheno, num, eval_n, original_pheno)

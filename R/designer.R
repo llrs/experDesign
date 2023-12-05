@@ -114,6 +114,8 @@ replicates <- function(pheno, size_subset, controls, omit = NULL,
   stopifnot(is_numeric(size_subset) && length(size_subset) == 1)
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations))
+  stopifnot(is.numeric(controls) && length(controls) && as.integer(controls) == controls &&
+              is.finite(controls) && !is.na(controls) && controls >= 0)
 
   size_data <- nrow(pheno)
   if (size_subset >= size_data) {
@@ -124,7 +126,11 @@ replicates <- function(pheno, size_subset, controls, omit = NULL,
          "They cannot be above the number of samples per batch.", call. = FALSE)
   }
   size_subset <- size_subset - controls
-  values <- extreme_cases(pheno = pheno, size = controls, omit = omit)
+  if (controls != 0L) {
+    values <- extreme_cases(pheno = pheno, size = controls, omit = omit)
+  } else {
+    values <- NULL
+  }
   batches <- .design(pheno, size_subset, omit = omit, iterations = iterations)
 
   for (b in seq_along(batches)) {
