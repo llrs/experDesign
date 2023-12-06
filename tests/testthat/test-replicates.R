@@ -8,3 +8,11 @@ test_that("replicates works", {
   i <- lengths(index)
   expect_error(replicates(samples, i, omit = "L", controls = 2, iterations = 10))
 })
+
+test_that("Setting 0 replicates is an error", {
+  data(survey, package = "MASS")
+  set.seed(4568)
+  nas <- c(137, 70)
+  expect_error(replicates(survey[-nas, c("Sex", "Smoke", "Age")], size_subset = 50,
+                      iterations = 25, controls = 0))
+})
