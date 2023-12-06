@@ -33,22 +33,38 @@ create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSe
 }
 
 # The workhorse function without any check
+# size_batches is a vector with the number of elements in each batch.
 create_index <- function(size_data, size_batches, n, name = "SubSet") {
   # The size of each batch
+  stopifnot("Batches match the length" = length(size_batches) == n)
   i <- distribute_samples(size_data, size_batches)
   names(i) <- id2batch_names(name, n)
   i
 }
 
 # Shuffle sample within index to improve positioning
-create_index4index <- function(index, n, name) {
-  i <- vector("list", length = n)
-  names(i) <- id2batch_names(name, n)
-  for (id in seq_along(index)){
-    s <- sample(index[[id]])
-    names(i)[s]
+create_index4index <- function(index, size_subset, n, name) {
+  index_out <- vector("list", n)
+  names(index_out) <- id2batch_names(name, n)
+  for (batch in seq_along(index)) {
+    pos <- index[[batch]]
+    # Pick a batch from the new index to place the previous position
+    # Which hasn't been picked within the batch
+    i_lengths <- lengths(index_out)
+
+    # Pick from the ones that are almost filled: to ensure that the batches are fully used.
+    i_lengths <- i_lengths[order(size_subset - i_lengths, decreasing = TRUE)]
+    batch_w_space <- i_lengths < size_subset
+    possible_positions <- which(batch_w_space)[seq_len(length(pos))]
+
+    # Sample the positions of the new index for each current position in the index
+    index_i <- sample(possible_positions, length(pos))
+    for (position in seq_along(pos)) {
+      index_out[[index_i[position]]] <- c(index_out[[index_i[position]]],
+                                          pos[position])
+    }
   }
-  i
+  index_out
 }
 
 id2batch_names <- function(name, n) {

@@ -67,22 +67,13 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
 
   # Use index to duplicate samples in case the index comes from replicates.
   pheno_o <- pheno_o[unlist(index), ]
-  old_rows <- round(as.numeric(rownames(pheno_o)))
   rownames(pheno_o) <- NULL
-  new_rows <- as.numeric(rownames(pheno_o))
   batches <- length(position)
-  # size_batches <- internal_batches(size_data, size_subset, batches)
-  i0 <- 0L
-  while (iterations > 0L) {
-    i <- create_index4index(index, batches, position)
-    # i <- create_index(size_data, size_batches, batches, name = position)
-    i0 <- i0 + 1L
-    message("Try ", i0, " iterations ", iterations)
-    if (!any(table(spatial = batch_names(i), batch = batch_names(index)) > 1L)) {
-      iterations <- iterations - 1
-    } else {
-      next
-    }
+  size_subset <- optimum_batches(sum(lengths(index)), batches)
+  for (j in seq_len(iterations)) {
+
+    i <- create_index4index(index, size_subset, name = position, n = batches)
+
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
@@ -93,5 +84,6 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
       val <- i
     }
   }
-  translate_index(val, old_rows, new_rows)
+
+  val
 }
