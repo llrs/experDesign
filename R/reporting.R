@@ -26,9 +26,11 @@ inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
   } else {
     pheno_o <- pheno
   }
-
+  # Add the column and rename it
   out <- cbind(pheno_o, batch)
   colnames(out)[ncol(out)] <- index_name
+
+  rownames(out) <- NULL
   out
 }
 
