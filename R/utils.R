@@ -123,8 +123,6 @@ evaluations <- function(num, eval_cat = 4, eval_num = 3) {
   eval_n
 }
 
-
-
 release_bullets <- function() {
   c("Run: cffr::cff_write()")
 }
