@@ -46,33 +46,51 @@ create_index <- function(size_data, size_batches, n, name = "SubSet") {
 create_index4index <- function(index, size_subset, n, name) {
   index_out <- vector("list", n)
   names(index_out) <- id2batch_names(name, n)
+
+  # Find if there are duplicates: aka controls
+  li <- table(unlist(index))
+  dups <- as.numeric(names(li)[li != 1])
+
   for (batch in seq_along(index)) {
     pos <- index[[batch]]
-    # Pick a batch from the new index to place the previous position
-    # Which hasn't been picked within the batch
-    i_lengths <- lengths(index_out)
 
-    # Pick from the ones that are almost filled: to ensure that the batches are fully used.
-    i_lengths <- i_lengths[order(size_subset - i_lengths, decreasing = TRUE)]
-    batch_w_space <- i_lengths < size_subset
-    possible_positions <- which(batch_w_space)[seq_len(length(pos))]
+    # Store which are already filled in this batch
+    index_f <- NULL
 
-    # Sample the positions of the new index for each current position in the index
-    index_i <- sample(possible_positions, length(pos))
-    for (position in seq_along(pos)) {
-      index_out[[index_i[position]]] <- c(index_out[[index_i[position]]],
-                                          pos[position])
+    # Put each position to the right new batch
+    j <- 0
+    for (position in pos) {
+      j <- j + 1
+      # Exclude position already filled in the batch
+      # Pick a batch from the new index to place the previous position
+      # Which hasn't been picked within the batch
+      i_lengths <- lengths(index_out)
+      names(i_lengths) <- NULL
+      # Pick from the ones that can be filled
+      pp <- which(i_lengths < size_subset)
+      pp <- setdiff(pp, index_f)
+
+      # If this sample is duplicated, exclude that position too
+      dups_out <- vapply(index_out, function(x){any(x %in% dups)}, logical(1L))
+      if (length(setdiff(pp, which(dups_out)))) {
+        pp <- setdiff(pp, which(dups_out))
+      }
+      i_index <- pp[1]
+      index_f <- c(index_f, i_index)
+
+      # Add the position to the index at the right batch
+      index_out[[i_index]] <- c(index_out[[i_index]], position)
+      }
     }
-  }
   index_out
 }
 
 id2batch_names <- function(name, n) {
-  if (length(name) != 1 && length(name) != n) {
+  if (length(name) != 1L && length(name) != n) {
     stop("Provide a single character or a vector the same size of the batches.",
          call. = FALSE)
   }
-  if (length(name) == 1) {
+  if (length(name) == 1L) {
     name <- paste0(name, seq_len(n))
   }
   name
@@ -127,8 +145,12 @@ use_index <- function(x) {
 #' batch <- batch_names(index)
 #' head(batch)
 batch_names <- function(i) {
+  ui <- unlist(i, use.names = FALSE)
+  if (any(table(ui) > 1L)) {
+    stop("This doesn't work with replicates measures.")
+  }
   names <- rep(names(i), lengths(i))
-  names[order(unlist(i, use.names = FALSE))]
+  names[order(ui)]
 }
 
 #' Compares two indexes
@@ -183,7 +205,7 @@ compare_index <- function(pheno, index1, index2) {
   eval_n <- evaluations(num)
 
   original_pheno <- .evaluate_orig(pheno, num)
-  original_pheno["na", , drop = FALSE] <- original_pheno["na", , drop = FALSE]/batches
+  original_pheno["na", ] <- original_pheno["na", ]/batches
 
   ci1 <- .check_index(index1, pheno, num, eval_n, original_pheno)
   ci2 <- .check_index(index2, pheno, num, eval_n, original_pheno)
