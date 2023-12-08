@@ -37,11 +37,25 @@ omit <- function(pheno, omit){
   }
 }
 
-translate_index <- function(index, old_position, new_position) {
+# By default assumes that the index is applied as is to a data.frame that is
+# expanded based on the index
+translate_index <- function(index,
+                            new_position = seq_len(sum(lengths(index))),
+                            old_position = NULL) {
+  if (is.null(old_position)) {
+    old_position <- unlist(index, FALSE, FALSE)
+  }
   stopifnot(length(new_position) == length(old_position))
   stopifnot(sum(lengths(index)) == length(new_position))
+
+  old_position <- sort(old_position)
   for (i in seq_along(index)) {
-    index[[i]] <- old_position[new_position %in% index[[i]]]
+    m <- match(index[[i]], old_position)
+
+    # Remove positions already matched because match returns the first value
+    old_position <- old_position[-m]
+    index[[i]] <- new_position[m]
+    new_position <- new_position[-m]
   }
   index
 }
@@ -106,10 +120,10 @@ mean_difference <- function(differences, subset_ind, eval_n) {
   }, eval = eval_n, indep = subset_ind)
 }
 
-release_bullets <- function(){
-  c("Update codemeta.json with: `codemetar::write_codemeta()`")
+release_bullets <- function() {
+  c("Update codemeta.json with: `codemetar::write_codemeta()`",
+    "Run: cffr::cff_write()")
 }
-
 
 # Numbers are evaluated 4 times (mean, sd, mad, na),
 # and categories only 3:  na, entropy, independence.
@@ -123,6 +137,10 @@ evaluations <- function(num, eval_cat = 4, eval_num = 3) {
   eval_n
 }
 
-release_bullets <- function() {
-  c("Run: cffr::cff_write()")
+add_column <- function(x, values, name) {
+  # Add the column and rename it
+  out <- cbind(x, values)
+  colnames(out)[ncol(out)] <- name
+  rownames(out) <- NULL
+  out
 }
