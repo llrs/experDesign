@@ -28,3 +28,14 @@ test_that("inspect works with replicates", {
   k <- batches$sample %in% names(t_samples[t_samples == 4])
   expect_true(all(table(batches$batch[k], batches$sample[k]) <= 1))
 })
+
+test_that("inspect with translate_index", {
+  data(survey, package = "MASS")
+  nas <- c(137, 70)
+  columns <- c("Sex", "Age", "Smoke")
+  index1 <- replicates(survey[-nas, columns], size_subset = 50,
+                      iterations = 25, controls = 15)
+  index2 <- spatial(index1, survey[-nas, columns], iterations = 25)
+  i1 <- inspect(index, survey[-nas, columns])
+  i2 <- inspect(index2, i1)
+})
