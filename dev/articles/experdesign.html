@@ -8,8 +8,8 @@
 <meta name="description" content="experDesign">
 <title>exprDesign • experDesign</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="exprDesign">
 <meta property="og:description" content="experDesign">
@@ -85,7 +85,7 @@
                         <h4 data-toc-skip class="author">Lluís Revilla
 Sancho</h4>
             
-            <h4 data-toc-skip class="date">2023-04-11</h4>
+            <h4 data-toc-skip class="date">2023-12-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/llrs/experDesign/blob/HEAD/vignettes/experdesign.Rmd" class="external-link"><code>vignettes/experdesign.Rmd</code></a></small>
       <div class="d-none name"><code>experdesign.Rmd</code></div>
@@ -268,22 +268,22 @@ different from the design without replicates.</p>
 <code class="sourceCode R"><span><span class="va">spati</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spatial.html">spatial</a></span><span class="op">(</span><span class="va">repli</span>, <span class="va">metadata</span>, rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, columns <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spati</span><span class="op">)</span></span>
 <span><span class="co">## $A1</span></span>
-<span><span class="co">## [1] 33 48 24</span></span>
+<span><span class="co">## [1] 3 4 1</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $B1</span></span>
-<span><span class="co">## [1] 15 22 39</span></span>
+<span><span class="co">## [1] 9 5 2</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $C1</span></span>
-<span><span class="co">## [1] 40  5 32</span></span>
+<span><span class="co">## [1] 12  7  6</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $D1</span></span>
-<span><span class="co">## [1]  3  9 41</span></span>
+<span><span class="co">## [1] 20  8 11</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $E1</span></span>
-<span><span class="co">## [1] 28 10 50</span></span>
+<span><span class="co">## [1] 21 10 14</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $F1</span></span>
-<span><span class="co">## [1]  4 13 29</span></span></code></pre></div>
+<span><span class="co">## [1] 24 13 15</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="report-for-easy-on-field-usage">Report for easy on field usage<a class="anchor" aria-label="anchor" href="#report-for-easy-on-field-usage"></a>
@@ -295,12 +295,12 @@ different from the design without replicates.</p>
 <span><span class="va">report2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">spati</span>, <span class="va">report</span>, index_name <span class="op">=</span> <span class="st">"position"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">report2</span><span class="op">)</span></span>
 <span><span class="co">##   height weight  sex   batch position</span></span>
-<span><span class="co">## 1     60    100 Male SubSet3       C2</span></span>
-<span><span class="co">## 2     65    100 Male SubSet3       D2</span></span>
-<span><span class="co">## 3     70    100 Male SubSet1       D1</span></span>
-<span><span class="co">## 4     75    100 Male SubSet2       F1</span></span>
-<span><span class="co">## 5     80    100 Male SubSet2       C1</span></span>
-<span><span class="co">## 6     60    150 Male SubSet3       C4</span></span></code></pre></div>
+<span><span class="co">## 1     60    100 Male SubSet3       A1</span></span>
+<span><span class="co">## 2     65    100 Male SubSet3       B1</span></span>
+<span><span class="co">## 3     70    100 Male SubSet1       A1</span></span>
+<span><span class="co">## 4     75    100 Male SubSet2       A1</span></span>
+<span><span class="co">## 5     80    100 Male SubSet2       B1</span></span>
+<span><span class="co">## 6     60    150 Male SubSet3       C1</span></span></code></pre></div>
 <p>And now we can see the batch and position of each sample</p>
 </div>
 <div class="section level2">
@@ -311,10 +311,10 @@ different from the design without replicates.</p>
 <code class="sourceCode R"><span><span class="va">desi2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_subset.html">create_subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>, <span class="va">size_batch</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compare_index.html">compare_index</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">desi</span>, <span class="va">desi2</span><span class="op">)</span></span>
 <span><span class="co">##         subgroups</span></span>
-<span><span class="co">##              SubSet1    SubSet2     SubSet3</span></span>
-<span><span class="co">##   height  0.05700647  0.4783996  -0.3486057</span></span>
-<span><span class="co">##   weight -6.30024403 -6.3986631 -13.4486992</span></span>
-<span><span class="co">##   sex     0.12670092  0.1267009   0.1267009</span></span></code></pre></div>
+<span><span class="co">##             SubSet1    SubSet2     SubSet3</span></span>
+<span><span class="co">##   height  0.3773147 0.08698188  -1.3443556</span></span>
+<span><span class="co">##   weight -4.3936809 0.45750098 -14.3489165</span></span>
+<span><span class="co">##   sex     0.1765585 0.18325344   0.1523664</span></span></code></pre></div>
 <p>As many of the variables for multiple subsets are negative it shows
 that <code>desi</code> is better.</p>
 </div>
@@ -345,7 +345,7 @@ full of males. Age is independent of the sex or classroom.</p>
 <span><span class="co"># Mean entropy en each subset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="va">evaluation</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
-<span><span class="co">## 0.98906095 0.05047991 0.00000000 0.96130358</span></span>
+<span><span class="co">## 0.98747964 0.05303319 0.00000000 0.96064345</span></span>
 <span><span class="co"># Original entropy on the dataset</span></span>
 <span><span class="fu"><a href="../reference/evaluate_orig.html">evaluate_orig</a></span><span class="op">(</span><span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, <span class="op">]</span></span>
 <span><span class="co">## Warning in evaluate_orig(unbalanced): There might be some problems with the</span></span>
@@ -355,7 +355,7 @@ full of males. Age is independent of the sex or classroom.</p>
 <span><span class="co"># Dispersion of the entropy</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">evaluation</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span>, <span class="fl">1</span>, <span class="va">sd</span><span class="op">)</span></span>
 <span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
-<span><span class="co">## 0.01057627 0.13355727 0.00000000 0.08171973</span></span></code></pre></div>
+<span><span class="co">## 0.01308202 0.14031263 0.00000000 0.07316687</span></span></code></pre></div>
 <p>We can see that in this simple case where a single variable has all
 the other cases we approximately reached the same entropy levels.</p>
 </div>
@@ -385,26 +385,26 @@ use the following function:</p>
 <span><span class="va">survey</span><span class="op">[</span><span class="va">samples</span>, <span class="op">]</span></span>
 <span><span class="co">##        Sex Wr.Hnd NW.Hnd W.Hnd    Fold Pulse    Clap Exer Smoke Height      M.I</span></span>
 <span><span class="co">## 5     Male   20.0   20.0 Right Neither    35   Right Some Never 165.00   Metric</span></span>
-<span><span class="co">## 48    Male   22.5   23.0 Right  R on L    96   Right None Never 170.00   Metric</span></span>
-<span><span class="co">## 60    Male   20.6   21.0  Left  L on R    NA    Left Freq Occas 175.26 Imperial</span></span>
-<span><span class="co">## 66    Male   19.5   19.8 Right Neither    NA   Right Freq Never 183.00   Metric</span></span>
-<span><span class="co">## 80    Male   20.0   20.5 Right  L on R    NA   Right Freq Never 185.42 Imperial</span></span>
-<span><span class="co">## 83  Female   17.5   17.5 Right  R on L    98    Left Freq Never     NA     &lt;NA&gt;</span></span>
-<span><span class="co">## 121   Male   20.0   20.0 Right  R on L    80 Neither Freq Occas     NA     &lt;NA&gt;</span></span>
-<span><span class="co">## 154   Male   21.5   21.6 Right  R on L    69   Right Freq Never 172.72 Imperial</span></span>
-<span><span class="co">## 170   Male   19.0   18.5 Right  R on L    72   Right Freq Never 180.34 Imperial</span></span>
-<span><span class="co">## 225 Female   17.6   17.2 Right  L on R    NA   Right Some Never     NA     &lt;NA&gt;</span></span>
+<span><span class="co">## 30    Male   19.5   19.5 Right  L on R    79   Right Some Never 167.00   Metric</span></span>
+<span><span class="co">## 74  Female   16.5   17.0 Right  L on R    40    Left Freq Never 167.64 Imperial</span></span>
+<span><span class="co">## 78  Female   18.6   18.0 Right  L on R    NA Neither Freq Heavy 165.10 Imperial</span></span>
+<span><span class="co">## 114   Male   20.5   21.0 Right  R on L    60   Right Freq Never 185.00   Metric</span></span>
+<span><span class="co">## 127 Female   16.0   16.0 Right  R on L    68   Right Freq Never 172.72 Imperial</span></span>
+<span><span class="co">## 141 Female   18.0   18.6 Right  R on L    84   Right Some Never 175.00   Metric</span></span>
+<span><span class="co">## 174 Female   18.0   17.5 Right  R on L    48 Neither Freq Never 165.00   Metric</span></span>
+<span><span class="co">## 194 Female   17.6   17.8 Right  L on R    72    Left Some Never 160.02 Imperial</span></span>
+<span><span class="co">## 209   Male   17.5   17.0  Left  L on R    97 Neither None Never 165.00   Metric</span></span>
 <span><span class="co">##        Age</span></span>
 <span><span class="co">## 5   23.667</span></span>
-<span><span class="co">## 48  19.417</span></span>
-<span><span class="co">## 60  18.417</span></span>
-<span><span class="co">## 66  18.000</span></span>
-<span><span class="co">## 80  18.750</span></span>
-<span><span class="co">## 83  17.667</span></span>
-<span><span class="co">## 121 17.500</span></span>
-<span><span class="co">## 154 70.417</span></span>
-<span><span class="co">## 170 17.333</span></span>
-<span><span class="co">## 225 19.917</span></span></code></pre></div>
+<span><span class="co">## 30  19.250</span></span>
+<span><span class="co">## 74  17.417</span></span>
+<span><span class="co">## 78  17.167</span></span>
+<span><span class="co">## 114 17.917</span></span>
+<span><span class="co">## 127 17.667</span></span>
+<span><span class="co">## 141 17.500</span></span>
+<span><span class="co">## 174 18.667</span></span>
+<span><span class="co">## 194 17.250</span></span>
+<span><span class="co">## 209 19.500</span></span></code></pre></div>
 <p>You can also test a given index with <code><a href="../reference/check_index.html">check_index()</a></code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_index.html">check_index</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="va">i</span><span class="op">)</span></span>
@@ -412,16 +412,16 @@ use the following function:</p>
 <span><span class="co">## data use check_data().</span></span>
 <span><span class="co">##            subgroups</span></span>
 <span><span class="co">##                SubSet1    SubSet2    SubSet3    SubSet4    SubSet5    SubSet6</span></span>
-<span><span class="co">##   Classroom 0.02244529 0.03105896 0.02629978 0.02137583 0.02137583 0.02629978</span></span>
-<span><span class="co">##   Sex       0.16047517 0.22439953 0.16047517 0.16047517 0.16047517 0.16047517</span></span>
-<span><span class="co">##   Age       0.17747553 0.17946189 0.17356821 0.26801527 0.16922656 0.22344403</span></span>
-<span><span class="co">##   mix_cat   0.08031059 0.02527493 0.07741971 0.08111268 0.08111268 0.07741971</span></span>
+<span><span class="co">##   Classroom 0.04432156 0.04432156 0.03463842 0.03956238 0.03463842 0.03956238</span></span>
+<span><span class="co">##   Sex       0.16047517 0.16047517 0.16047517 0.23035719 0.16047517 0.16047517</span></span>
+<span><span class="co">##   Age       0.33297924 0.20092240 0.15845215 0.13512214 0.13971465 0.51728635</span></span>
+<span><span class="co">##   mix_cat   0.07385033 0.07385033 0.08111268 0.03045638 0.08111268 0.07741971</span></span>
 <span><span class="co">##            subgroups</span></span>
 <span><span class="co">##                SubSet7</span></span>
-<span><span class="co">##   Classroom 0.02629978</span></span>
+<span><span class="co">##   Classroom 0.03463842</span></span>
 <span><span class="co">##   Sex       0.16047517</span></span>
-<span><span class="co">##   Age       0.27062936</span></span>
-<span><span class="co">##   mix_cat   0.07741971</span></span></code></pre></div>
+<span><span class="co">##   Age       0.20622611</span></span>
+<span><span class="co">##   mix_cat   0.08111268</span></span></code></pre></div>
 <p>Each row has information about how accurate is a given variable to
 the samples available (on this case <code>unbalanced</code>). Some
 variables are distributed more randomly than others on this index.</p>
@@ -457,28 +457,28 @@ multiple statistics.</p>
 <span><span class="va">index</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/create_subset.html">create_subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span>, size_subset <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span>
 <span><span class="va">index</span></span>
 <span><span class="co">## $SubSet1</span></span>
-<span><span class="co">##  [1]   2   4   5   8  10  12  16  21  23  24  26  35  37  41  46  47  51  58  61</span></span>
-<span><span class="co">## [20]  75  77  78  84  85  90  96  98 100 101 102 108 109 113 121 122 126 128 135</span></span>
-<span><span class="co">## [39] 139 141 146 147 148 157 165 167 168 176 181 182 192 193 207 210 212 223 229</span></span>
-<span><span class="co">## [58] 230 234 235</span></span>
+<span><span class="co">##  [1]   7  16  18  20  22  24  27  32  36  37  42  44  46  49  55  57  58  61  69</span></span>
+<span><span class="co">## [20]  70  71  74  85  86  91  95 100 101 104 110 112 118 119 123 128 137 140 147</span></span>
+<span><span class="co">## [39] 164 169 170 176 178 179 183 186 187 190 192 193 202 205 211 213 218 225 226</span></span>
+<span><span class="co">## [58] 229 236 237</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $SubSet2</span></span>
-<span><span class="co">##  [1]   9  15  17  30  31  42  43  56  59  60  62  63  69  79  80  91  93  94 107</span></span>
-<span><span class="co">## [20] 110 112 117 120 124 125 129 131 133 134 137 140 142 143 152 153 154 155 156</span></span>
-<span><span class="co">## [39] 160 163 166 175 183 184 186 188 194 196 205 208 216 217 218 219 222 225 228</span></span>
-<span><span class="co">## [58] 231 232</span></span>
+<span><span class="co">##  [1]   4   6   9  14  17  19  21  25  26  35  48  51  52  54  56  64  65  75  87</span></span>
+<span><span class="co">## [20] 102 103 105 107 114 117 120 124 125 129 135 138 141 143 149 150 151 155 156</span></span>
+<span><span class="co">## [39] 158 160 162 165 168 171 173 175 177 185 188 203 207 208 210 212 217 224 227</span></span>
+<span><span class="co">## [58] 232 233</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $SubSet3</span></span>
-<span><span class="co">##  [1]   3   6  18  19  20  25  29  33  36  38  45  53  54  64  67  73  76  81  82</span></span>
-<span><span class="co">## [20]  83  89  97 103 106 111 114 115 116 118 119 123 130 138 149 151 158 159 162</span></span>
-<span><span class="co">## [39] 169 171 174 178 179 185 187 189 200 201 202 203 206 209 211 213 220 226 227</span></span>
-<span><span class="co">## [58] 236 237</span></span>
+<span><span class="co">##  [1]   1   3   5   8  10  12  23  28  29  34  38  47  50  59  60  62  72  73  76</span></span>
+<span><span class="co">## [20]  79  80  82  83  89  90  93  94  96  98 115 116 121 122 126 127 130 131 134</span></span>
+<span><span class="co">## [39] 136 142 144 146 148 152 153 159 174 181 191 194 196 197 199 209 215 219 221</span></span>
+<span><span class="co">## [58] 230 234</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $SubSet4</span></span>
-<span><span class="co">##  [1]   1   7  11  13  14  22  27  28  32  34  39  40  44  48  49  50  52  55  57</span></span>
-<span><span class="co">## [20]  65  66  68  70  71  72  74  86  87  88  92  95  99 104 105 127 132 136 144</span></span>
-<span><span class="co">## [39] 145 150 161 164 170 172 173 177 180 190 191 195 197 198 199 204 214 215 221</span></span>
-<span><span class="co">## [58] 224 233</span></span></code></pre></div>
+<span><span class="co">##  [1]   2  11  13  15  30  31  33  39  40  41  43  45  53  63  66  67  68  77  78</span></span>
+<span><span class="co">## [20]  81  84  88  92  97  99 106 108 109 111 113 132 133 139 145 154 157 161 163</span></span>
+<span><span class="co">## [39] 166 167 172 180 182 184 189 195 198 200 201 204 206 214 216 220 222 223 228</span></span>
+<span><span class="co">## [58] 231 235</span></span></code></pre></div>
 <p>We can measure how does this index does:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_index1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_index.html">check_index</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span>, <span class="va">index</span><span class="op">)</span></span>
@@ -486,12 +486,12 @@ multiple statistics.</p>
 <span><span class="co">## with the data use check_data().</span></span>
 <span><span class="va">score_index1</span></span>
 <span><span class="co">##          subgroups</span></span>
-<span><span class="co">##              SubSet1     SubSet2   SubSet3    SubSet4</span></span>
-<span><span class="co">##   Sex     0.29039360 0.453058819 0.2878351 0.28783513</span></span>
-<span><span class="co">##   W.Hnd   0.41713852 0.419252156 0.6229796 0.46727445</span></span>
-<span><span class="co">##   Smoke   0.13503168 0.145091225 0.1307635 0.29376264</span></span>
-<span><span class="co">##   Age     0.82832190 0.630881628 0.7192229 0.83508648</span></span>
-<span><span class="co">##   mix_cat 0.02839793 0.002034746 0.0245089 0.01467664</span></span></code></pre></div>
+<span><span class="co">##              SubSet1    SubSet2    SubSet3    SubSet4</span></span>
+<span><span class="co">##   Sex     0.53225848 0.36004393 0.36004393 0.36559181</span></span>
+<span><span class="co">##   W.Hnd   0.34241148 0.34403397 0.34452512 0.50972360</span></span>
+<span><span class="co">##   Smoke   0.37928354 0.23955231 0.22135182 0.21634757</span></span>
+<span><span class="co">##   Age     1.35855160 0.81837134 0.84921012 0.70953024</span></span>
+<span><span class="co">##   mix_cat 0.02305778 0.02165225 0.01498047 0.00722362</span></span></code></pre></div>
 <p>These values come from calculating the difference between the
 original data and the samples for each subset for the median, mean, mad,
 NA, entropy and independence (<code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test()</a></code> p.value).</p>
@@ -505,7 +505,7 @@ used to compare with other possible index:</p>
 <span><span class="co">## Warning in check_index(survey[, keep], index2): There might be some problems</span></span>
 <span><span class="co">## with the data use check_data().</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">score_index2</span><span class="op">-</span><span class="va">score_index1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] 0.9014104</span></span></code></pre></div>
+<span><span class="co">## [1] 0.9306574</span></span></code></pre></div>
 <p>If this score is lower than the previous one the new index is
 kept.</p>
 <p>This is done similarly for the spatial search, which adds two new
@@ -517,19 +517,22 @@ calculating any statistics.</p>
 </h2>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">## R version 4.2.3 (2023-03-15)</span></span>
+<span><span class="co">## R version 4.3.2 (2023-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
-<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
 <span><span class="co">##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
 <span><span class="co">##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
 <span><span class="co">## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## time zone: UTC</span></span>
+<span><span class="co">## tzcode source: system (glibc)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## attached base packages:</span></span>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
@@ -538,15 +541,15 @@ calculating any statistics.</p>
 <span><span class="co">## [1] experDesign_0.2.0.9000</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] knitr_1.42        magrittr_2.0.3    R6_2.5.1          ragg_1.2.5       </span></span>
-<span><span class="co">##  [5] rlang_1.1.0       fastmap_1.1.1     stringr_1.5.0     tools_4.2.3      </span></span>
-<span><span class="co">##  [9] xfun_0.38         cli_3.6.1         jquerylib_0.1.4   systemfonts_1.0.4</span></span>
-<span><span class="co">## [13] htmltools_0.5.5   yaml_2.3.7        digest_0.6.31     rprojroot_2.0.3  </span></span>
-<span><span class="co">## [17] lifecycle_1.0.3   pkgdown_2.0.7     textshaping_0.3.6 purrr_1.0.1      </span></span>
-<span><span class="co">## [21] sass_0.4.5        vctrs_0.6.1       fs_1.6.1          memoise_2.0.1    </span></span>
-<span><span class="co">## [25] glue_1.6.2        cachem_1.0.7      evaluate_0.20     rmarkdown_2.21   </span></span>
-<span><span class="co">## [29] stringi_1.7.12    compiler_4.2.3    bslib_0.4.2       desc_1.4.2       </span></span>
-<span><span class="co">## [33] jsonlite_1.8.4</span></span></code></pre></div>
+<span><span class="co">##  [1] vctrs_0.6.5       cli_3.6.1         knitr_1.45        rlang_1.1.2      </span></span>
+<span><span class="co">##  [5] xfun_0.41         stringi_1.8.2     purrr_1.0.2       textshaping_0.3.7</span></span>
+<span><span class="co">##  [9] jsonlite_1.8.8    glue_1.6.2        rprojroot_2.0.4   htmltools_0.5.7  </span></span>
+<span><span class="co">## [13] ragg_1.2.6        sass_0.4.8        rmarkdown_2.25    evaluate_0.23    </span></span>
+<span><span class="co">## [17] jquerylib_0.1.4   fastmap_1.1.1     yaml_2.3.7        lifecycle_1.0.4  </span></span>
+<span><span class="co">## [21] memoise_2.0.1     stringr_1.5.1     compiler_4.3.2    fs_1.6.3         </span></span>
+<span><span class="co">## [25] systemfonts_1.0.5 digest_0.6.33     R6_2.5.1          magrittr_2.0.3   </span></span>
+<span><span class="co">## [29] bslib_0.6.1       tools_4.3.2       pkgdown_2.0.7     cachem_1.0.8     </span></span>
+<span><span class="co">## [33] desc_1.4.2</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
