@@ -31,7 +31,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   if (is.null(columns) | length(columns) == 0) {
     stop("Please provide at least one column.", call. = FALSE)
   }
-  if ((nrow*ncol-length(remove_positions)) < max(lengths(index))) {
+  if ((nrow*ncol - length(remove_positions)) < max(lengths(index))) {
     stop("The size for the batch is smaller than the samples it must contain.",
          "\n\tPlease check the rows and columns or how you created the index.",
          call. = FALSE)
@@ -62,19 +62,21 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
     warning("The dates will be treat as categories")
   }
 
-
   eval_n <- evaluations(num)
 
   # Use index to duplicate samples in case the index comes from replicates.
-  pheno_o <- pheno_o[unlist(index), ]
-  rownames(pheno_o) <- NULL
+  i2 <- translate_index(index)
+
+  old_rows <- sort(unlist(index, FALSE, FALSE))
+  pheno_o <- pheno_o[old_rows, , drop = FALSE]
+  pheno_o <- add_column(pheno_o, old_rows, "batch")
+
   batches <- length(position)
   size_subset <- optimum_batches(sum(lengths(index)), batches)
   for (j in seq_len(iterations)) {
 
-    i <- create_index4index(index, size_subset, name = position, n = batches)
-
-    meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
+    i <- create_index4index(i2, size_subset, name = position, n = batches)
+    meanDiff <- .check_index(i2, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
 
@@ -84,6 +86,5 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
       val <- i
     }
   }
-
   val
 }
