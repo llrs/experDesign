@@ -89,7 +89,7 @@ evaluate_index <- function(i, pheno) {
 
 ev_subset <- function(x, pheno, numeric, diff){
 
-  subset_na <- na_orig <- colSums(is.na(pheno[x, , drop = FALSE]))
+  subset_na <- colSums(is.na(pheno[x, , drop = FALSE]))
   subset_na <- t(as.matrix(subset_na))
   rownames(subset_na) <- "na"
   diff1 <- insert(diff, subset_na, "na")

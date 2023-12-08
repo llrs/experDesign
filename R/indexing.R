@@ -221,4 +221,3 @@ apply_index <- function(pheno, index, name = "old_rows") {
   pheno <- pheno[old_rows, , drop = FALSE]
   add_column(pheno, old_rows, name)
 }
-

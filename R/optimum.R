@@ -86,7 +86,7 @@ internal_batches <- function(size_data, size_subset, batches) {
   if (size_subset*batches == size_data) {
     return(rep(size_subset, times = batches))
   }
- # If not all samples can be allocated return the maximum number of samples
+  # If not all samples can be allocated return the maximum number of samples
   max_batch_size <- optimum_subset(size_data, batches)
   if (max_batch_size > size_subset) {
     return(rep(size_subset, times = batches))

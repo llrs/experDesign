@@ -14,5 +14,5 @@ test_that("Setting 0 replicates is an error", {
   set.seed(4568)
   nas <- c(137, 70)
   expect_error(replicates(survey[-nas, c("Sex", "Smoke", "Age")], size_subset = 50,
-                      iterations = 25, controls = 0))
+                          iterations = 25, controls = 0))
 })

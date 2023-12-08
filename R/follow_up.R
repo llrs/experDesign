@@ -213,7 +213,7 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
   check_old <- .check_data(old_data, verbose = FALSE)
   ok <- TRUE
   if (!check_all) {
-    if (verbose){
+    if (verbose) {
       warning("There are some problems with the data.", call. = FALSE)
     }
     ok <- FALSE
