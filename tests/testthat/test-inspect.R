@@ -36,6 +36,7 @@ test_that("inspect with translate_index", {
   index1 <- replicates(survey[-nas, columns], size_subset = 50,
                       iterations = 25, controls = 15)
   index2 <- spatial(index1, survey[-nas, columns], iterations = 25)
-  i1 <- inspect(index, survey[-nas, columns])
-  i2 <- inspect(index2, i1)
+  i1 <- inspect(index1, survey[-nas, columns])
+  i2 <- inspect(index2, i1, index_name = "spatial")
+  expect_true(all(table(i2$batch, i2$spatial)<= 1))
 })
