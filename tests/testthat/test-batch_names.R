@@ -16,5 +16,6 @@ test_that("batch_names works with repeated samples", {
   index[[1]] <- c(index[[1]], index[[2]][1:5])
   index[[2]] <- c(index[[2]], index[[1]][1:5])
 
-  expect_error(batch_names(index))
+  expect_warning(bn <- batch_names(index))
+  expect_gt(length(bn), max(unlist(index)))
 })

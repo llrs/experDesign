@@ -147,8 +147,11 @@ use_index <- function(x) {
 batch_names <- function(i) {
   ui <- unlist(i, use.names = FALSE)
   if (any(table(ui) > 1L)) {
-    stop("This doesn't work with replicates measures.")
+    warning("There are replicates measures.\n\tUpdating index to the expected output")
+    i <- translate_index(i)
+    ui <- unlist(i, use.names = FALSE)
   }
+
   names <- rep(names(i), lengths(i))
   names[order(ui)]
 }
