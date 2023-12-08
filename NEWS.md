@@ -1,5 +1,11 @@
 # experDesign (development version)
 
+* Fixed a bug in `spatial()` where multiple samples could be assigned to the 
+  same position in the plate (#45).
+  
+* Added a warning to `batch_names()` when the index has repeated 
+  positions (revealed by #45).
+
 # experDesign 0.2.0
 
 * New `follow_up()` and `follow_up2()` to continue an experiment safely (#22). 
