@@ -22,7 +22,7 @@ test_that("spatial works with replicates", {
   expect_length(index2, 50)
   expect_false(any(is.na(unlist(index2))))
   expect_equal(names(index2), position_name(rows = LETTERS[1:5], 1:10)$name)
-  expect_equal(table(unlist(index2)), table(unlist(index)))
+  expect_true(all(sort(unlist(index2)) == seq_len(325)))
 })
 
 test_that("spatial don't duplicate samples", {
