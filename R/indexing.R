@@ -58,9 +58,7 @@ create_index4index <- function(index, size_subset, n, name) {
     index_f <- NULL
 
     # Put each position to the right new batch
-    j <- 0
     for (position in pos) {
-      j <- j + 1
       # Exclude position already filled in the batch
       # Pick a batch from the new index to place the previous position
       # Which hasn't been picked within the batch
@@ -75,7 +73,7 @@ create_index4index <- function(index, size_subset, n, name) {
       if (length(setdiff(pp, which(dups_out)))) {
         pp <- setdiff(pp, which(dups_out))
       }
-      i_index <- pp[1]
+      i_index <- sample(pp, 1)
       index_f <- c(index_f, i_index)
 
       # Add the position to the index at the right batch
