@@ -18,7 +18,8 @@ inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
 
   batch <- batch_names(translate_index(i))
   pheno <- apply_index(pheno, i)
-  # pheno[ , "old_rows"] <- NULL
+  # Remove old rows (only needed to inspect changes)
+  pheno[ , "old_rows"] <- NULL
 
   # Omit columns
   if (!is.null(omit)) {
