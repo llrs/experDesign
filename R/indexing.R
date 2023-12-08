@@ -216,3 +216,11 @@ compare_index <- function(pheno, index1, index2) {
   ci1 - ci2
 
 }
+
+apply_index <- function(pheno, index, name = "old_rows") {
+  stopifnot(is.character(name) && length(name) == 1)
+  old_rows <- sort(unlist(index, FALSE, FALSE))
+  pheno <- pheno[old_rows, , drop = FALSE]
+  add_column(pheno, old_rows, name)
+}
+
