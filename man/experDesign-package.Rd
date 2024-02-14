@@ -15,6 +15,23 @@ samples in batches according to the information provided.
 
 To help in the bench there is the \code{\link[=inspect]{inspect()}} function that appends
 the group to the data provided.
+
+If you have a grid or some spatial data, you might want to look at the
+\code{\link[=spatial]{spatial()}} function to distribute the samples while keeping the original
+design.
+
+In case an experiment was half processed and you need to extend it you can
+use \code{\link[=follow_up]{follow_up()}} or \code{\link[=follow_up2]{follow_up2()}}. It helps selecting which samples
+already used should be used in the follow up.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://experdesign.llrs.dev}
+  \item \url{https://github.com/llrs/experDesign/}
+  \item Report bugs at \url{https://github.com/llrs/experDesign/issues}
+}
+
 }
 \author{
 Lluís Revilla
