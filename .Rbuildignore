@@ -25,3 +25,4 @@ paper_files/
 ^paper.\.pdf
 ^CITATION\.cff$
 ^CRAN-SUBMISSION$
+^revdep
