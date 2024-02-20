@@ -1,3 +1,5 @@
+# experDesign (development version)
+
 # experDesign 0.3.0
 
 * Fixed a bug in `spatial()` where multiple samples could be assigned to the 
