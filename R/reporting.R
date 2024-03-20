@@ -48,7 +48,7 @@ inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
 #' nas <- c(137, 70) # Omit rows with NA to avoid warnings in design
 #' index <- design(pheno = survey[-nas, columns], size_subset = 70,
 #'                 iterations = 10)
-#' batches <- inspect(index, survey[, columns])
+#' batches <- inspect(index, survey[-nas, columns])
 #' distribution(batches, "Sex")
 #' distribution(batches, "Smoke")
 distribution <- function(report, column){

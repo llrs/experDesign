@@ -5,7 +5,7 @@ test_that("distribution works", {
   nas <- c(137, 70)
   index <- design(pheno = survey[-nas, columns], size_subset = 70,
                   iterations = 10)
-  batches <- inspect(index, survey[, columns])
+  batches <- inspect(index, survey[-nas, columns])
   expect_true(distribution(batches, "Sex"))
   expect_true(distribution(batches, "Smoke"))
 })
