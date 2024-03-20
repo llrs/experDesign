@@ -1,3 +1,4 @@
+# Colum type helpers ####
 is_num <- function(x, ...) {
   if (is.null(ncol(x))) {
     is.numeric(x)
@@ -27,6 +28,7 @@ is_cat <- function(x, ...) {
   }
 }
 
+# Other ####
 
 omit <- function(pheno, omit){
   # Omit columns
@@ -125,8 +127,8 @@ release_bullets <- function() {
     "Run: cffr::cff_write()")
 }
 
-# Numbers are evaluated 4 times (mean, sd, mad, na),
-# and categories only 3:  na, entropy, independence.
+# Numbers are evaluated 4 times: mean, sd, mad, na.
+# categories  evaluated 3 times:  na, entropy, independence.
 # check this on evaluate_index
 evaluations <- function(num, eval_cat = 4, eval_num = 3) {
   eval_n <- ifelse(num, eval_cat, eval_num)
@@ -143,4 +145,27 @@ add_column <- function(x, values, name) {
   colnames(out)[ncol(out)] <- name
   rownames(out) <- NULL
   out
+}
+
+
+consistent_index <- function(i, pheno) {
+  ui <- unlist(i, FALSE, FALSE)
+  not_matching <- sum(lengths(i)) != NROW(pheno)
+  index_longer <- sum(lengths(i)) > NROW(pheno)
+  no_replicate <- !any(table(ui) > 1)
+  bigger_position <- max(ui, na.rm = TRUE) > NROW(pheno)
+
+  if (bigger_position) {
+    stop("The index has positions that are higher than the number of rows in the data.", call. = FALSE)
+  }
+
+  if (not_matching && index_longer && no_replicate) {
+    stop("Index is longer than the data and there is no replicate.", call. = FALSE)
+  }
+
+  index_shorter <- sum(lengths(i)) < NROW(pheno)
+  if (not_matching && index_shorter) {
+    stop("Index is shorter than the data provided.", call. = FALSE)
+  }
+  TRUE
 }

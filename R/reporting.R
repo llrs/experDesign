@@ -16,6 +16,8 @@
 #' head(batches)
 inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
 
+  consistent_index(i, pheno)
+
   batch <- batch_names(translate_index(i))
   pheno <- apply_index(pheno, i)
   # Remove old rows (only needed to inspect changes)

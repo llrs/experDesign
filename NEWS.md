@@ -1,5 +1,8 @@
 # experDesign (development version)
 
+* Check that index used in `inspect` has a valid length, positions and 
+  replications matching the data provided.
+
 # experDesign 0.3.0
 
 * Fixed a bug in `spatial()` where multiple samples could be assigned to the 
