@@ -94,12 +94,11 @@ obtained with <code><a href="inspect.html">inspect()</a></code>.</p></dd>
 <span class="r-in"><span><span class="va">nas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">137</span>, <span class="fl">70</span><span class="op">)</span> <span class="co"># Omit rows with NA to avoid warnings in design</span></span></span>
 <span class="r-in"><span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="design.html">design</a></span><span class="op">(</span>pheno <span class="op">=</span> <span class="va">survey</span><span class="op">[</span><span class="op">-</span><span class="va">nas</span>, <span class="va">columns</span><span class="op">]</span>, size_subset <span class="op">=</span> <span class="fl">70</span>,</span></span>
 <span class="r-in"><span>                iterations <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect.html">inspect</a></span><span class="op">(</span><span class="va">index</span>, <span class="va">survey</span><span class="op">[</span>, <span class="va">columns</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Index is shorter than the data provided.</span>
+<span class="r-in"><span><span class="va">batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="inspect.html">inspect</a></span><span class="op">(</span><span class="va">index</span>, <span class="va">survey</span><span class="op">[</span><span class="op">-</span><span class="va">nas</span>, <span class="va">columns</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">distribution</span><span class="op">(</span><span class="va">batches</span>, <span class="st">"Sex"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'batches' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu">distribution</span><span class="op">(</span><span class="va">batches</span>, <span class="st">"Smoke"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'batches' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

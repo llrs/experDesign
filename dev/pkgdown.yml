@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   experdesign: experdesign.html
-last_built: 2024-03-20T13:11Z
+last_built: 2024-03-22T15:18Z
 urls:
   reference: https://experdesign.llrs.dev/reference
   article: https://experdesign.llrs.dev/articles
