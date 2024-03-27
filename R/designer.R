@@ -18,17 +18,20 @@
 #' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
 #'                 iterations = 10)
 #' index
-design <- function(pheno, size_subset, omit = NULL, iterations = 500,
+design <- function(pheno, size_subset, omit = NULL,
+                   block = NULL,
+                   iterations = 500,
                    name = "SubSet") {
   stopifnot(is_numeric(size_subset))
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations) && is_numeric(size_subset))
   stopifnot(is.character(name))
-  .design(pheno, size_subset, omit, iterations, name, check = TRUE)
+  stopifnot(is.character(block))
+  .design(pheno, size_subset, omit, block, iterations, name, check = TRUE)
 }
 
 
-.design <- function(pheno, size_subset, omit = NULL, iterations = 500,
+.design <- function(pheno, size_subset, omit = NULL, block = NULL, iterations = 500,
                     name = "SubSet", check = FALSE) {
   opt <- Inf
 
@@ -54,13 +57,24 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
     stop("Please provide a higher number of batches or more samples per batch.",
          call. = FALSE)
   }
-
+  #
+  # TODO: Check if blocking is possible
+  # If possible add those to omit and handle them separately
+  num <- is_num(pheno[, block])
+  if (any(num)) {
+    stop("Provided a blocking variable that is numeric",
+         "Either consider converting it to character or do not block by numeric variables")
+  }
+  sapply(pheno[, block], function(x) {
+    table(x) > batches
+  })
+  omit <- c(omit, block)
   pheno_o <- omit(pheno, omit)
   if (check && !.check_data(pheno_o)) {
     warning("There might be some problems with the data use check_data().", call. = FALSE)
   }
 
-  num <- is_num(pheno_o)
+  # Calculate original values of dispersion to compare with.
   original_pheno <- .evaluate_orig(pheno_o, num)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
@@ -72,11 +86,9 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   eval_n <- evaluations(num)
 
-
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = name)
     # This is mostly equivalent to check_index (I should reduce the duplication and inconsistencies)
-    # TODO
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
