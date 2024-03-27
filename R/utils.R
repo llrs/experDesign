@@ -141,6 +141,10 @@ evaluations <- function(num, eval_cat = 4, eval_num = 3) {
 
 add_column <- function(x, values, name) {
   # Add the column and rename it
+  if (name %in% colnames(x)) {
+    msg <- paste("Column", name, "is already present. Did you meant this?")
+    warning(msg, call. = FALSE)
+  }
   out <- cbind(x, values)
   colnames(out)[ncol(out)] <- name
   rownames(out) <- NULL

@@ -6,7 +6,7 @@ test_that("follow_up works", {
     expect_warning(
       expect_warning(
         expect_warning(
-          fu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10)
+          fu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10, old_new = "batch2")
         )
       )
     )
