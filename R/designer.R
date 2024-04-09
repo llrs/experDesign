@@ -26,7 +26,7 @@ design <- function(pheno, size_subset, omit = NULL,
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations) && is_numeric(size_subset))
   stopifnot(is.character(name))
-  stopifnot(is.character(block))
+  stopifnot(is.null(block) || is.character(block))
   .design(pheno, size_subset, omit, block, iterations, name, check = TRUE)
 }
 
@@ -52,29 +52,26 @@ design <- function(pheno, size_subset, omit = NULL,
   if (length(names(size_subset)) != 0) {
     name <- names(size_subset)
   }
-
-  if (length(size_subset) == 1 && !valid_sizes(size_data, size_subset, batches)) {
+  invalid_size <- !valid_sizes(size_data, size_subset, batches)
+  impossible_fit <- length(size_subset) == 1 && invalid_size
+  if (impossible_fit) {
     stop("Please provide a higher number of batches or more samples per batch.",
          call. = FALSE)
   }
-  #
-  # TODO: Check if blocking is possible
-  # If possible add those to omit and handle them separately
-  num <- is_num(pheno[, block])
-  if (any(num)) {
-    stop("Provided a blocking variable that is numeric",
-         "Either consider converting it to character or do not block by numeric variables")
+  # TODO: If blocking present keep those instead of reducing the number of
+  # batches
+  if (!is.null(block) && length(block) >= 1){
+    pheno_b <- pheno[, block, drop = FALSE]
+    check_block(pheno_b, batches)
   }
-  sapply(pheno[, block], function(x) {
-    table(x) > batches
-  })
-  omit <- c(omit, block)
-  pheno_o <- omit(pheno, omit)
+  pheno_o <- omit(pheno,  c(omit, block))
   if (check && !.check_data(pheno_o)) {
-    warning("There might be some problems with the data use check_data().", call. = FALSE)
+    warning("There might be some problems with the data use check_data().",
+            call. = FALSE)
   }
 
   # Calculate original values of dispersion to compare with.
+  num <- is_num(pheno_o)
   original_pheno <- .evaluate_orig(pheno_o, num)
   original_pheno["na", ] <- original_pheno["na", ]/batches
 
@@ -83,12 +80,11 @@ design <- function(pheno, size_subset, omit = NULL,
   if (any(dates)) {
     warning("The dates will be treat as categories", call. = FALSE)
   }
-
   eval_n <- evaluations(num)
 
   for (x in seq_len(iterations)) {
     i <- create_index(size_data, size_batches, batches, name = name)
-    # This is mostly equivalent to check_index (I should reduce the duplication and inconsistencies)
+    # This is mostly equivalent to check_index
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
@@ -99,6 +95,8 @@ design <- function(pheno, size_subset, omit = NULL,
       val <- i
     }
   }
+
+  # TODO: Now randomize by blocks
   val
 }
 
@@ -126,8 +124,11 @@ replicates <- function(pheno, size_subset, controls, omit = NULL,
   stopifnot(is_numeric(size_subset) && length(size_subset) == 1)
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations))
-  stopifnot("There should be a positive integer of controls" = is.numeric(controls) && length(controls) && as.integer(controls) == controls &&
-              is.finite(controls) && !is.na(controls) && controls > 0)
+  check_control_type <- is.numeric(controls) && as.integer(controls) == controls
+  check_control_size <- is.finite(controls) && length(controls) == 0L &&
+    !is.na(controls) && controls > 0
+  stopifnot("There should be a positive integer of controls" =
+              check_control_type && check_control_size)
 
   size_data <- nrow(pheno)
   if (size_subset >= size_data) {

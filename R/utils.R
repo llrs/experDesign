@@ -32,8 +32,12 @@ is_cat <- function(x, ...) {
 
 omit <- function(pheno, omit){
   # Omit columns
+  cols <- colnames(pheno)
   if (!is.null(omit)) {
-    pheno[, !colnames(pheno) %in% omit, drop = FALSE]
+    if (any(!omit %in% cols)) {
+      warning("An omited column is not present.", call. = FALSE)
+    }
+    pheno[, !cols %in% omit, drop = FALSE]
   } else {
     pheno
   }
@@ -108,7 +112,7 @@ is_numeric <- function(x) {
 }
 
 check_number <- function(x, name) {
-  if (length(x) != 1 || !is_numeric(x) || x <= 1) {
+  if (length(x) != 1 || !is_numeric(x) || any(x <= 1)) {
     stop(sQuote(name, FALSE), " must be a single number bigger than 1.", call. = FALSE)
   }
 }

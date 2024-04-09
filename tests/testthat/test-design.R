@@ -12,7 +12,7 @@ test_that("design works", {
 })
 
 
-test_that("design works with previous batches", {
+test_that("design with previous batches", {
   set.seed(55)
   samples <- data.frame(L = letters[1:25], Age = rnorm(25),
                         type = sample(LETTERS[1:5], 25, TRUE))
@@ -33,5 +33,15 @@ test_that("design works with previous batches", {
   names(i1) <- NULL
   expect_error(expect_warning(design(samples, size_subset = i1,
                                      iterations = 10, name = LETTERS[1:3])))
+
+})
+
+test_that("design with blocked variables", {
+  set.seed(365)
+  df <- data.frame(A = sample(LETTERS[1:6], 2),
+                    B = rnorm(6),
+                    C = c(rep("a", 3), rep("b", 3)))
+  expect_snapshot(i <- design(df, size_subset = 2, block = "C", iterations = 1))
+  expect_no_error(i <- design(df, size_subset = 2, block = "C", iterations = 10))
 
 })
