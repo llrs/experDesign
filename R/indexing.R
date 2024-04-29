@@ -73,6 +73,11 @@ create_index4index <- function(index, size_subset, n, name) {
       if (length(setdiff(pp, which(dups_out)))) {
         pp <- setdiff(pp, which(dups_out))
       }
+      # Somehow sometimes there is an error with sample!
+      if (is.null(pp)) {
+        next
+      }
+
       i_index <- sample(pp, 1)
       index_f <- c(index_f, i_index)
 
