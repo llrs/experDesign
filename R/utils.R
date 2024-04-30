@@ -33,6 +33,11 @@ is_cat <- function(x, ...) {
 omit <- function(pheno, omit){
   # Omit columns
   if (!is.null(omit)) {
+    col_diff <- setdiff(omit, colnames(pheno))
+    if (length(col_diff) != 0L) {
+      warning("Columns to omit were not present: ",
+              paste(col_diff, collapse = ", "), ".")
+    }
     pheno[, !colnames(pheno) %in% omit, drop = FALSE]
   } else {
     pheno

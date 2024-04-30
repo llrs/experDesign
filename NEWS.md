@@ -2,6 +2,11 @@
 
 * Check that index used in `inspect` has a valid length, positions and 
   replications matching the data provided.
+  
+* `check_data()` gains a new omit argument (#49). 
+   If you relied on positional arguments it will break your scripts. 
+
+* Omitting non existing columns now creates a warning. 
 
 # experDesign 0.3.0
 
