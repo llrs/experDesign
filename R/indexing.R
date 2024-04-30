@@ -74,10 +74,10 @@ create_index4index <- function(index, size_subset, n, name) {
         pp <- setdiff(pp, which(dups_out))
       }
       # Somehow sometimes there is an error with sample!
-      if (is.null(pp)) {
+      if (length(pp) < 1) {
+        warning("Some sample seem to be missing")
         next
       }
-
       i_index <- sample(pp, 1)
       index_f <- c(index_f, i_index)
 
