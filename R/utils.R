@@ -34,8 +34,10 @@ omit <- function(pheno, omit){
   # Omit columns
   cols <- colnames(pheno)
   if (!is.null(omit)) {
-    if (any(!omit %in% cols)) {
-      warning("An omited column is not present.", call. = FALSE)
+    col_diff <- setdiff(omit, cols)
+    if (length(col_diff) != 0L) {
+      warning("Columns to omit were not present: ",
+              paste(col_diff, collapse = ", "), ".")
     }
     pheno[, !cols %in% omit, drop = FALSE]
   } else {
@@ -112,7 +114,7 @@ is_numeric <- function(x) {
 }
 
 check_number <- function(x, name) {
-  if (length(x) != 1 || !is_numeric(x) || any(x <= 1)) {
+  if (length(x) != 1 || !is_numeric(x) || x <= 1) {
     stop(sQuote(name, FALSE), " must be a single number bigger than 1.", call. = FALSE)
   }
 }

@@ -77,6 +77,7 @@ evaluate_independence <- function(i, pheno) {
 #' In order to run a successful experiment a good design is needed even before measuring the data.
 #' This functions checks several heuristics for a good experiment and warns if they are not found.
 #' @param pheno Data.frame with the variables of each sample, one row one sample.
+#' @param omit Character vector with the names of the columns to omit.
 #' @param na.omit Check the effects of missing values too.
 #' @return A logical value indicating if everything is alright (TRUE) or not (FALSE).
 #' @export
@@ -91,9 +92,9 @@ evaluate_independence <- function(i, pheno) {
 #' data(survey, package = "MASS")
 #' check_data(survey)
 #' }
-check_data <- function(pheno, na.omit = FALSE) {
+check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
   stopifnot(is.data.frame(pheno) || is.matrix(pheno), is_logical(na.omit))
-  .check_data(pheno = pheno, na.omit = na.omit, verbose = TRUE)
+  .check_data(pheno = omit(pheno, omit), na.omit = na.omit, verbose = TRUE)
 }
 #' @importFrom utils combn
 .check_data <- function(pheno, na.omit = FALSE, verbose = FALSE) {

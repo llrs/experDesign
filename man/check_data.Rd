@@ -4,10 +4,12 @@
 \alias{check_data}
 \title{Check experiment data}
 \usage{
-check_data(pheno, na.omit = FALSE)
+check_data(pheno, omit = NULL, na.omit = FALSE)
 }
 \arguments{
 \item{pheno}{Data.frame with the variables of each sample, one row one sample.}
+
+\item{omit}{Character vector with the names of the columns to omit.}
 
 \item{na.omit}{Check the effects of missing values too.}
 }
