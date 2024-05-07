@@ -70,10 +70,9 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   eval_n <- evaluations(num)
 
   n_positions <- length(position)
-  size_subset <- optimum_batches(sum(lengths(index)), n_positions)
   for (j in seq_len(iterations)) {
 
-    i <- create_index4index(i2, size_subset, name = position, n = n_positions)
+    i <- create_index4index(i2, name = position)
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))

@@ -38,7 +38,7 @@ test_that("inspect with translate_index", {
   index2 <- spatial(index1, survey[-nas, columns], iterations = 25)
   i1 <- inspect(index1, survey[-nas, columns])
   i2 <- inspect(index2, i1, index_name = "spatial")
-  expect_true(all(table(i2$batch, i2$spatial)<= 1))
+  expect_true(all(table(i2$batch, i2$spatial) <= 1))
 })
 
   test_that("Warning on duplidate names", {

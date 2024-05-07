@@ -8,7 +8,7 @@ test_that("sizes_batches works", {
 
 test_that("create_index4index works", {
   i1 <- create_index(15, rep.int(5, 3), 3)
-  i2 <- create_index4index(i1, size_subset = 3, n = 5, name = "spatial")
+  i2 <- create_index4index(i1, paste0("spatial", 1:5))
   bn1 <- batch_names(i1)
   bn2 <- batch_names(i2)
   expect_true(all(table(bn1, bn2) == 1))
