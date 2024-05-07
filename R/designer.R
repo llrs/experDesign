@@ -63,6 +63,8 @@ design <- function(pheno, size_subset, omit = NULL,
   if (!is.null(block) && length(block) >= 1){
     pheno_b <- pheno[, block, drop = FALSE]
     check_block(pheno_b, batches)
+
+    i <- block(pheno_b, batches)
   }
   pheno_o <- omit(pheno,  c(omit, block))
   if (check && !.check_data(pheno_o)) {

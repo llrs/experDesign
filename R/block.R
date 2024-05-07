@@ -34,3 +34,17 @@ check_block <- function(pheno, batches) {
   }
   out
 }
+
+# TODO Create sombe batches with the blocked variables split between them:
+block <- function(pheno, batches) {
+
+  for (col in colnames(pheno)) {
+    sa <- seq_along(pheno[[col]])
+    s <- split(sa, pheno[[col]])
+    size <- length(unique(pheno[[col]]))
+    l <- lapply(s, split, f = rep(seq_len(size),
+                                  lengt.out = batches*size))
+    match(u, )
+
+  }
+}
