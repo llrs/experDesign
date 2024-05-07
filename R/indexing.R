@@ -51,6 +51,8 @@ create_index4index <- function(index, size_subset, n, name) {
   li <- table(unlist(index))
   dups <- as.numeric(names(li)[li != 1])
 
+  duplicated_positions <- length(dups) > 1L
+
   for (batch in seq_along(index)) {
     pos <- index[[batch]]
 
@@ -69,10 +71,11 @@ create_index4index <- function(index, size_subset, n, name) {
       pp <- setdiff(pp, index_f)
 
       # If this sample is duplicated, exclude that position too
-      dups_out <- vapply(index_out, function(x){any(x %in% dups)}, logical(1L))
-      if (length(setdiff(pp, which(dups_out)))) {
+      if (duplicated_positions) {
+        dups_out <- vapply(index_out, function(x){any(x %in% dups)}, logical(1L))
         pp <- setdiff(pp, which(dups_out))
       }
+
       # Somehow sometimes there is an error with sample!
       if (length(pp) < 1) {
         warning("Some sample seem to be missing")
@@ -83,8 +86,9 @@ create_index4index <- function(index, size_subset, n, name) {
 
       # Add the position to the index at the right batch
       index_out[[i_index]] <- c(index_out[[i_index]], position)
-      }
     }
+  }
+
   index_out
 }
 
