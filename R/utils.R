@@ -56,6 +56,7 @@ translate_index <- function(index,
   stopifnot(sum(lengths(index)) == length(new_position))
 
   old_position <- sort(old_position)
+  # Used because unlist is not documented to keep order
   for (i in seq_along(index)) {
     m <- match(index[[i]], old_position)
 
