@@ -57,6 +57,7 @@ translate_index <- function(index,
   stopifnot(sum(lengths(index)) == length(new_position))
 
   old_position <- sort(old_position)
+  # Used because unlist is not documented to keep order
   for (i in seq_along(index)) {
     m <- match(index[[i]], old_position)
 
@@ -70,9 +71,9 @@ translate_index <- function(index,
 
 position_name <- function(rows, columns) {
   positions <- expand.grid(rows, columns, stringsAsFactors = FALSE)
-  positions$Var2 <- as.character(positions$Var2)
-  positions$name <- apply(positions, 1, paste0, collapse = "")
   colnames(positions)[1:2] <- c("row", "column")
+  positions <- positions[order(positions$row, positions$column), ]
+  positions$name <- paste0(positions$row, positions$column)
   positions
 }
 

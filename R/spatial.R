@@ -22,29 +22,12 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations))
 
-  nrow <- length(rows)
-  ncol <- length(columns)
-
-  if (is.null(rows) || length(rows) == 0) {
-    stop("Please provide at least one row.", call. = FALSE)
-  }
-  if (is.null(columns) || length(columns) == 0) {
-    stop("Please provide at least one column.", call. = FALSE)
-  }
-  if ((nrow*ncol - length(remove_positions)) < max(lengths(index))) {
+  position <- handle_positions(rows, columns, remove_positions)
+  if (length(position) < max(lengths(index))) {
     stop("The size for the batch is smaller than the samples it must contain.",
          "\n\tPlease check the rows and columns or how you created the index.",
          call. = FALSE)
   }
-
-  positions <- position_name(rows, columns)
-  if (any(!remove_positions %in% positions$name)) {
-    stop("Unrecognized position to remove.",
-         "\n\tCheck that it is a combination of rows and columns: A1, A3...",
-         call. = FALSE)
-  }
-
-  position <- positions$name[!positions$name %in% remove_positions]
 
   opt <- Inf
 
@@ -69,11 +52,9 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
 
   eval_n <- evaluations(num)
 
-  n_positions <- length(position)
-  size_subset <- optimum_batches(sum(lengths(index)), n_positions)
   for (j in seq_len(iterations)) {
 
-    i <- create_index4index(i2, size_subset, name = position, n = n_positions)
+    i <- create_index4index(i2, name = position)
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
     optimize <- sum(rowMeans(abs(meanDiff)))
@@ -84,5 +65,46 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
       val <- i
     }
   }
-  val
+
+  if (any(lengths(val) > length(index))) {
+    stop("The spatial distribution is impossible:",
+         "It allocated more sample to the previous index than possible.",
+         call. = FALSE)
+  }
+  # Return positions ordered by row and column
+  m <- match(position_name(rows, columns)$name, names(val))
+  val[m[!is.na(m)]]
+}
+
+handle_positions <- function(rows, columns, remove_positions) {
+
+  if (is.null(rows) || length(rows) == 0) {
+    stop("Please provide at least one row.", call. = FALSE)
+  }
+  if (is.null(columns) || length(columns) == 0) {
+    stop("Please provide at least one column.", call. = FALSE)
+  }
+
+  positions <- position_name(rows, columns)
+
+  k_position <- !positions$name %in% remove_positions
+  k_rows <- !positions$row %in% remove_positions
+  k_columns <- !positions$column %in% remove_positions
+  mix_positions <- any(!k_position) && (any(!k_rows) || any(!k_columns))
+  if (mix_positions) {
+    warning("There is a mix of specific positions and rows or columns.")
+  }
+  p <- positions[k_position & k_rows & k_columns, ,drop = FALSE]
+
+  if (nrow(p) == 0L) {
+    stop("No position is left. Did you remove too many positions?",
+         call. = FALSE)
+  }
+
+  if (length(remove_positions) > (nrow(positions) - nrow(p))) {
+    stop("Unrecognized position to remove.",
+         "\n\tCheck that it is a combination of rows and columns: A1, A3, or full rows and columns ...",
+         call. = FALSE)
+  }
+  p$name
 }

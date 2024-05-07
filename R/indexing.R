@@ -43,49 +43,19 @@ create_index <- function(size_data, size_batches, n, name = "SubSet") {
 }
 
 # Shuffle sample within index to improve positioning
-create_index4index <- function(index, size_subset, n, name) {
-  index_out <- vector("list", n)
-  names(index_out) <- id2batch_names(name, n)
+create_index4index <- function(index, name) {
 
-  # Find if there are duplicates: aka controls
-  li <- table(unlist(index))
-  dups <- as.numeric(names(li)[li != 1])
+  m <- matrix(data = NA, nrow = length(name), ncol = length(index),
+         dimnames = list(name, names(index)))
 
   for (batch in seq_along(index)) {
-    pos <- index[[batch]]
-
-    # Store which are already filled in this batch
-    index_f <- NULL
-
-    # Put each position to the right new batch
-    for (position in pos) {
-      # Exclude position already filled in the batch
-      # Pick a batch from the new index to place the previous position
-      # Which hasn't been picked within the batch
-      i_lengths <- lengths(index_out)
-      names(i_lengths) <- NULL
-      # Pick from the ones that can be filled
-      pp <- which(i_lengths < size_subset)
-      pp <- setdiff(pp, index_f)
-
-      # If this sample is duplicated, exclude that position too
-      dups_out <- vapply(index_out, function(x){any(x %in% dups)}, logical(1L))
-      if (length(setdiff(pp, which(dups_out)))) {
-        pp <- setdiff(pp, which(dups_out))
-      }
-      # Somehow sometimes there is an error with sample!
-      if (length(pp) < 1) {
-        warning("Some sample seem to be missing")
-        next
-      }
-      i_index <- sample(pp, 1)
-      index_f <- c(index_f, i_index)
-
-      # Add the position to the index at the right batch
-      index_out[[i_index]] <- c(index_out[[i_index]], position)
-      }
-    }
-  index_out
+    positions <- sample(index[[batch]])
+    rows <- sample(seq_along(positions))
+    m[rows, batch] <- positions
+  }
+  # Transform to a list format omitting the empty values
+  index_out <- apply(m, 1, function(x){x[!is.na(x)]}, simplify = FALSE)
+  index_out[lengths(index_out) != 0]
 }
 
 id2batch_names <- function(name, n) {

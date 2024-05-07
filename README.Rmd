@@ -125,7 +125,7 @@ It doesn't work for our data.
  - The [Omixer](https://bioconductor.org/packages/Omixer/) package handles both 
 numeric and categorical data (converting categorical variables to numeric). But both the same way either Pearson's Chi-squared Test if there are few samples or Kendall's correlation. It does allow to protect some spots from being used.
 
-If you are still designing the experiment and do not have collected any data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign) might be relevant for you.
+If you are still designing the experiment and do not have collected any data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign) might be relevant for you. But specially the [randomizr](https://cran.r-project.org/package=randomizr) packages  which makes common forms of random assignment and sampling.
 
 Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48) I made before developing the package.
 
