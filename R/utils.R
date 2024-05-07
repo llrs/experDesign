@@ -70,9 +70,9 @@ translate_index <- function(index,
 
 position_name <- function(rows, columns) {
   positions <- expand.grid(rows, columns, stringsAsFactors = FALSE)
-  positions$Var2 <- as.character(positions$Var2)
-  positions$name <- apply(positions, 1, paste0, collapse = "")
   colnames(positions)[1:2] <- c("row", "column")
+  positions <- positions[order(positions$row, positions$column), ]
+  positions$name <- paste0(positions$row, positions$column)
   positions
 }
 

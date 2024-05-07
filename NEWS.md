@@ -1,12 +1,16 @@
 # experDesign (development version)
 
-* Check that index used in `inspect` has a valid length, positions and 
+* Check that index used in `inspect()` has a valid length, positions and 
   replications matching the data provided.
   
 * `check_data()` gains a new omit argument (#49). 
    If you relied on positional arguments it will break your scripts. 
 
 * Omitting non existing columns now creates a warning. 
+
+* Now it is possible to remove full rows or columns from `spatial()`: like `remove_positions = "A"` (#52).
+
+* Spatial indexes are returned in row, column order: A1, A2, A3, ... A10, B1,. 
 
 # experDesign 0.3.0
 
