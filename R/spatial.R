@@ -84,5 +84,11 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
       val <- i
     }
   }
+
+  if (any(lengths(val) > length(index))) {
+    stop("The spatial distribution is impossible:",
+         "It allocated more sample to the previous index than possible.",
+         call. = FALSE)
+  }
   val
 }
