@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">experDesign</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,9 +58,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="experdesign-development-version">experDesign (development version)<a class="anchor" aria-label="anchor" href="#experdesign-development-version"></a></h2>
-<ul><li><p>Check that index used in <code>inspect</code> has a valid length, positions and replications matching the data provided.</p></li>
+<ul><li><p>Check that index used in <code><a href="../reference/inspect.html">inspect()</a></code> has a valid length, positions and replications matching the data provided.</p></li>
 <li><p><code><a href="../reference/check_data.html">check_data()</a></code> gains a new omit argument (<a href="https://github.com/llrs/experDesign/issues/49" class="external-link">#49</a>). If you relied on positional arguments it will break your scripts.</p></li>
 <li><p>Omitting non existing columns now creates a warning.</p></li>
+<li><p>Now it is possible to remove full rows or columns from <code><a href="../reference/spatial.html">spatial()</a></code>: like <code>remove_positions = "A"</code> (<a href="https://github.com/llrs/experDesign/issues/52" class="external-link">#52</a>).</p></li>
+<li><p>Spatial indexes are returned in row, column order: A1, A2, A3, … A10, B1,.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="experdesign-030">experDesign 0.3.0<a class="anchor" aria-label="anchor" href="#experdesign-030"></a></h2><p class="text-muted">CRAN release: 2024-02-20</p>
