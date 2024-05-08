@@ -72,7 +72,7 @@ position_name <- function(rows, columns) {
   positions <- expand.grid(rows, columns, stringsAsFactors = FALSE)
   colnames(positions)[1:2] <- c("row", "column")
   positions <- positions[order(positions$row, positions$column), ]
-  positions$name <- paste0(positions$row, positions$column)
+  positions$name <- as.factor(paste0(positions$row, positions$column))
   positions
 }
 
