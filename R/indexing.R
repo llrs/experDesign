@@ -47,13 +47,13 @@ create_index4index <- function(index, name) {
 
   m <- matrix(data = NA, nrow = length(name), ncol = length(index),
          dimnames = list(name, names(index)))
-
+ # Assign each row number from each batch to a position:
   for (batch in seq_along(index)) {
     positions <- sample(index[[batch]])
     rows <- sample(seq_along(positions))
     m[rows, batch] <- positions
   }
-  # Transform to a list format omitting the empty values
+  # Transform to a list omitting the empty values
   index_out <- apply(m, 1, function(x){x[!is.na(x)]}, simplify = FALSE)
   index_out[lengths(index_out) != 0]
 }
