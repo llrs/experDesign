@@ -1,3 +1,5 @@
+# experDesign (development version)
+
 # experDesign 0.4.0
 
 * Check that index used in `inspect()` has a valid length, positions and 
