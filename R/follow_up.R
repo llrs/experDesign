@@ -16,7 +16,7 @@
 #' data(survey, package = "MASS")
 #' survey1 <- survey[1:118, ]
 #' survey2 <- survey[119:nrow(survey), ]
-#' fu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10)
+#' folu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10)
 follow_up <- function(original, follow_up, size_subset, omit = NULL,
                       old_new = "batch", iterations = 500) {
   stopifnot(is.character(old_new) & length(old_new) == 1)

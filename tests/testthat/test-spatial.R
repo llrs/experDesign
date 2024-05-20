@@ -66,3 +66,12 @@ test_that("Removing columns works", {
   expect_true(all(names(index2) %in% position_name(rows = LETTERS[1:9], 1:12)$name))
   expect_false(any(table(batch_names(index), batch_names(index2)) > 1))
 })
+
+test_that("position_name works", {
+  expect_error(position_name(1:2, 1:2))
+  pn <- position_name(LETTERS[1:2], 1:2)
+  expect_s3_class(pn, "data.frame")
+  expect_equal(pn$row, rep(LETTERS[1:2], each = 2))
+  expect_equal(pn$column, rep(1:2, length.out = 4))
+  expect_equal(pn$name, as.factor(paste0(rep(LETTERS[1:2], each = 2), rep(1:2, length.out = 4))))
+})

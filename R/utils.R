@@ -68,7 +68,21 @@ translate_index <- function(index,
   index
 }
 
+
+#' Create position names for a grid.
+#'
+#' @param rows Names of the rows.
+#' @param columns Names of the columns.
+#'
+#' @return A data.frame with the rows and columns and the resulting name row+column.
+#' The name column is a factor for easier sorting in row, column order.
+#' @export
+#' @examples
+#' position_name(c("A", "B"), 1:2)
 position_name <- function(rows, columns) {
+  if (length(intersect(rows, columns)) >= 1) {
+    stop("rows and columns shouldn't share names.")
+  }
   positions <- expand.grid(rows, columns, stringsAsFactors = FALSE)
   colnames(positions)[1:2] <- c("row", "column")
   positions <- positions[order(positions$row, positions$column), ]

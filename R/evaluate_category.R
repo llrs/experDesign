@@ -79,7 +79,8 @@ evaluate_independence <- function(i, pheno) {
 #' @param pheno Data.frame with the variables of each sample, one row one sample.
 #' @param omit Character vector with the names of the columns to omit.
 #' @param na.omit Check the effects of missing values too.
-#' @return A logical value indicating if everything is alright (TRUE) or not (FALSE).
+#' @return A logical value indicating if everything is alright (`TRUE` or not (`FALSE`).
+#' @seealso [valid_followup()].
 #' @export
 #' @examples
 #' rdata <- expand.grid(sex = c("M", "F"), class = c("lower", "median", "high"))

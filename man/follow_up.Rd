@@ -40,7 +40,7 @@ with some other samples later on.
 data(survey, package = "MASS")
 survey1 <- survey[1:118, ]
 survey2 <- survey[119:nrow(survey), ]
-fu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10)
+folu <- follow_up(survey1, survey2, size_subset = 50, iterations = 10)
 }
 \seealso{
 \code{\link[=follow_up2]{follow_up2()}}

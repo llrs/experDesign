@@ -22,17 +22,19 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 <!-- badges: end -->
 
-The goal of experDesign is to help you manage your samples before an
+The goal of experDesign is to help you distribute your samples before an
 experiment but after they are collected. For example, checking for
-common problems in the data, and help reduce or even prevent batch bias
-before performing an experiment, or measure once it is already done It
-provides four main functions:
+common problems in the data, and reducing or even preventing batch bias
+before performing an experiment, or measuring it once the experiment is
+performed. It provides four main functions:
 
 - `check_data()`: Check if there are any problems with the data.
 - `design()`: Randomize the samples according to their variables.
 - `replicates()`: Selects some samples for replicates and randomizes the
   samples (highly recommended).
 - `spatial()`: Randomize the samples on a spatial grid.
+
+There are other helpers.
 
 ## Installation
 
@@ -118,6 +120,9 @@ combination with the original according to multiple statistics.
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
 (keep <- colnames(survey)[!colnames(survey) %in% omit])
 #> [1] "Sex"   "W.Hnd" "Smoke" "Age"
+```
+
+``` r
 head(survey[, keep])
 #>      Sex W.Hnd Smoke    Age
 #> 1 Female Right Never 18.250
@@ -126,12 +131,18 @@ head(survey[, keep])
 #> 4   Male Right Never 20.333
 #> 5   Male Right Never 23.667
 #> 6 Female Right Never 21.000
+```
+
+``` r
 
 # Set a seed for reproducibility
 set.seed(87732135)
 # Looking for groups at most of 70 samples.
 index <- design(pheno = survey, size_subset = 70, omit = omit, iterations = 100)
 #> Warning: There might be some problems with the data use check_data().
+```
+
+``` r
 index
 #> $SubSet1
 #>  [1]   3   9  10  14  16  21  23  24  25  30  44  46  56  57  59  62  63  68  69
@@ -164,6 +175,9 @@ a colleague with:
 ``` r
 head(batch_names(index))
 #> [1] "SubSet3" "SubSet3" "SubSet1" "SubSet4" "SubSet2" "SubSet2"
+```
+
+``` r
 # Or via inspect() to keep it in a matrix format:
 head(inspect(index, survey[, keep]))
 #>      Sex W.Hnd Smoke    Age   batch
@@ -203,7 +217,9 @@ Two packages allow to distribute the samples on batches:
 
 If you are still designing the experiment and do not have collected any
 data [DeclareDesign](https://cran.r-project.org/package=DeclareDesign)
-might be relevant for you.
+might be relevant for you. But specially the
+[randomizr](https://cran.r-project.org/package=randomizr) packages which
+makes common forms of random assignment and sampling.
 
 Question in
 [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/48)

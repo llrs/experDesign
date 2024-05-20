@@ -10,7 +10,11 @@
 
 * Now it is possible to remove full rows or columns from `spatial()`: like `remove_positions = "A"` (#52).
 
+* Fix a bug in `spatial()` that in some cases assigned multiple samples to the same position (#51).
+
 * Spatial indexes are returned in row, column order: A1, A2, A3, ... A10, B1,. 
+
+* Function `position_name()` is now exported to facilitate generating designs. 
 
 # experDesign 0.3.0
 
