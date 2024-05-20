@@ -11,7 +11,7 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Design experiments for batches">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Design experiments for batches">
 <meta property="og:description" content="Distributes samples in batches while making batches homogeneous according to their description. Allows for an arbitrary number of variables, both numeric and categorical. For quality control it provides functions to subset a representative sample.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:creator" content="@Lluis_Revilla">
@@ -25,11 +25,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="index.html">experDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The goal of experDesign is to help you manage your samples before an experiment but after they are collected. For example, checking for common problems in the data, and help reduce or even prevent batch bias before performing an experiment, or measure once it is already done It provides four main functions:</p>
+<p>The goal of experDesign is to help you distribute your samples before an experiment but after they are collected. For example, checking for common problems in the data, and reducing or even preventing batch bias before performing an experiment, or measuring it once the experiment is performed. It provides four main functions:</p>
 <ul>
 <li>
 <code><a href="reference/check_data.html">check_data()</a></code>: Check if there are any problems with the data.</li>
@@ -92,6 +92,7 @@
 <li>
 <code><a href="reference/spatial.html">spatial()</a></code>: Randomize the samples on a spatial grid.</li>
 </ul>
+<p>There are other helpers.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -146,22 +147,25 @@ There are 1.6543999^{61} combinations of samples per batch in a this experiment.
 <code class="sourceCode R"><span><span class="co"># To reduce the variables used:</span></span>
 <span><span class="va">omit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"NW.Hnd"</span>, <span class="st">"Fold"</span>, <span class="st">"Pulse"</span>, <span class="st">"Clap"</span>, <span class="st">"Exer"</span>, <span class="st">"Height"</span>, <span class="st">"M.I"</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">omit</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Sex"   "W.Hnd" "Smoke" "Age"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Sex"   "W.Hnd" "Smoke" "Age"</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      Sex W.Hnd Smoke    Age</span></span>
 <span><span class="co">#&gt; 1 Female Right Never 18.250</span></span>
 <span><span class="co">#&gt; 2   Male  Left Regul 17.583</span></span>
 <span><span class="co">#&gt; 3   Male Right Occas 16.917</span></span>
 <span><span class="co">#&gt; 4   Male Right Never 20.333</span></span>
 <span><span class="co">#&gt; 5   Male Right Never 23.667</span></span>
-<span><span class="co">#&gt; 6 Female Right Never 21.000</span></span>
-<span></span>
+<span><span class="co">#&gt; 6 Female Right Never 21.000</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># Set a seed for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">87732135</span><span class="op">)</span></span>
 <span><span class="co"># Looking for groups at most of 70 samples.</span></span>
 <span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/design.html">design</a></span><span class="op">(</span>pheno <span class="op">=</span> <span class="va">survey</span>, size_subset <span class="op">=</span> <span class="fl">70</span>, omit <span class="op">=</span> <span class="va">omit</span>, iterations <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There might be some problems with the data use check_data().</span></span>
-<span><span class="va">index</span></span>
+<span><span class="co">#&gt; Warning: There might be some problems with the data use check_data().</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">index</span></span>
 <span><span class="co">#&gt; $SubSet1</span></span>
 <span><span class="co">#&gt;  [1]   3   9  10  14  16  21  23  24  25  30  44  46  56  57  59  62  63  68  69</span></span>
 <span><span class="co">#&gt; [20]  70  73  80  81  85  90  94  95  97 101 103 104 105 106 111 113 119 123 125</span></span>
@@ -186,10 +190,11 @@ There are 1.6543999^{61} combinations of samples per batch in a this experiment.
 <span><span class="co">#&gt; [39] 154 157 163 165 170 172 175 179 181 182 183 187 192 195 201 207 213 220 223</span></span>
 <span><span class="co">#&gt; [58] 225 236</span></span></code></pre></div>
 <p>We can transform then into a vector to append to the file or to pass to a colleague with:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="reference/batch_names.html">batch_names</a></span><span class="op">(</span><span class="va">index</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "SubSet3" "SubSet3" "SubSet1" "SubSet4" "SubSet2" "SubSet2"</span></span>
-<span><span class="co"># Or via inspect() to keep it in a matrix format:</span></span>
+<span><span class="co">#&gt; [1] "SubSet3" "SubSet3" "SubSet1" "SubSet4" "SubSet2" "SubSet2"</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Or via inspect() to keep it in a matrix format:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">index</span>, <span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      Sex W.Hnd Smoke    Age   batch</span></span>
 <span><span class="co">#&gt; 1 Female Right Never 18.250 SubSet3</span></span>
@@ -211,7 +216,7 @@ There are 1.6543999^{61} combinations of samples per batch in a this experiment.
 <li><p>The <a href="https://github.com/m-Py/minDiff" class="external-link">minDiff</a> package reported in <a href="https://stats.stackexchange.com/a/326015/105234" class="external-link">Stats.SE</a>, handles both numeric and categorical data. But it can only optimize for two nominal criteria. It doesn’t work for our data.</p></li>
 <li><p>The <a href="https://bioconductor.org/packages/Omixer/" class="external-link">Omixer</a> package handles both numeric and categorical data (converting categorical variables to numeric). But both the same way either Pearson’s Chi-squared Test if there are few samples or Kendall’s correlation. It does allow to protect some spots from being used.</p></li>
 </ul>
-<p>If you are still designing the experiment and do not have collected any data <a href="https://cran.r-project.org/package=DeclareDesign" class="external-link">DeclareDesign</a> might be relevant for you.</p>
+<p>If you are still designing the experiment and do not have collected any data <a href="https://cran.r-project.org/package=DeclareDesign" class="external-link">DeclareDesign</a> might be relevant for you. But specially the <a href="https://cran.r-project.org/package=randomizr" class="external-link">randomizr</a> packages which makes common forms of random assignment and sampling.</p>
 <p>Question in <a href="https://bioinformatics.stackexchange.com/q/4765/48" class="external-link">Bioinformatics.SE</a> I made before developing the package.</p>
 </div>
 <div class="section level1">
@@ -267,13 +272,11 @@ There are 1.6543999^{61} combinations of samples per batch in a this experiment.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by <a href="https://llrs.dev" class="external-link">Lluís Revilla Sancho</a>.</p>
+  <p>Developed by <a href="https://llrs.dev" class="external-link">Lluís Revilla Sancho</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer>
