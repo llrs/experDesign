@@ -62,7 +62,9 @@
 <li><p><code><a href="../reference/check_data.html">check_data()</a></code> gains a new omit argument (<a href="https://github.com/llrs/experDesign/issues/49" class="external-link">#49</a>). If you relied on positional arguments it will break your scripts.</p></li>
 <li><p>Omitting non existing columns now creates a warning.</p></li>
 <li><p>Now it is possible to remove full rows or columns from <code><a href="../reference/spatial.html">spatial()</a></code>: like <code>remove_positions = "A"</code> (<a href="https://github.com/llrs/experDesign/issues/52" class="external-link">#52</a>).</p></li>
+<li><p>Fix a bug in <code><a href="../reference/spatial.html">spatial()</a></code> that in some cases assigned multiple samples to the same position (<a href="https://github.com/llrs/experDesign/issues/51" class="external-link">#51</a>).</p></li>
 <li><p>Spatial indexes are returned in row, column order: A1, A2, A3, … A10, B1,.</p></li>
+<li><p>Function <code><a href="../reference/position_name.html">position_name()</a></code> is now exported to facilitate generating designs.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="experdesign-030">experDesign 0.3.0<a class="anchor" aria-label="anchor" href="#experdesign-030"></a></h2><p class="text-muted">CRAN release: 2024-02-20</p>

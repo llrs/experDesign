@@ -85,7 +85,7 @@
                         <h4 data-toc-skip class="author">Lluís Revilla
 Sancho</h4>
             
-            <h4 data-toc-skip class="date">2024-05-08</h4>
+            <h4 data-toc-skip class="date">2024-05-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/llrs/experDesign/blob/HEAD/vignettes/experdesign.Rmd" class="external-link"><code>vignettes/experdesign.Rmd</code></a></small>
       <div class="d-none name"><code>experdesign.Rmd</code></div>
@@ -201,11 +201,13 @@ batches:</p>
 <code class="sourceCode R"><span><span class="va">size_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span>
 <span><span class="va">size_batch</span> <span class="op">&lt;-</span> <span class="fl">24</span></span>
 <span><span class="op">(</span><span class="va">batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimum.html">optimum_batches</a></span><span class="op">(</span><span class="va">size_data</span>, <span class="va">size_batch</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] 3</span></span>
-<span><span class="co"># So now the best number of samples for each batch is less than the available</span></span>
+<span><span class="co">## [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># So now the best number of samples for each batch is less than the available</span></span>
 <span><span class="op">(</span><span class="va">size</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimum.html">optimum_subset</a></span><span class="op">(</span><span class="va">size_data</span>, <span class="va">batches</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] 17</span></span>
-<span><span class="co"># The distribution of samples per batch</span></span>
+<span><span class="co">## [1] 17</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The distribution of samples per batch</span></span>
 <span><span class="fu"><a href="../reference/optimum.html">sizes_batches</a></span><span class="op">(</span><span class="va">size_data</span>, <span class="va">size</span>, <span class="va">batches</span><span class="op">)</span></span>
 <span><span class="co">## [1] 17 17 16</span></span></code></pre></div>
 <p>Note that instead of using a whole batch and then leave a single
@@ -217,7 +219,7 @@ that will be needed.</p>
 </h2>
 <p>We can directly look for the distribution of the samples given our
 max number of samples per batch:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">desi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">size_batch</span><span class="op">)</span></span>
 <span><span class="co"># It is a list but we can convert it to a vector with:</span></span>
 <span><span class="fu"><a href="../reference/batch_names.html">batch_names</a></span><span class="op">(</span><span class="va">desi</span><span class="op">)</span></span>
@@ -240,12 +242,13 @@ calculate this distribution.</p>
 </h2>
 <p>If you need space for replicates to control for batch effect you can
 use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repli</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/replicates.html">replicates</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">size_batch</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">repli</span><span class="op">)</span></span>
 <span><span class="co">## SubSet1 SubSet2 SubSet3 </span></span>
-<span><span class="co">##      21      21      18</span></span>
-<span><span class="va">repli</span></span>
+<span><span class="co">##      21      21      18</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">repli</span></span>
 <span><span class="co">## $SubSet1</span></span>
 <span><span class="co">##  [1]  3  9 10 16 17 20 27 28 30 31 32 33 34 35 40 41 42 44 45 48 49</span></span>
 <span><span class="co">## </span></span>
@@ -264,7 +267,7 @@ different from the design without replicates.</p>
 </h2>
 <p>We can analyze how these samples would be distributed in a layout of
 6x4:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spati</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spatial.html">spatial</a></span><span class="op">(</span><span class="va">repli</span>, <span class="va">metadata</span>, rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, columns <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spati</span><span class="op">)</span></span>
 <span><span class="co">## $A1</span></span>
@@ -296,7 +299,7 @@ different from the design without replicates.</p>
 </h2>
 <p>We can add the batches to the initial data with
 <code><a href="../reference/inspect.html">inspect()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">repli</span>, <span class="va">metadata</span><span class="op">)</span></span>
 <span><span class="va">report2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inspect.html">inspect</a></span><span class="op">(</span><span class="va">spati</span>, <span class="va">report</span>, index_name <span class="op">=</span> <span class="st">"position"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">report2</span><span class="op">)</span></span>
@@ -313,7 +316,7 @@ different from the design without replicates.</p>
 <h2 id="compare-indices">Compare indices<a class="anchor" aria-label="anchor" href="#compare-indices"></a>
 </h2>
 <p>If you have two indices you can also compare them:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">desi2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_subset.html">create_subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>, <span class="va">size_batch</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compare_index.html">compare_index</a></span><span class="op">(</span><span class="va">metadata</span>, <span class="va">desi</span>, <span class="va">desi2</span><span class="op">)</span></span>
 <span><span class="co">##         subgroups</span></span>
@@ -330,7 +333,7 @@ that <code>desi</code> is better.</p>
 <p>In the previous case the data was mostly balanced (check it out in
 the <code>orig</code> object) but let’s create an unbalanced dataset to
 check it.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">99</span></span>
 <span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span><span class="va">unbalanced</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Classroom <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">samples</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,</span>
@@ -343,22 +346,26 @@ check it.</p>
 <span><span class="co">##         B  1 49</span></span></code></pre></div>
 <p>In this dataset there is only one female, resulting in a classroom
 full of males. Age is independent of the sex or classroom.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design.html">design</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="fl">15</span><span class="op">)</span></span>
-<span><span class="co">## Warning: There might be some problems with the data use check_data().</span></span>
-<span><span class="va">evaluation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span></span>
-<span><span class="co">## Warning: There might be some problems with the data use check_data().</span></span>
-<span><span class="co"># Mean entropy en each subset</span></span>
+<span><span class="co">## Warning: There might be some problems with the data use check_data().</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">evaluation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evaluate_index.html">evaluate_index</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">unbalanced</span><span class="op">)</span></span>
+<span><span class="co">## Warning: There might be some problems with the data use check_data().</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Mean entropy en each subset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="va">evaluation</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
-<span><span class="co">## 0.96035770 0.05303319 0.00000000 0.93994182</span></span>
-<span><span class="co"># Original entropy on the dataset</span></span>
+<span><span class="co">## 0.96035770 0.05303319 0.00000000 0.93994182</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Original entropy on the dataset</span></span>
 <span><span class="fu"><a href="../reference/evaluate_orig.html">evaluate_orig</a></span><span class="op">(</span><span class="va">unbalanced</span><span class="op">)</span><span class="op">[</span><span class="st">"entropy"</span>, <span class="op">]</span></span>
 <span><span class="co">## Warning in evaluate_orig(unbalanced): There might be some problems with the</span></span>
 <span><span class="co">## data use check_data().</span></span>
 <span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
-<span><span class="co">## 1.00000000 0.08079314 0.00000000 0.67554928</span></span>
-<span><span class="co"># Dispersion of the entropy</span></span>
+<span><span class="co">## 1.00000000 0.08079314 0.00000000 0.67554928</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Dispersion of the entropy</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">evaluation</span><span class="op">[</span><span class="st">"entropy"</span>, , <span class="op">]</span>, <span class="fl">1</span>, <span class="va">sd</span><span class="op">)</span></span>
 <span><span class="co">##  Classroom        Sex        Age    mix_cat </span></span>
 <span><span class="co">## 0.05017590 0.14031263 0.00000000 0.07994645</span></span></code></pre></div>
@@ -370,7 +377,7 @@ the other cases we approximately reached the same entropy levels.</p>
 </h2>
 <p>If you need a subset with the samples that are more diverse you can
 use the following function:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">survey</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span></span>
 <span><span class="co">##      Sex Wr.Hnd NW.Hnd W.Hnd    Fold Pulse    Clap Exer Smoke Height      M.I</span></span>
@@ -386,8 +393,9 @@ use the following function:</p>
 <span><span class="co">## 3 16.917</span></span>
 <span><span class="co">## 4 20.333</span></span>
 <span><span class="co">## 5 23.667</span></span>
-<span><span class="co">## 6 21.000</span></span>
-<span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extreme_cases.html">extreme_cases</a></span><span class="op">(</span><span class="va">survey</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">## 6 21.000</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extreme_cases.html">extreme_cases</a></span><span class="op">(</span><span class="va">survey</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">survey</span><span class="op">[</span><span class="va">samples</span>, <span class="op">]</span></span>
 <span><span class="co">##        Sex Wr.Hnd NW.Hnd W.Hnd    Fold Pulse    Clap Exer Smoke Height      M.I</span></span>
 <span><span class="co">## 5     Male   20.0   20.0 Right Neither    35   Right Some Never 165.00   Metric</span></span>
@@ -412,7 +420,7 @@ use the following function:</p>
 <span><span class="co">## 201 19.250</span></span>
 <span><span class="co">## 202 21.333</span></span></code></pre></div>
 <p>You can also test a given index with <code><a href="../reference/check_index.html">check_index()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_index.html">check_index</a></span><span class="op">(</span><span class="va">unbalanced</span>, <span class="va">i</span><span class="op">)</span></span>
 <span><span class="co">## Warning in check_index(unbalanced, i): There might be some problems with the</span></span>
 <span><span class="co">## data use check_data().</span></span>
@@ -444,20 +452,22 @@ do this comparison. But as this would be too long with
 <code>experDesign</code> we can try to find the combination with the
 best design by comparing each combination with the original according to
 multiple statistics.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># To reduce the variables used:</span></span>
 <span><span class="va">omit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"NW.Hnd"</span>, <span class="st">"Fold"</span>, <span class="st">"Pulse"</span>, <span class="st">"Clap"</span>, <span class="st">"Exer"</span>, <span class="st">"Height"</span>, <span class="st">"M.I"</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">omit</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">## [1] "Sex"   "W.Hnd" "Smoke" "Age"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">## [1] "Sex"   "W.Hnd" "Smoke" "Age"</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">##      Sex W.Hnd Smoke    Age</span></span>
 <span><span class="co">## 1 Female Right Never 18.250</span></span>
 <span><span class="co">## 2   Male  Left Regul 17.583</span></span>
 <span><span class="co">## 3   Male Right Occas 16.917</span></span>
 <span><span class="co">## 4   Male Right Never 20.333</span></span>
 <span><span class="co">## 5   Male Right Never 23.667</span></span>
-<span><span class="co">## 6 Female Right Never 21.000</span></span>
-<span></span>
+<span><span class="co">## 6 Female Right Never 21.000</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># Set a seed for reproducibility</span></span>
 <span><span class="co"># Looking for groups at most of 70 samples.</span></span>
 <span><span class="va">index</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/create_subset.html">create_subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span>, size_subset <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span>
@@ -486,11 +496,12 @@ multiple statistics.</p>
 <span><span class="co">## [39] 145 146 149 150 156 160 163 166 169 175 180 184 186 188 206 209 216 226 229</span></span>
 <span><span class="co">## [58] 232 236</span></span></code></pre></div>
 <p>We can measure how does this index does:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_index1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_index.html">check_index</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span>, <span class="va">index</span><span class="op">)</span></span>
 <span><span class="co">## Warning in check_index(survey[, keep], index): There might be some problems</span></span>
-<span><span class="co">## with the data use check_data().</span></span>
-<span><span class="va">score_index1</span></span>
+<span><span class="co">## with the data use check_data().</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">score_index1</span></span>
 <span><span class="co">##          subgroups</span></span>
 <span><span class="co">##               SubSet1    SubSet2    SubSet3    SubSet4</span></span>
 <span><span class="co">##   Sex     0.285472670 0.28479310 0.45087536 0.28479310</span></span>
@@ -503,14 +514,15 @@ original data and the samples for each subset for the median, mean, mad,
 NA, entropy and independence (<code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test()</a></code> p.value).</p>
 <p>On themselves these values have no meaning, but internally they are
 used to compare with other possible index:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">index2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_subset.html">create_subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span>, size_subset <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span></code></pre></div>
 <p>Then it compares to the previous index</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_index2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_index.html">check_index</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="va">keep</span><span class="op">]</span>, <span class="va">index2</span><span class="op">)</span></span>
 <span><span class="co">## Warning in check_index(survey[, keep], index2): There might be some problems</span></span>
-<span><span class="co">## with the data use check_data().</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">score_index2</span><span class="op">-</span><span class="va">score_index1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## with the data use check_data().</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">score_index2</span><span class="op">-</span><span class="va">score_index1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## [1] 0.8869192</span></span></code></pre></div>
 <p>If this score is lower than the previous one the new index is
 kept.</p>
@@ -521,7 +533,7 @@ calculating any statistics.</p>
 <div class="section level2">
 <h2 id="sessioninfo">SessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
 </h2>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## R version 4.4.0 (2024-04-24)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
@@ -548,12 +560,12 @@ calculating any statistics.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] vctrs_0.6.5       cli_3.6.2         knitr_1.46        rlang_1.1.3      </span></span>
-<span><span class="co">##  [5] xfun_0.43         purrr_1.0.2       textshaping_0.3.7 jsonlite_1.8.8   </span></span>
-<span><span class="co">##  [9] htmltools_0.5.8.1 ragg_1.3.1        sass_0.4.9        rmarkdown_2.26   </span></span>
-<span><span class="co">## [13] evaluate_0.23     jquerylib_0.1.4   fastmap_1.1.1     yaml_2.3.8       </span></span>
+<span><span class="co">##  [5] xfun_0.44         purrr_1.0.2       textshaping_0.3.7 jsonlite_1.8.8   </span></span>
+<span><span class="co">##  [9] htmltools_0.5.8.1 ragg_1.3.2        sass_0.4.9        rmarkdown_2.27   </span></span>
+<span><span class="co">## [13] evaluate_0.23     jquerylib_0.1.4   fastmap_1.2.0     yaml_2.3.8       </span></span>
 <span><span class="co">## [17] lifecycle_1.0.4   memoise_2.0.1     compiler_4.4.0    fs_1.6.4         </span></span>
-<span><span class="co">## [21] systemfonts_1.0.6 digest_0.6.35     R6_2.5.1          magrittr_2.0.3   </span></span>
-<span><span class="co">## [25] bslib_0.7.0       tools_4.4.0       pkgdown_2.0.9     cachem_1.0.8     </span></span>
+<span><span class="co">## [21] systemfonts_1.1.0 digest_0.6.35     R6_2.5.1          magrittr_2.0.3   </span></span>
+<span><span class="co">## [25] bslib_0.7.0       tools_4.4.0       pkgdown_2.0.9     cachem_1.1.0     </span></span>
 <span><span class="co">## [29] desc_1.4.3</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
