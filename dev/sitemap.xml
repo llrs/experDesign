@@ -1,114 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/articles/experdesign.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/batch_names.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/check_data.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/check_index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/compare_index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/create_subset.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/design.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/distribution.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/entropy.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_entropy.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_independence.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_mad.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_mean.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_na.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_orig.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/evaluate_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/experDesign-package.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/extreme_cases.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/follow_up.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/follow_up2.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/inspect.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/optimum.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/position_name.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/qcSubset.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/replicates.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/spatial.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/use_index.html</loc>
-  </url>
-  <url>
-    <loc>https://experdesign.llrs.dev/dev/reference/valid_followup.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://experdesign.llrs.dev/dev/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/LICENSE-text.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/LICENSE.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/articles/experdesign.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/articles/index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/authors.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/news/index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/batch_names.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/check_data.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/check_index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/compare_index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/create_subset.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/design.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/distribution.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/entropy.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_entropy.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_independence.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_mad.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_mean.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_na.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_orig.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/evaluate_sd.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/experDesign-package.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/extreme_cases.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/follow_up.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/follow_up2.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/inspect.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/optimum.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/position_name.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/qcSubset.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/replicates.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/spatial.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/use_index.html</loc></url>
+<url><loc>https://experdesign.llrs.dev/dev/reference/valid_followup.html</loc></url>
 </urlset>
+
