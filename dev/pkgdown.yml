@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   experdesign: experdesign.html
-last_built: 2024-12-23T11:27Z
+last_built: 2025-06-08T14:07Z
 urls:
   reference: https://experdesign.llrs.dev/reference
   article: https://experdesign.llrs.dev/articles
