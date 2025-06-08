@@ -10,8 +10,8 @@ status](https://www.r-pkg.org/badges/version/experDesign)](https://CRAN.R-projec
 [![CRAN
 checks](https://badges.cranchecks.info/worst/experDesign.svg)](https://cran.r-project.org/web/checks/check_results_experDesign.html)
 [![R-CMD-check](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/llrs/experDesign/actions/workflows/R-CMD-check.yaml)
-[![Coverage
-status](https://codecov.io/gh/llrs/experDesign/branch/master/graph/badge.svg)](https://app.codecov.io/github/llrs/experDesign)
+[![Codecov test
+coverage](https://codecov.io/gh/llrs/experDesign/graph/badge.svg)](https://app.codecov.io/gh/llrs/experDesign)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable
@@ -19,7 +19,6 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.03358/status.svg)](https://doi.org/10.21105/joss.03358)
 [![DOI](https://zenodo.org/badge/142569201.svg)](https://zenodo.org/badge/latestdoi/142569201)
-
 <!-- badges: end -->
 
 The goal of experDesign is to help you distribute your samples before an
@@ -120,9 +119,6 @@ combination with the original according to multiple statistics.
 omit <- c("Wr.Hnd", "NW.Hnd", "Fold", "Pulse", "Clap", "Exer", "Height", "M.I")
 (keep <- colnames(survey)[!colnames(survey) %in% omit])
 #> [1] "Sex"   "W.Hnd" "Smoke" "Age"
-```
-
-``` r
 head(survey[, keep])
 #>      Sex W.Hnd Smoke    Age
 #> 1 Female Right Never 18.250
@@ -131,18 +127,12 @@ head(survey[, keep])
 #> 4   Male Right Never 20.333
 #> 5   Male Right Never 23.667
 #> 6 Female Right Never 21.000
-```
-
-``` r
 
 # Set a seed for reproducibility
 set.seed(87732135)
 # Looking for groups at most of 70 samples.
 index <- design(pheno = survey, size_subset = 70, omit = omit, iterations = 100)
 #> Warning: There might be some problems with the data use check_data().
-```
-
-``` r
 index
 #> $SubSet1
 #>  [1]   3   9  10  14  16  21  23  24  25  30  44  46  56  57  59  62  63  68  69
@@ -175,9 +165,6 @@ a colleague with:
 ``` r
 head(batch_names(index))
 #> [1] "SubSet3" "SubSet3" "SubSet1" "SubSet4" "SubSet2" "SubSet2"
-```
-
-``` r
 # Or via inspect() to keep it in a matrix format:
 head(inspect(index, survey[, keep]))
 #>      Sex W.Hnd Smoke    Age   batch
