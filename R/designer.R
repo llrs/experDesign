@@ -15,8 +15,10 @@
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' index
 design <- function(pheno, size_subset, omit = NULL, iterations = 500,
                    name = "SubSet") {
@@ -52,7 +54,8 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   if (length(size_subset) == 1 && !valid_sizes(size_data, size_subset, batches)) {
     stop("Please provide a higher number of batches or more samples per batch.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
   pheno_o <- omit(pheno, omit)
@@ -62,7 +65,7 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 
   num <- is_num(pheno_o)
   original_pheno <- .evaluate_orig(pheno_o, num)
-  original_pheno["na", ] <- original_pheno["na", ]/batches
+  original_pheno["na", ] <- original_pheno["na", ] / batches
 
   # Find the numeric values
   dates <- vapply(pheno_o, is_date, logical(1L))
@@ -105,17 +108,19 @@ design <- function(pheno, size_subset, omit = NULL, iterations = 500,
 #' @seealso [design()], [extreme_cases()].
 #' @export
 #' @examples
-#' samples <- data.frame(L = letters[1:25], Age = rnorm(25),
-#'                       type = sample(LETTERS[1:5], 25, TRUE))
+#' samples <- data.frame(
+#'   L = letters[1:25], Age = rnorm(25),
+#'   type = sample(LETTERS[1:5], 25, TRUE)
+#' )
 #' index <- replicates(samples, 5, controls = 2, omit = "L", iterations = 10)
 #' head(index)
 replicates <- function(pheno, size_subset, controls, omit = NULL,
-                       iterations = 500){
+                       iterations = 500) {
   stopifnot(is_numeric(size_subset) && length(size_subset) == 1)
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations))
   stopifnot("There should be a positive integer of controls" = is.numeric(controls) && length(controls) && as.integer(controls) == controls &&
-              is.finite(controls) && !is.na(controls) && controls > 0)
+    is.finite(controls) && !is.na(controls) && controls > 0)
 
   size_data <- nrow(pheno)
   if (size_subset >= size_data) {
@@ -123,7 +128,9 @@ replicates <- function(pheno, size_subset, controls, omit = NULL,
   }
   if (size_subset < controls) {
     stop("The controls are technical controls for the batches.\n\t",
-         "They cannot be above the number of samples per batch.", call. = FALSE)
+      "They cannot be above the number of samples per batch.",
+      call. = FALSE
+    )
   }
   size_subset <- size_subset - controls
   values <- extreme_cases(pheno = pheno, size = controls, omit = omit)

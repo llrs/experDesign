@@ -39,12 +39,15 @@ follow_up <- function(original, follow_up, size_subset, omit = NULL,
   original[[old_new]] <- "old"
   follow_up[[old_new]] <- "new"
   full <- rbind(original[, mc], follow_up[, mc])
-  full_b <- rbind(original[, c(match_columns, old_new)],
-                  follow_up[, c(match_columns, old_new)])
+  full_b <- rbind(
+    original[, c(match_columns, old_new)],
+    follow_up[, c(match_columns, old_new)]
+  )
 
   .check_followup(full, full_b,
-                  new_data = follow_up[, match_columns],
-                  old_data = original[, match_columns])
+    new_data = follow_up[, match_columns],
+    old_data = original[, match_columns]
+  )
 
   d <- .design(full_b, size_subset = size_subset, iterations = iterations, check = FALSE)
   inspect(d, full_b, omit = omit)
@@ -75,7 +78,7 @@ follow_up <- function(original, follow_up, size_subset, omit = NULL,
 #' index1 <- design(survey1, size_subset = 50, iterations = 10)
 #' r_survey <- inspect(index1, survey1)
 #' # Create the second batch with "new" students
-#' survey2 <- survey[seq(from = first_batch_n +1, to = nrow(survey)), variables]
+#' survey2 <- survey[seq(from = first_batch_n + 1, to = nrow(survey)), variables]
 #' survey2$batch <- NA
 #' # Prepare the follow up
 #' all_classroom <- rbind(r_survey, survey2)
@@ -87,8 +90,10 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
   }
 
   if (!anyNA(all_data[[batch_column]])) {
-    stop("Seems that there is no new data: All the ", batch_column,
-         " column is already filled up.")
+    stop(
+      "Seems that there is no new data: All the ", batch_column,
+      " column is already filled up."
+    )
   }
 
   new_data <- all_data[is.na(all_data[[batch_column]]), ]
@@ -101,7 +106,7 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
     args$size_subset <- max(lengths(old_index))
   }
   if (!"iterations" %in% names(args)) {
-    #Set the same as the default for design
+    # Set the same as the default for design
     args$iterations <- formals(design)$iterations
   }
   if (!"omit" %in% names(args)) {
@@ -119,20 +124,26 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
   all_data2[is.na(all_data2[[batch_column]]), batch_column] <- "new"
 
   num <- is_num(all_data)
-  n_unique <- sapply(all_data[, !num], function(x){length(unique(x))})
+  n_unique <- sapply(all_data[, !num], function(x) {
+    length(unique(x))
+  })
   which_s <- n_unique == nrow(all_data)
   if (sum(which_s) > 1) {
     warning("Multiple samples  were identified")
   }
 
   colnames <- colnames(all_data)
-  .check_followup(all_data[, setdiff(colnames, args$omit)],
-                  all_data2[, setdiff(colnames, omit)],
-                  new_data[, setdiff(colnames, args$omit)],
-                  old_data[, setdiff(colnames, args$omit)])
+  .check_followup(
+    all_data[, setdiff(colnames, args$omit)],
+    all_data2[, setdiff(colnames, omit)],
+    new_data[, setdiff(colnames, args$omit)],
+    old_data[, setdiff(colnames, args$omit)]
+  )
 
-  new_index <- .design(new_data, size_subset = args$size_subset, omit = args$omit,
-                       iterations = args$iterations, name = args$name, check = FALSE)
+  new_index <- .design(new_data,
+    size_subset = args$size_subset, omit = args$omit,
+    iterations = args$iterations, name = args$name, check = FALSE
+  )
 
   w_new <- which(is.na(all_data[[batch_column]]))
   w_old <- which(!is.na(all_data[[batch_column]]))
@@ -163,7 +174,7 @@ follow_up2 <- function(all_data, batch_column = "batch", ...) {
 #' survey2 <- survey[119:nrow(survey), ]
 #' valid_followup(survey1, survey2)
 #' survey$batch <- NA
-#' survey$batch[1:118]  <- "old"
+#' survey$batch[1:118] <- "old"
 #' valid_followup(all_data = survey)
 valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
                            omit = NULL, column = "batch") {
@@ -186,8 +197,10 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
 
     all_data <- rbind(old_data[, mc], new_data[, mc])
     all_data2 <- rbind(old_data[, mc], new_data[, mc])
-    all_data2[[column]] <- c(rep("old", nrow(old_data)),
-                             rep("new", nrow(new_data)))
+    all_data2[[column]] <- c(
+      rep("old", nrow(old_data)),
+      rep("new", nrow(new_data))
+    )
   } else if (!is.null(all_data) && valid_column) {
     all_data <- all_data[, setdiff(colnames(all_data), omit)]
     all_data2 <- all_data
@@ -203,7 +216,6 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
 }
 
 .check_followup <- function(all_data, all_data_batch, new_data, old_data, verbose = TRUE) {
-
   # Check all data but omitting batch name
   check_all <- .check_data(all_data, verbose = FALSE)
   # Check all data but knowing that there is an old and new category
@@ -221,19 +233,21 @@ valid_followup <- function(old_data = NULL, new_data = NULL, all_data = NULL,
   if (check_all && !check_cmbn) {
     if (verbose) {
       warning("There are some problems with the addition of the new samples.",
-              call. = FALSE)
+        call. = FALSE
+      )
     }
     ok <- FALSE
   }
   if (!check_cmbn) {
     if (verbose) {
       warning("There are some problems with the new samples and the batches.",
-              call. = FALSE)
+        call. = FALSE
+      )
     }
     ok <- FALSE
   }
   if (!check_new) {
-    if (verbose ) {
+    if (verbose) {
       warning("There are some problems with the new data.", call. = FALSE)
     }
     ok <- FALSE

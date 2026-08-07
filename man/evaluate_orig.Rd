@@ -22,13 +22,13 @@ data(survey, package = "MASS")
 evaluate_orig(survey[, c("Sex", "Age", "Smoke")])
 }
 \seealso{
-Other functions to evaluate samples: 
-\code{\link{evaluate_entropy}()},
-\code{\link{evaluate_independence}()},
-\code{\link{evaluate_index}()},
-\code{\link{evaluate_mad}()},
-\code{\link{evaluate_mean}()},
-\code{\link{evaluate_na}()},
-\code{\link{evaluate_sd}()}
+Other functions to evaluate samples:
+\code{\link[=evaluate_entropy]{evaluate_entropy()}},
+\code{\link[=evaluate_independence]{evaluate_independence()}},
+\code{\link[=evaluate_index]{evaluate_index()}},
+\code{\link[=evaluate_mad]{evaluate_mad()}},
+\code{\link[=evaluate_mean]{evaluate_mean()}},
+\code{\link[=evaluate_na]{evaluate_na()}},
+\code{\link[=evaluate_sd]{evaluate_sd()}}
 }
 \concept{functions to evaluate samples}

@@ -28,8 +28,10 @@ categorical data.
 }
 \examples{
 data(survey, package = "MASS")
-index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 10)
+index <- design(survey[, c("Sex", "Smoke", "Age")],
+  size_subset = 50,
+  iterations = 10
+)
 index
 }
 \seealso{

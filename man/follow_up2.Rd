@@ -14,7 +14,7 @@ Each row is a sample.}
 If NA it is interpreted as a new data, if not empty it is considered a batch.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=design]{design}}
+  Arguments passed on to \code{\link{design}}
   \describe{
     \item{\code{size_subset}}{Numeric value of the number of sample per batch.}
     \item{\code{omit}}{Name of the columns of the \code{pheno} that will be omitted.}
@@ -43,7 +43,7 @@ survey1 <- survey[seq_len(first_batch_n), variables]
 index1 <- design(survey1, size_subset = 50, iterations = 10)
 r_survey <- inspect(index1, survey1)
 # Create the second batch with "new" students
-survey2 <- survey[seq(from = first_batch_n +1, to = nrow(survey)), variables]
+survey2 <- survey[seq(from = first_batch_n + 1, to = nrow(survey)), variables]
 survey2$batch <- NA
 # Prepare the follow up
 all_classroom <- rbind(r_survey, survey2)

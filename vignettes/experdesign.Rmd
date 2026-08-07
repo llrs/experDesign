@@ -80,9 +80,11 @@ Question in [Bioinformatics.SE](https://bioinformatics.stackexchange.com/q/4765/
 Imagine you have some samples already collected and you want to distributed them in batches:
 ```{r experDesign_setup}
 library("experDesign")
-metadata <- expand.grid(height = seq(60, 80, 5), 
-                        weight = seq(100, 300, 50),
-                        sex = c("Male","Female"))
+metadata <- expand.grid(
+  height = seq(60, 80, 5),
+  weight = seq(100, 300, 50),
+  sex = c("Male", "Female")
+)
 head(metadata, 15)
 ```
 
@@ -178,9 +180,11 @@ but let's create an unbalanced dataset to check it.
 ```{r unbalanced}
 n <- 99
 samples <- 100
-unbalanced <- data.frame(Classroom = rep(c("A", "B"), each = samples/2),
-                         Sex = c(rep("M", n), rep("F", samples-n)),
-                         Age = rnorm(samples, mean = 25, sd = 3))
+unbalanced <- data.frame(
+  Classroom = rep(c("A", "B"), each = samples / 2),
+  Sex = c(rep("M", n), rep("F", samples - n)),
+  Age = rnorm(samples, mean = 25, sd = 3)
+)
 table(unbalanced[, 1:2])
 ```
 
@@ -206,7 +210,7 @@ If you need a subset with the samples that are more diverse you can use the
 following function:
 
 ```{r QC}
-data(survey, package = "MASS") 
+data(survey, package = "MASS")
 head(survey)
 samples <- extreme_cases(survey, size = 10)
 survey[samples, ]
@@ -238,7 +242,7 @@ head(survey[, keep])
 
 # Set a seed for reproducibility
 # Looking for groups at most of 70 samples.
-index <-  create_subset(nrow(survey), size_subset = 70)
+index <- create_subset(nrow(survey), size_subset = 70)
 index
 ```
 
@@ -260,7 +264,7 @@ Then it compares to the previous index
 
 ```{r check_index2}
 score_index2 <- check_index(survey[, keep], index2)
-sum(rowMeans(abs(score_index2-score_index1)))
+sum(rowMeans(abs(score_index2 - score_index1)))
 ```
 
 If this score is lower than the previous one the new index is kept.

@@ -13,7 +13,7 @@ is_date <- function(y) {
   methods::is(y, "Date") || inherits(y, "POSIXt")
 }
 
-f_check <- function(y){
+f_check <- function(y) {
   is_char <- is.character(y) || is.factor(y)
   is_char || is_date(y)
 }
@@ -30,13 +30,15 @@ is_cat <- function(x, ...) {
 
 # Other ####
 
-omit <- function(pheno, omit){
+omit <- function(pheno, omit) {
   # Omit columns
   if (!is.null(omit)) {
     col_diff <- setdiff(omit, colnames(pheno))
     if (length(col_diff) != 0L) {
-      warning("Columns to omit were not present: ",
-              paste(col_diff, collapse = ", "), ".")
+      warning(
+        "Columns to omit were not present: ",
+        paste(col_diff, collapse = ", "), "."
+      )
     }
     pheno[, !colnames(pheno) %in% omit, drop = FALSE]
   } else {
@@ -99,7 +101,7 @@ empty_res <- function(pheno, num) {
     column <- colnames(pheno)
   }
   if (sum(!num) > 1) {
-    ncol <- ncol +1
+    ncol <- ncol + 1
     column <- c(column, "mix_cat")
   }
 
@@ -110,16 +112,16 @@ empty_res <- function(pheno, num) {
   diff
 }
 
-valid_sizes <- function(size_data, size_subset, batches){
+valid_sizes <- function(size_data, size_subset, batches) {
   n_batch_max <- optimum_batches(size_data, size_subset)
   size_batch_max <- optimum_subset(size_data, batches)
-  if (size_subset >= size_batch_max && batches >= n_batch_max && size_subset*batches >= size_data) {
+  if (size_subset >= size_batch_max && batches >= n_batch_max && size_subset * batches >= size_data) {
     return(TRUE)
   }
   FALSE
 }
 
-is_logical <- function(x){
+is_logical <- function(x) {
   isTRUE(x) || isFALSE(x)
 }
 
@@ -138,13 +140,15 @@ mean_difference <- function(differences, subset_ind, eval_n) {
   apply(differences, 3, function(x, eval, indep) {
     x <- rbind(x, "independence" = 0)
     x <- insert(x, indep, name = "independence")
-    colSums(x, na.rm = TRUE)/eval
+    colSums(x, na.rm = TRUE) / eval
   }, eval = eval_n, indep = subset_ind)
 }
 
 release_bullets <- function() {
-  c("Update codemeta.json with: `codemetar::write_codemeta()`",
-    "Run: cffr::cff_write()")
+  c(
+    "Update codemeta.json with: `codemetar::write_codemeta()`",
+    "Run: cffr::cff_write()"
+  )
 }
 
 # Numbers are evaluated 4 times: mean, sd, mad, na.

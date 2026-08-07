@@ -26,10 +26,14 @@ test_that("follow_up2 works", {
       expect_warning(
         expect_warning(
           fu1 <- follow_up2(survey, iterations = 10),
-          "with the data."),
-        "with the new samples"),
-      "some problems with the new data."),
-    "some problems with the old data.")
+          "with the data."
+        ),
+        "with the new samples"
+      ),
+      "some problems with the new data."
+    ),
+    "some problems with the old data."
+  )
   expect_type(fu1, "character")
   # old vs new with confounding effects
   survey$batch <- ifelse(survey$Clap %in% "Right", "old", NA)
@@ -91,7 +95,7 @@ test_that("valid_followup works", {
   )
   expect_false(out)
   survey$batch <- NA
-  survey$batch[1:118]  <- "old"
+  survey$batch[1:118] <- "old"
 
   expect_warning(
     expect_warning(

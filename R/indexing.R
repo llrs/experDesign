@@ -13,7 +13,6 @@
 #' @examples
 #' index <- create_subset(100, 50, 2)
 create_subset <- function(size_data, size_subset = NULL, n = NULL, name = "SubSet") {
-
   if (is.null(size_subset) && is.null(n)) {
     stop("Either size.subset or n should numeric")
   }
@@ -44,24 +43,28 @@ create_index <- function(size_data, size_batches, n, name = "SubSet") {
 
 # Shuffle sample within index to improve positioning
 create_index4index <- function(index, name) {
-
-  m <- matrix(data = NA, nrow = length(name), ncol = length(index),
-         dimnames = list(name, names(index)))
- # Assign each row number from each batch to a position:
+  m <- matrix(
+    data = NA, nrow = length(name), ncol = length(index),
+    dimnames = list(name, names(index))
+  )
+  # Assign each row number from each batch to a position:
   for (batch in seq_along(index)) {
     positions <- sample(index[[batch]])
     rows <- sample(seq_along(positions))
     m[rows, batch] <- positions
   }
   # Transform to a list omitting the empty values
-  index_out <- apply(m, 1, function(x){x[!is.na(x)]}, simplify = FALSE)
+  index_out <- apply(m, 1, function(x) {
+    x[!is.na(x)]
+  }, simplify = FALSE)
   index_out[lengths(index_out) != 0]
 }
 
 id2batch_names <- function(name, n) {
   if (length(name) != 1L && length(name) != n) {
     stop("Provide a single character or a vector the same size of the batches.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
   if (length(name) == 1L) {
     name <- paste0(name, seq_len(n))
@@ -142,8 +145,10 @@ batch_names <- function(i) {
 #' @examples
 #' index1 <- create_subset(50, 24)
 #' index2 <- batch_names(create_subset(50, 24))
-#' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
-#'                          sex = c("Male","Female"))
+#' metadata <- expand.grid(
+#'   height = seq(60, 80, 5), weight = seq(100, 300, 50),
+#'   sex = c("Male", "Female")
+#' )
 #' compare_index(metadata, index1, index2)
 compare_index <- function(pheno, index1, index2) {
   if (is.character(index1) && length(index1) == nrow(pheno)) {
@@ -181,13 +186,12 @@ compare_index <- function(pheno, index1, index2) {
   eval_n <- evaluations(num)
 
   original_pheno <- .evaluate_orig(pheno, num)
-  original_pheno["na", ] <- original_pheno["na", ]/batches
+  original_pheno["na", ] <- original_pheno["na", ] / batches
 
   ci1 <- .check_index(index1, pheno, num, eval_n, original_pheno)
   ci2 <- .check_index(index2, pheno, num, eval_n, original_pheno)
 
   ci1 - ci2
-
 }
 
 apply_index <- function(pheno, index, name = "old_rows") {

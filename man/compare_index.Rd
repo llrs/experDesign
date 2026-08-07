@@ -22,8 +22,10 @@ Compare the distribution of samples with two different batches.
 \examples{
 index1 <- create_subset(50, 24)
 index2 <- batch_names(create_subset(50, 24))
-metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
-                         sex = c("Male","Female"))
+metadata <- expand.grid(
+  height = seq(60, 80, 5), weight = seq(100, 300, 50),
+  sex = c("Male", "Female")
+)
 compare_index(metadata, index1, index2)
 }
 \seealso{

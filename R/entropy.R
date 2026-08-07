@@ -12,14 +12,14 @@
 #' entropy(c("H", "T", "H", "T", "H", "H", NA))
 #' entropy(c("H", "T", "H", "T", "H", "H"))
 #' entropy(c("H", "H", "H", "H", "H", "H", NA))
-entropy <- function(x){
+entropy <- function(x) {
   x <- x[!is.na(x)]
   n <- length(unique(x))
   if (n == 1L) {
     return(0L)
   }
-  prob <- table(x)/length(x)
-  - sum(prob*log(prob, n))
+  prob <- table(x) / length(x)
+  -sum(prob * log(prob, n))
 }
 
 #' Evaluate the dispersion of NAs
@@ -42,8 +42,10 @@ evaluate_na <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
   orig_nas <- colSums(is.na(pheno))
 
-  orig_nas <- orig_nas/length(i)
-  out <- lapply(i, function(x){colSums(is.na(pheno[x, , drop = FALSE]))})
+  orig_nas <- orig_nas / length(i)
+  out <- lapply(i, function(x) {
+    colSums(is.na(pheno[x, , drop = FALSE]))
+  })
   nas <- t(simplify2matrix(out))
   evaluate_helper(nas, orig_nas)
 }

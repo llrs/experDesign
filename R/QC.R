@@ -8,14 +8,15 @@
 #' @seealso [optimum()]
 #' @export
 #' @examples
-#' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
-#'  sex = c("Male","Female"))
+#' metadata <- expand.grid(
+#'   height = seq(60, 80, 5), weight = seq(100, 300, 50),
+#'   sex = c("Male", "Female")
+#' )
 #' sel <- extreme_cases(metadata, 10)
 #' # We can see that it selected both Female and Males and wide range of height
 #' # and weight:
 #' metadata[sel, ]
 extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
-
   # Calculate batches
   pheno_o <- omit(pheno, omit)
   num <- is_num(pheno_o)
@@ -38,7 +39,7 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
     # Evaluate the differences between the subsets and the originals
     differences <- drop(abs(sweep(subsets, c(1, 2), original_pheno)))
     differences <- differences[-c(1, 4), ]
-    differences["entropy", ] <- differences["entropy", ]/0.5
+    differences["entropy", ] <- differences["entropy", ] / 0.5
 
     # Maximize the entropy and the dispersion
     optimize <- sum(colSums(differences))
@@ -66,7 +67,6 @@ extreme_cases <- function(pheno, size, omit = NULL, iterations = 500) {
 #' QC_samples <- qcSubset(index, 10)
 #' QC_samplesBatch <- qcSubset(index, 10, TRUE)
 qcSubset <- function(index, size, each = FALSE) {
-
   if (!is_logical(each)) {
     stop("each should be either TRUE or FALSE")
   }
@@ -101,8 +101,10 @@ qcSubset <- function(index, size, each = FALSE) {
 #' @export
 #' @examples
 #' index <- create_subset(50, 24)
-#' metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
-#'                         sex = c("Male","Female"))
+#' metadata <- expand.grid(
+#'   height = seq(60, 80, 5), weight = seq(100, 300, 50),
+#'   sex = c("Male", "Female")
+#' )
 #' check_index(metadata, index)
 check_index <- function(pheno, index, omit = NULL) {
   batches <- length(index)
@@ -114,14 +116,13 @@ check_index <- function(pheno, index, omit = NULL) {
   num <- is_num(pheno_o)
   eval_n <- evaluations(num)
   original_pheno <- .evaluate_orig(pheno_o, num)
-  original_pheno["na", ] <- original_pheno["na", ]/batches
+  original_pheno["na", ] <- original_pheno["na", ] / batches
 
   .check_index(index, pheno_o, num, eval_n, original_pheno)
 }
 
 
 .check_index <- function(index, pheno_o, num, eval_n, eval_orig) {
-
   subsets <- .evaluate_index(index, pheno_o, num)
   # Evaluate the differences between the subsets and the originals
   differences <- abs(sweep(subsets, c(1, 2), eval_orig))

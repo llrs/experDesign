@@ -12,17 +12,20 @@
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' # Note that numeric columns will be omitted:
 #' evaluate_entropy(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_entropy <- function(i, pheno) {
-
   num <- is_num(pheno)
   stopifnot(sum(!num) >= 1)
   pheno_o <- droplevels(pheno[, !num, drop = FALSE])
   # Calculate the entropy for the categorical values
-  original_e <- vapply(pheno_o, function(x){length(unique(x))/length(x)}, numeric(1L))
+  original_e <- vapply(pheno_o, function(x) {
+    length(unique(x)) / length(x)
+  }, numeric(1L))
   # Remove those that are different in each sample (Hopefully just the name of the sample)
   remove_e <- original_e == 1
   .evaluate_cat(i, pheno_o, remove_e)
@@ -30,7 +33,7 @@ evaluate_entropy <- function(i, pheno) {
 
 .evaluate_cat <- function(i, pheno, remove_e) {
   # Calculate the entropy for the subsets
-  out_e <- lapply(i, function(x){
+  out_e <- lapply(i, function(x) {
     vapply(pheno[x, , drop = FALSE], entropy, numeric(1L))
   })
   out_e <- t(simplify2matrix(out_e))
@@ -53,8 +56,10 @@ evaluate_entropy <- function(i, pheno) {
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' # Note that numeric columns will be omitted:
 #' evaluate_independence(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_independence <- function(i, pheno) {
@@ -87,7 +92,7 @@ evaluate_independence <- function(i, pheno) {
 #' rdata2 <- rbind(rdata, rdata)
 #' check_data(rdata2)
 #' \donttest{
-#' #Different warnings
+#' # Different warnings
 #' check_data(rdata)
 #' check_data(rdata[-c(1, 3), ])
 #' data(survey, package = "MASS")
@@ -107,7 +112,9 @@ check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
   if (sum(num + cat) != ncol(pheno)) {
     if (verbose) {
       warning("There are some columns of unidentified type. ",
-              "Only accepts numeric or categorical values in a data.frame.", call. = FALSE)
+        "Only accepts numeric or categorical values in a data.frame.",
+        call. = FALSE
+      )
     }
     data_status <- FALSE
   }
@@ -116,7 +123,8 @@ check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
   if (sum(cat) == 0) {
     if (verbose) {
       warning("No categorical values were found; numeric values are not checked here.",
-              call. = FALSE)
+        call. = FALSE
+      )
     }
     return(data_status)
   }
@@ -130,7 +138,8 @@ check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
     if (any(pairwise_colusion)) {
       if (isTRUE(verbose)) {
         warning("Two categorical variables don't have all combinations.",
-                call. = FALSE)
+          call. = FALSE
+        )
       }
       data_status <- FALSE
     }
@@ -138,7 +147,9 @@ check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
 
   pheno_o <- droplevels(pheno[, cat, drop = FALSE])
 
-  nas <- lapply(pheno_o, function(x){which(is.na(x))})
+  nas <- lapply(pheno_o, function(x) {
+    which(is.na(x))
+  })
   if (any(lengths(nas) >= 1)) {
     if (verbose) {
       warning("Some values are missing.", call. = FALSE)
@@ -151,7 +162,9 @@ check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
   if (any(lengths(l_unique) == nrow(pheno_o))) {
     if (verbose) {
       warning("There is a variable with as many categories as samples. ",
-              "Are these the sample names?", call. = FALSE)
+        "Are these the sample names?",
+        call. = FALSE
+      )
     }
   }
   if (sum(lengths(l_unique) == nrow(pheno_o)) > 1) {
@@ -161,7 +174,9 @@ check_data <- function(pheno, omit = NULL, na.omit = FALSE) {
     data_status <- FALSE
   }
 
-  if (any(vapply(l_unique, function(x) {any(x == 1)}, FUN.VALUE = logical(1L)))) {
+  if (any(vapply(l_unique, function(x) {
+    any(x == 1)
+  }, FUN.VALUE = logical(1L)))) {
     if (verbose) {
       warning("There is a category with just one sample.", call. = FALSE)
     }

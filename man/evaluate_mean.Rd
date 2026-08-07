@@ -19,25 +19,27 @@ Looks for the mean of the numeric values
 }
 \examples{
 data(survey, package = "MASS")
-index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 10)
+index <- design(survey[, c("Sex", "Smoke", "Age")],
+  size_subset = 50,
+  iterations = 10
+)
 # Note that categorical columns will be omitted:
 evaluate_mean(index, survey[, c("Sex", "Smoke", "Age")])
 }
 \seealso{
-Other functions to evaluate samples: 
-\code{\link{evaluate_entropy}()},
-\code{\link{evaluate_independence}()},
-\code{\link{evaluate_index}()},
-\code{\link{evaluate_mad}()},
-\code{\link{evaluate_na}()},
-\code{\link{evaluate_orig}()},
-\code{\link{evaluate_sd}()}
+Other functions to evaluate samples:
+\code{\link[=evaluate_entropy]{evaluate_entropy()}},
+\code{\link[=evaluate_independence]{evaluate_independence()}},
+\code{\link[=evaluate_index]{evaluate_index()}},
+\code{\link[=evaluate_mad]{evaluate_mad()}},
+\code{\link[=evaluate_na]{evaluate_na()}},
+\code{\link[=evaluate_orig]{evaluate_orig()}},
+\code{\link[=evaluate_sd]{evaluate_sd()}}
 
-Other functions to evaluate numbers: 
-\code{\link{evaluate_mad}()},
-\code{\link{evaluate_na}()},
-\code{\link{evaluate_sd}()}
+Other functions to evaluate numbers:
+\code{\link[=evaluate_mad]{evaluate_mad()}},
+\code{\link[=evaluate_na]{evaluate_na()}},
+\code{\link[=evaluate_sd]{evaluate_sd()}}
 }
 \concept{functions to evaluate numbers}
 \concept{functions to evaluate samples}

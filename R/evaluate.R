@@ -1,6 +1,6 @@
 # A function to calculate the difference between a matrix and the original
 # dataset
-evaluate_helper <- function(x, original_x){
+evaluate_helper <- function(x, original_x) {
   stopifnot(ncol(x) == length(original_x))
   out <- sweep(x, 2, original_x, "-")
   colMeans(abs(out), na.rm = TRUE)
@@ -66,7 +66,6 @@ evaluate_index <- function(i, pheno) {
     warning("There might be some problems with the data use check_data().", call. = FALSE)
   }
   .evaluate_index(i, pheno, is_num(pheno))
-
 }
 
 
@@ -80,15 +79,15 @@ evaluate_index <- function(i, pheno) {
 
   out <- sapply(i, ev_subset, pheno = pheno, numeric = num, diff = d, simplify = "array")
 
-  dimnames(out) <- list("stat" = rownames(d),
-                        "variables" = variables,
-                        "subgroups" = names(i))
+  dimnames(out) <- list(
+    "stat" = rownames(d),
+    "variables" = variables,
+    "subgroups" = names(i)
+  )
   out
-
 }
 
-ev_subset <- function(x, pheno, numeric, diff){
-
+ev_subset <- function(x, pheno, numeric, diff) {
   subset_na <- colSums(is.na(pheno[x, , drop = FALSE]))
   subset_na <- t(as.matrix(subset_na))
   rownames(subset_na) <- "na"
@@ -101,9 +100,11 @@ ev_subset <- function(x, pheno, numeric, diff){
     #
     pheno_num <- pheno[x, numeric, drop = FALSE]
     subset_num <- apply(pheno_num, 2, function(y) {
-      c("sd" = sd(y, na.rm = TRUE),
+      c(
+        "sd" = sd(y, na.rm = TRUE),
         "mean" = mean(y, na.rm = TRUE),
-        "mad" = mad(y, na.rm = TRUE))
+        "mad" = mad(y, na.rm = TRUE)
+      )
     })
     diff1 <- insert(diff1, subset_num)
   }

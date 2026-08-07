@@ -12,21 +12,23 @@
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' index2 <- spatial(index, survey[, c("Sex", "Smoke", "Age")], iterations = 10)
 #' head(index2)
 spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = LETTERS[1:5],
-         columns = 1:10, iterations = 500) {
-
+                    columns = 1:10, iterations = 500) {
   stopifnot(length(dim(pheno)) == 2)
   stopifnot(is_numeric(iterations))
 
   position <- handle_positions(rows, columns, remove_positions)
   if (length(position) < max(lengths(index))) {
     stop("The size for the batch is smaller than the samples it must contain.",
-         "\n\tPlease check the rows and columns or how you created the index.",
-         call. = FALSE)
+      "\n\tPlease check the rows and columns or how you created the index.",
+      call. = FALSE
+    )
   }
 
   opt <- Inf
@@ -42,7 +44,7 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
 
   num <- is_num(pheno_o)
   original_pheno <- .evaluate_orig(pheno_o, num)
-  original_pheno["na", ] <- original_pheno["na", ]/batches
+  original_pheno["na", ] <- original_pheno["na", ] / batches
 
   # Find the numeric values
   dates <- vapply(pheno_o, is_date, logical(1L))
@@ -53,7 +55,6 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
   eval_n <- evaluations(num)
 
   for (j in seq_len(iterations)) {
-
     i <- create_index4index(i2, name = position)
     meanDiff <- .check_index(i, pheno_o, num, eval_n, original_pheno)
     # Minimize the value
@@ -68,8 +69,9 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
 
   if (any(lengths(val) > length(index))) {
     stop("The spatial distribution is impossible:",
-         "It allocated more sample to the previous index than possible.",
-         call. = FALSE)
+      "It allocated more sample to the previous index than possible.",
+      call. = FALSE
+    )
   }
   # Return positions ordered by row and column
   m <- match(position_name(rows, columns)$name, names(val))
@@ -77,7 +79,6 @@ spatial <- function(index, pheno, omit = NULL, remove_positions = NULL, rows = L
 }
 
 handle_positions <- function(rows, columns, remove_positions) {
-
   if (is.null(rows) || length(rows) == 0) {
     stop("Please provide at least one row.", call. = FALSE)
   }
@@ -94,17 +95,19 @@ handle_positions <- function(rows, columns, remove_positions) {
   if (mix_positions) {
     warning("There is a mix of specific positions and rows or columns.")
   }
-  p <- positions[k_position & k_rows & k_columns, ,drop = FALSE]
+  p <- positions[k_position & k_rows & k_columns, , drop = FALSE]
 
   if (nrow(p) == 0L) {
     stop("No position is left. Did you remove too many positions?",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
   if (length(remove_positions) > (nrow(positions) - nrow(p))) {
     stop("Unrecognized position to remove.",
-         "\n\tCheck that it is a combination of rows and columns: A1, A3, or full rows and columns ...",
-         call. = FALSE)
+      "\n\tCheck that it is a combination of rows and columns: A1, A3, or full rows and columns ...",
+      call. = FALSE
+    )
   }
   p$name
 }

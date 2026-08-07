@@ -61,7 +61,7 @@ We can use the survey dataset for the examples:
 
 ```{r show}
 library("experDesign")
-data(survey, package = "MASS") 
+data(survey, package = "MASS")
 head(survey)
 ```
 
