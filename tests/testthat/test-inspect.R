@@ -21,7 +21,7 @@ test_that("inspect works with replicates", {
   survey$sample <- seq_len(nrow(survey))
   batches <- inspect(index, survey[-nas, ])
   t_samples <- table(batches$sample)
-  expect_equal(table(t_samples), structure(c(`1` = 230L, `4` = 5L), .Dim = 2L, .Dimnames = list(
+  expect_equal(table(t_samples), structure(c(`1` = 230L, `4` = 5L), dim = 2L, dimnames = list(
     t_samples = c("1", "4")), class = "table"))
 
   # TODO check order is right for the samples
