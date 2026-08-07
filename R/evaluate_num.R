@@ -11,11 +11,13 @@
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' # Note that categorical columns will be omitted:
 #' evaluate_sd(index, survey[, c("Sex", "Smoke", "Age")])
-evaluate_sd <- function(i, pheno){
+evaluate_sd <- function(i, pheno) {
   stopifnot(sum(lengths(i)) == nrow(pheno))
   # Distribution of sd
   num <- is_num(pheno)
@@ -23,7 +25,8 @@ evaluate_sd <- function(i, pheno){
   original_sd <- apply(pheno_o, 2, sd, na.rm = TRUE)
   i <- batch_names(i)
   sd_group <- apply(pheno_o, 2, function(x) {
-    tapply(x, i, sd, na.rm = TRUE, default = 0L)})
+    tapply(x, i, sd, na.rm = TRUE, default = 0L)
+  })
   evaluate_helper(sd_group, original_sd)
 }
 
@@ -38,8 +41,10 @@ evaluate_sd <- function(i, pheno){
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' # Note that categorical columns will be omitted:
 #' evaluate_mean(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_mean <- function(i, pheno) {
@@ -68,8 +73,10 @@ evaluate_mean <- function(i, pheno) {
 #' @export
 #' @examples
 #' data(survey, package = "MASS")
-#' index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-#'                 iterations = 10)
+#' index <- design(survey[, c("Sex", "Smoke", "Age")],
+#'   size_subset = 50,
+#'   iterations = 10
+#' )
 #' # Note that categorical columns will be omitted:
 #' evaluate_mad(index, survey[, c("Sex", "Smoke", "Age")])
 evaluate_mad <- function(i, pheno) {
@@ -82,7 +89,6 @@ evaluate_mad <- function(i, pheno) {
   i <- batch_names(i)
   mad_group <- apply(pheno_o, 2, function(x) {
     tapply(x, i, mad, na.rm = TRUE, default = 0L)
-    })
+  })
   evaluate_helper(mad_group, original_mad)
 }
-

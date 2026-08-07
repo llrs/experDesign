@@ -39,8 +39,10 @@ a plate with a grid scheme.
 }
 \examples{
 data(survey, package = "MASS")
-index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 10)
+index <- design(survey[, c("Sex", "Smoke", "Age")],
+  size_subset = 50,
+  iterations = 10
+)
 index2 <- spatial(index, survey[, c("Sex", "Smoke", "Age")], iterations = 10)
 head(index2)
 }

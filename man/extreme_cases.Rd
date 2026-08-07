@@ -22,8 +22,10 @@ A vector with the number of the rows that are selected.
 Subset some samples that are mostly different.
 }
 \examples{
-metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
- sex = c("Male","Female"))
+metadata <- expand.grid(
+  height = seq(60, 80, 5), weight = seq(100, 300, 50),
+  sex = c("Male", "Female")
+)
 sel <- extreme_cases(metadata, 10)
 # We can see that it selected both Female and Males and wide range of height
 # and weight:

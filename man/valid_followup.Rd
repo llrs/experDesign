@@ -40,7 +40,7 @@ survey1 <- survey[1:118, ]
 survey2 <- survey[119:nrow(survey), ]
 valid_followup(survey1, survey2)
 survey$batch <- NA
-survey$batch[1:118]  <- "old"
+survey$batch[1:118] <- "old"
 valid_followup(all_data = survey)
 }
 \seealso{

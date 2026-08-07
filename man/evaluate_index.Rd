@@ -28,13 +28,13 @@ ev_index["entropy", , ]
 \seealso{
 If you have already an index you can use \code{\link[=use_index]{use_index()}}.
 
-Other functions to evaluate samples: 
-\code{\link{evaluate_entropy}()},
-\code{\link{evaluate_independence}()},
-\code{\link{evaluate_mad}()},
-\code{\link{evaluate_mean}()},
-\code{\link{evaluate_na}()},
-\code{\link{evaluate_orig}()},
-\code{\link{evaluate_sd}()}
+Other functions to evaluate samples:
+\code{\link[=evaluate_entropy]{evaluate_entropy()}},
+\code{\link[=evaluate_independence]{evaluate_independence()}},
+\code{\link[=evaluate_mad]{evaluate_mad()}},
+\code{\link[=evaluate_mean]{evaluate_mean()}},
+\code{\link[=evaluate_na]{evaluate_na()}},
+\code{\link[=evaluate_orig]{evaluate_orig()}},
+\code{\link[=evaluate_sd]{evaluate_sd()}}
 }
 \concept{functions to evaluate samples}

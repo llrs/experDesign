@@ -10,19 +10,20 @@
 #' @examples
 #' data(survey, package = "MASS")
 #' columns <- c("Sex", "Age", "Smoke")
-#' index <- design(pheno = survey[, columns], size_subset = 70,
-#'                 iterations = 10)
+#' index <- design(
+#'   pheno = survey[, columns], size_subset = 70,
+#'   iterations = 10
+#' )
 #' batches <- inspect(index, survey[, columns])
 #' head(batches)
 inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
-
   consistent_index(i, pheno)
 
   batch <- batch_names(translate_index(i))
   # duplicate rows according to the index
   pheno <- apply_index(pheno, i)
   # Remove old rows (only needed to inspect changes)
-  pheno[ , "old_rows"] <- NULL
+  pheno[, "old_rows"] <- NULL
 
 
   stopifnot("Samples do not match" = length(i) == length(table(batch)))
@@ -49,27 +50,33 @@ inspect <- function(i, pheno, omit = NULL, index_name = "batch") {
 #' data(survey, package = "MASS")
 #' columns <- c("Sex", "Age", "Smoke")
 #' nas <- c(137, 70) # Omit rows with NA to avoid warnings in design
-#' index <- design(pheno = survey[-nas, columns], size_subset = 70,
-#'                 iterations = 10)
+#' index <- design(
+#'   pheno = survey[-nas, columns], size_subset = 70,
+#'   iterations = 10
+#' )
 #' batches <- inspect(index, survey[-nas, columns])
 #' distribution(batches, "Sex")
 #' distribution(batches, "Smoke")
-distribution <- function(report, column){
+distribution <- function(report, column) {
   stopifnot(length(column) == 1)
   nBatch <- length(unique(report$batch))
 
   distr <- table(report[[column]], report$batch)
 
   nCategory <- table(report[[column]])
-  batchesCategory <- apply(distr, 1, function(x){sum(x != 0)})
+  batchesCategory <- apply(distr, 1, function(x) {
+    sum(x != 0)
+  })
 
   # Samples which are not on all batches and in less than the number of samples
   # per category
   interesting <- batchesCategory != nBatch & batchesCategory < nCategory
 
   if (any(interesting)) {
-    warning(column, ": ", sum(interesting),
-            " categories not totally distributed in all batches")
+    warning(
+      column, ": ", sum(interesting),
+      " categories not totally distributed in all batches"
+    )
     return(FALSE)
   }
   TRUE

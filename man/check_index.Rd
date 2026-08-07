@@ -25,8 +25,10 @@ distribution, so it is a better randomization.
 }
 \examples{
 index <- create_subset(50, 24)
-metadata <- expand.grid(height = seq(60, 80, 5), weight = seq(100, 300, 50),
-                        sex = c("Male","Female"))
+metadata <- expand.grid(
+  height = seq(60, 80, 5), weight = seq(100, 300, 50),
+  sex = c("Male", "Female")
+)
 check_index(metadata, index)
 }
 \seealso{

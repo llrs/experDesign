@@ -1,7 +1,9 @@
 test_that("consitent_index works", {
   data(survey, package = "MASS")
-  index <- expect_warning(design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                  iterations = 10))
+  index <- expect_warning(design(survey[, c("Sex", "Smoke", "Age")],
+    size_subset = 50,
+    iterations = 10
+  ))
   # Test error on index larger than data:
   # FIXME: what with replicates?
   expect_error(consistent_index(index, survey[1:40, columns]))

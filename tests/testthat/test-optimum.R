@@ -14,8 +14,10 @@ test_that("sizes_batches", {
   expect_length(sizes_batches(size_data, size_batch, batches), batches)
   expect_true(all(sizes_batches(size_data, size_batch, batches) <= size_batch))
   batches <- 1
-  expect_error(sizes_batches(size_data, size_batch, batches),
-               "'batches' must be a single number bigger than 1.")
+  expect_error(
+    sizes_batches(size_data, size_batch, batches),
+    "'batches' must be a single number bigger than 1."
+  )
 })
 
 test_that("internal_batches", {

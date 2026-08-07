@@ -30,8 +30,10 @@ It uses the most different samples as controls as defined with \code{\link[=extr
 To control for variance replicates are important, see for example \url{https://www.nature.com/articles/nmeth.3091}.
 }
 \examples{
-samples <- data.frame(L = letters[1:25], Age = rnorm(25),
-                      type = sample(LETTERS[1:5], 25, TRUE))
+samples <- data.frame(
+  L = letters[1:25], Age = rnorm(25),
+  type = sample(LETTERS[1:5], 25, TRUE)
+)
 index <- replicates(samples, 5, controls = 2, omit = "L", iterations = 10)
 head(index)
 }

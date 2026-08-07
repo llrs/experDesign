@@ -25,7 +25,7 @@ rdata <- expand.grid(sex = c("M", "F"), class = c("lower", "median", "high"))
 rdata2 <- rbind(rdata, rdata)
 check_data(rdata2)
 \donttest{
-#Different warnings
+# Different warnings
 check_data(rdata)
 check_data(rdata[-c(1, 3), ])
 data(survey, package = "MASS")

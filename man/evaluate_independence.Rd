@@ -20,24 +20,26 @@ Looks the independence between the categories and the batches.
 }
 \examples{
 data(survey, package = "MASS")
-index <- design(survey[, c("Sex", "Smoke", "Age")], size_subset = 50,
-                iterations = 10)
+index <- design(survey[, c("Sex", "Smoke", "Age")],
+  size_subset = 50,
+  iterations = 10
+)
 # Note that numeric columns will be omitted:
 evaluate_independence(index, survey[, c("Sex", "Smoke", "Age")])
 }
 \seealso{
-Other functions to evaluate samples: 
-\code{\link{evaluate_entropy}()},
-\code{\link{evaluate_index}()},
-\code{\link{evaluate_mad}()},
-\code{\link{evaluate_mean}()},
-\code{\link{evaluate_na}()},
-\code{\link{evaluate_orig}()},
-\code{\link{evaluate_sd}()}
+Other functions to evaluate samples:
+\code{\link[=evaluate_entropy]{evaluate_entropy()}},
+\code{\link[=evaluate_index]{evaluate_index()}},
+\code{\link[=evaluate_mad]{evaluate_mad()}},
+\code{\link[=evaluate_mean]{evaluate_mean()}},
+\code{\link[=evaluate_na]{evaluate_na()}},
+\code{\link[=evaluate_orig]{evaluate_orig()}},
+\code{\link[=evaluate_sd]{evaluate_sd()}}
 
-Other functions to evaluate categories: 
-\code{\link{evaluate_entropy}()},
-\code{\link{evaluate_na}()}
+Other functions to evaluate categories:
+\code{\link[=evaluate_entropy]{evaluate_entropy()}},
+\code{\link[=evaluate_na]{evaluate_na()}}
 }
 \concept{functions to evaluate categories}
 \concept{functions to evaluate samples}
